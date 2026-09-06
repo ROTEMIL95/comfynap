@@ -1,0 +1,4 @@
+.playwright-mcp/
+*.log
+_diag*.html
+assets/src/

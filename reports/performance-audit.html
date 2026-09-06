@@ -1,0 +1,569 @@
+<title>ComfyNap Performance Audit</title>
+<style>
+  :root {
+    --bg: #F6F8FC;
+    --surface: #FFFFFF;
+    --surface-2: #EEF3FB;
+    --ink: #0B1B3A;
+    --ink-muted: #5B6B85;
+    --ink-faint: #8996AD;
+    --line: #DCE4F1;
+    --accent: #2356F4;
+    --accent-soft: #E1EAFF;
+    --brace: #C0399F;
+    --brace-soft: #F6E3F0;
+    --good: #1D9A6C;
+    --good-soft: #E4F5EE;
+    --poor: #C4453D;
+    --poor-soft: #FBE9E7;
+    --warn: #B7791F;
+    --warn-soft: #FBF0DD;
+    --shadow: 0 1px 2px rgba(11,27,58,.04), 0 8px 24px rgba(11,27,58,.06);
+    --font-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+    --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0A1226;
+      --surface: #121B33;
+      --surface-2: #182444;
+      --ink: #EAF0FF;
+      --ink-muted: #93A2C0;
+      --ink-faint: #6C7999;
+      --line: rgba(255,255,255,.13);
+      --accent: #5B8CFF;
+      --accent-soft: rgba(91,140,255,.16);
+      --brace: #D65FB8;
+      --brace-soft: rgba(214,95,184,.14);
+      --good: #2FA378;
+      --good-soft: rgba(47,163,120,.16);
+      --poor: #E0665C;
+      --poor-soft: rgba(224,102,92,.16);
+      --warn: #D9A441;
+      --warn-soft: rgba(217,164,65,.14);
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0A1226;
+    --surface: #121B33;
+    --surface-2: #182444;
+    --ink: #EAF0FF;
+    --ink-muted: #93A2C0;
+    --ink-faint: #6C7999;
+    --line: rgba(255,255,255,.13);
+    --accent: #5B8CFF;
+    --accent-soft: rgba(91,140,255,.16);
+    --brace: #D65FB8;
+    --brace-soft: rgba(214,95,184,.14);
+    --good: #2FA378;
+    --good-soft: rgba(47,163,120,.16);
+    --poor: #E0665C;
+    --poor-soft: rgba(224,102,92,.16);
+    --warn: #D9A441;
+    --warn-soft: rgba(217,164,65,.14);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.55 var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--ink);
+  }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  .tab { font-variant-numeric: tabular-nums; }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* Masthead */
+  .masthead {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: .02em;
+    margin-bottom: 14px;
+  }
+  .kicker::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .masthead h1 {
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.08;
+    max-width: 20ch;
+  }
+  .masthead .lede {
+    margin-top: 16px;
+    font-size: 17px;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+  .masthead .meta {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  section { margin-bottom: 56px; }
+  .section-head { margin-bottom: 20px; }
+  .section-head h2 { font-size: 22px; }
+  .section-head .sub { margin-top: 6px; color: var(--ink-muted); font-size: 15px; max-width: 60ch; }
+
+  /* Scorecards */
+  .scorecards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .scorecard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .scorecard__brand {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: .04em;
+    margin-bottom: 14px;
+  }
+  .scorecard__dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .scorecard__score {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .scorecard__score span { font-size: 22px; font-weight: 600; color: var(--ink-faint); }
+  .scorecard__verdict {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .scorecard__verdict.good { background: var(--good-soft); color: var(--good); }
+  .scorecard__verdict.poor { background: var(--poor-soft); color: var(--poor); }
+  .scorecard__note { margin-top: 12px; font-size: 13.5px; color: var(--ink-muted); }
+
+  /* Metric small-multiples */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px 20px;
+  }
+  .metric-card__head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+    margin-bottom: 4px;
+  }
+  .metric-card__title { font-size: 14.5px; font-weight: 700; }
+  .metric-card__threshold { font-size: 12px; color: var(--ink-faint); white-space: nowrap; }
+  .metric-card__rows { margin-top: 14px; display: grid; gap: 10px; }
+  .metric-row { display: grid; grid-template-columns: 62px 1fr 64px; align-items: center; gap: 10px; }
+  .metric-row__label { font-size: 12.5px; font-weight: 700; color: var(--ink-muted); }
+  .metric-row__track { position: relative; height: 10px; background: var(--surface-2); border-radius: 6px; overflow: visible; }
+  .metric-row__bar { position: absolute; inset: 0 auto 0 0; border-radius: 6px; min-width: 6px; }
+  .metric-row__bar.cn { background: var(--accent); }
+  .metric-row__bar.db { background: var(--brace); }
+  .metric-row__value { font-size: 13.5px; font-weight: 700; text-align: right; }
+  .metric-card__verdict { margin-top: 12px; font-size: 12.5px; color: var(--ink-faint); }
+  .metric-card__verdict b { color: var(--ink); }
+
+  /* Breakdown */
+  .breakdown {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .stack__seg { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; font-size: 13.5px; }
+  .stack__seg + .stack__seg { border-top: 1px solid rgba(255,255,255,.5); }
+  .stack__name { font-weight: 700; }
+  .stack__val { font-weight: 700; }
+  .culprits { display: grid; gap: 12px; }
+  .culprit {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--poor);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .culprit__title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .culprit__desc { font-size: 13.5px; color: var(--ink-muted); }
+  .culprit code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .85em;
+    background: var(--surface-2);
+    padding: .1em .4em;
+    border-radius: 4px;
+  }
+
+  /* Fix log */
+  .fixlog {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .fix {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .fix__label { font-size: 12px; font-weight: 700; color: var(--good); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .fix__title { font-size: 15.5px; font-weight: 700; margin-bottom: 6px; }
+  .fix__desc { font-size: 13.5px; color: var(--ink-muted); margin-bottom: 14px; }
+  .fix__delta { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .fix__before { color: var(--ink-faint); text-decoration: line-through; }
+  .fix__after { font-weight: 800; color: var(--good); }
+  .fix__arrow { color: var(--ink-faint); }
+
+  /* Table */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; background: var(--surface); }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--ink-muted); background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.feature { font-weight: 700; width: 22%; }
+  .has { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+  .has.yes { color: var(--good); }
+  .has.no { color: var(--ink-faint); }
+  .rec { font-size: 13px; padding: 3px 9px; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+  .rec.adopt { background: var(--good-soft); color: var(--good); }
+  .rec.consider { background: var(--warn-soft); color: var(--warn); }
+  .rec.skip { background: var(--surface-2); color: var(--ink-faint); }
+  .rec.ahead { background: var(--accent-soft); color: var(--accent); }
+
+  /* Recommendations */
+  .recs { display: grid; gap: 10px; }
+  .recrow {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    align-items: start;
+  }
+  .recrow__tag { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; padding: 4px 0; }
+  .recrow__tag.now { color: var(--good); }
+  .recrow__tag.next { color: var(--warn); }
+  .recrow__tag.later { color: var(--ink-faint); }
+  .recrow__title { font-weight: 700; font-size: 14.5px; margin-bottom: 3px; }
+  .recrow__desc { font-size: 13.5px; color: var(--ink-muted); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 720px) {
+    .scorecards, .metrics, .fixlog { grid-template-columns: 1fr; }
+    .breakdown { grid-template-columns: 1fr; }
+    .metric-row { grid-template-columns: 50px 1fr 54px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="kicker">Performance &amp; competitive audit</div>
+    <h1>Is the new page actually fast — and how does it compare to dr-brace.com?</h1>
+    <p class="lede">Daniel flagged conversion as the priority, and page speed is one of the few levers with hard evidence behind it: Google's own research puts each extra second of mobile load time at roughly a 20% drop in conversions. So instead of general advice, here are real Lighthouse measurements from both live properties, what's actually causing the gap, and what we already fixed on ComfyNap today.</p>
+    <div class="meta">
+      <span>Lighthouse 12.8.2 · mobile · simulated throttling</span>
+      <span>dr-brace.com — live site</span>
+      <span>ComfyNap — local build of today's prototype</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2>The headline number</h2>
+      <p class="sub">Google's Lighthouse performance score, 0–100, mobile. Anything under 50 is flagged "Poor" by Google's own thresholds.</p>
+    </div>
+    <div class="scorecards">
+      <div class="scorecard">
+        <div class="scorecard__brand"><span class="scorecard__dot" style="background:var(--accent)"></span>ComfyNap prototype</div>
+        <div class="scorecard__score tab">92<span>/100</span></div>
+        <div class="scorecard__verdict good">✓ Good</div>
+        <p class="scorecard__note">Above Google's 90-point "Good" line, on a phone.</p>
+      </div>
+      <div class="scorecard">
+        <div class="scorecard__brand"><span class="scorecard__dot" style="background:var(--brace)"></span>dr-brace.com</div>
+        <div class="scorecard__score tab">26<span>/100</span></div>
+        <div class="scorecard__verdict poor">✕ Poor</div>
+        <p class="scorecard__note">Below the 50-point line — real visitors are seeing this today.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Metric by metric</h2>
+      <p class="sub">Same phone, same throttled connection, both sites measured the same way. Each bar is the real value — bars aren't rescaled to fit.</p>
+    </div>
+    <div class="metrics">
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Largest Contentful Paint</span><span class="metric-card__threshold">good ≤ 2.5s</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:12.2%"></div></div><span class="metric-row__value tab">3.1s</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">25.5s</span></div>
+        </div>
+        <p class="metric-card__verdict">ComfyNap is <b>8.2×</b> faster to its main image — but still short of Google's "Good" line.</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Total Blocking Time</span><span class="metric-card__threshold">good ≤ 200ms</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:2.8%"></div></div><span class="metric-row__value tab">120ms</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">4.23s</span></div>
+        </div>
+        <p class="metric-card__verdict">Dr. Brace's page freezes input for over <b>4 seconds</b> while scripts run.</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Speed Index</span><span class="metric-card__threshold">good ≤ 3.4s</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:13.3%"></div></div><span class="metric-row__value tab">1.8s</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">13.5s</span></div>
+        </div>
+        <p class="metric-card__verdict">How fast the page's content visibly fills in — ComfyNap comfortably in "Good."</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Time to Interactive</span><span class="metric-card__threshold">good ≤ 3.8s</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:9.1%"></div></div><span class="metric-row__value tab">3.3s</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">36.4s</span></div>
+        </div>
+        <p class="metric-card__verdict">Someone tapping "Add to Cart" on Dr. Brace may wait <b>36 seconds</b> for it to respond.</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Total page weight</span><span class="metric-card__threshold">web median ≈ 2.2MB</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:3.6%"></div></div><span class="metric-row__value tab">549KB</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">14.8MB</span></div>
+        </div>
+        <p class="metric-card__verdict">Dr. Brace ships <b>27×</b> more data than ComfyNap for one page load.</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card__head"><span class="metric-card__title">Network requests</span><span class="metric-card__threshold">fewer = simpler</span></div>
+        <div class="metric-card__rows">
+          <div class="metric-row"><span class="metric-row__label">ComfyNap</span><div class="metric-row__track"><div class="metric-row__bar cn" style="width:3.5%"></div></div><span class="metric-row__value tab">16</span></div>
+          <div class="metric-row"><span class="metric-row__label">Dr. Brace</span><div class="metric-row__track"><div class="metric-row__bar db" style="width:100%"></div></div><span class="metric-row__value tab">457</span></div>
+        </div>
+        <p class="metric-card__verdict">1,334 DOM elements on Dr. Brace vs. 969 on ComfyNap, for a page with fewer sections.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Where Dr. Brace's 14.8MB actually goes</h2>
+      <p class="sub">Broken down by resource type, then the three specific things worth fixing regardless of what else changes on that store.</p>
+    </div>
+    <div class="breakdown">
+      <div class="stack">
+        <div class="stack__seg" style="background:var(--poor-soft)"><span class="stack__name">Video (autoplay hero)</span><span class="stack__val tab">8.6 MB · 58%</span></div>
+        <div class="stack__seg" style="background:var(--surface-2)"><span class="stack__name">Scripts</span><span class="stack__val tab">3.5 MB · 24%</span></div>
+        <div class="stack__seg" style="background:var(--surface-2)"><span class="stack__name">Images</span><span class="stack__val tab">1.4 MB · 9%</span></div>
+        <div class="stack__seg" style="background:var(--surface-2)"><span class="stack__name">Other / checkout scripts</span><span class="stack__val tab">960 KB · 6%</span></div>
+        <div class="stack__seg" style="background:var(--surface-2)"><span class="stack__name">HTML document</span><span class="stack__val tab">424 KB · 3%</span></div>
+        <div class="stack__seg" style="background:var(--surface-2)"><span class="stack__name">Fonts + CSS</span><span class="stack__val tab">230 KB · 1%</span></div>
+      </div>
+      <div class="culprits">
+        <div class="culprit">
+          <div class="culprit__title">A 3.7MB video loads from a staging URL</div>
+          <p class="culprit__desc">The single heaviest file on the page streams from <code>shopifypreview.com</code> — a leftover preview/staging link, not their production CDN. Looks like a forgotten edit that never got pointed at the live file.</p>
+        </div>
+        <div class="culprit">
+          <div class="culprit__title">Google's tag loads four times</div>
+          <p class="culprit__desc"><code>gtag.js</code> for both a GA4 property and a Google Ads account each load twice (with and without a <code>gtm=</code> parameter) — about 700KB for what should be one request. Likely double-counting conversions too.</p>
+        </div>
+        <div class="culprit">
+          <div class="culprit__title">Built with a visual page builder</div>
+          <p class="culprit__desc">PageFly generates the whole layout — 101 script tags, 256 nested <code>&lt;div&gt;</code>s, 260KB of inline CSS/JS. Flexible for non-developers, but every section pays a markup tax a hand-built page doesn't.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>What we already fixed on ComfyNap today</h2>
+      <p class="sub">Two changes, both shipped in this build — not a proposal, already measured before and after.</p>
+    </div>
+    <div class="fixlog">
+      <div class="fix">
+        <div class="fix__label">Fix 1</div>
+        <div class="fix__title">Self-hosted the two brand fonts</div>
+        <p class="fix__desc">Google Fonts was a render-blocking request on a different domain, delaying first paint by ~840ms in testing. The two fonts now ship from our own server instead.</p>
+        <div class="fix__delta"><span class="fix__before tab">78/100</span><span class="fix__arrow">→</span><span class="fix__after tab">92/100</span></div>
+      </div>
+      <div class="fix">
+        <div class="fix__label">Fix 2</div>
+        <div class="fix__title">Hero gallery loads on demand</div>
+        <p class="fix__desc">All six gallery photos sat stacked in the same box, so the browser fetched every one immediately. Now five of six load only when a visitor actually opens them.</p>
+        <div class="fix__delta"><span class="fix__before tab">721 KB</span><span class="fix__arrow">→</span><span class="fix__after tab">549 KB</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>What Dr. Brace has that ComfyNap doesn't — yet</h2>
+      <p class="sub">The technical audit is one half of "web performance." The other is which of Dr. Brace's conversion features are worth carrying over to the Shopify build, independent of the speed problems.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th class="feature">Feature</th><th>Dr. Brace</th><th>ComfyNap prototype</th><th>Call</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature">Customer reviews app</td>
+            <td><span class="has yes">✓ Judge.me</span></td>
+            <td><span class="has no">Placeholder cards</span></td>
+            <td><span class="rec adopt">Adopt</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Quantity / bundle discount</td>
+            <td><span class="has yes">✓ "2 Pack" price break</span></td>
+            <td><span class="has no">Single unit only</span></td>
+            <td><span class="rec adopt">Adopt</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Live chat</td>
+            <td><span class="has yes">✓ Tidio</span></td>
+            <td><span class="has no">None</span></td>
+            <td><span class="rec consider">Consider</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Buy-now-pay-later</td>
+            <td><span class="has yes">✓ Klarna</span></td>
+            <td><span class="has no">None</span></td>
+            <td><span class="rec consider">Consider</span></td>
+          </tr>
+          <tr>
+            <td class="feature">On-site personalization</td>
+            <td><span class="has yes">✓ Visually.io</span></td>
+            <td><span class="has no">None</span></td>
+            <td><span class="rec skip">Skip for now</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Countdown / urgency banner</td>
+            <td><span class="has yes">✓ Sale timer</span></td>
+            <td><span class="has no">None</span></td>
+            <td><span class="rec skip">Only if real</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Image format</td>
+            <td><span class="has no">JPG/PNG only, 0 WebP</span></td>
+            <td><span class="has yes">✓ WebP + fallback</span></td>
+            <td><span class="rec ahead">ComfyNap ahead</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Font loading</td>
+            <td><span class="has no">Render-blocking CDN</span></td>
+            <td><span class="has yes">✓ Self-hosted</span></td>
+            <td><span class="rec ahead">ComfyNap ahead</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Page architecture</td>
+            <td><span class="has no">Visual page builder</span></td>
+            <td><span class="has yes">✓ Hand-coded, semantic</span></td>
+            <td><span class="rec ahead">ComfyNap ahead</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Recommended order</h2>
+    </div>
+    <div class="recs">
+      <div class="recrow">
+        <div class="recrow__tag now">Now</div>
+        <div><div class="recrow__title">Get real reviews on the page</div><p class="recrow__desc">The comparison table above shows reviews as Dr. Brace's biggest proof-of-trust advantage. This is content, not code — send us real reviews (or approve importing the Amazon ones) and we wire in Judge.me at the same time as the Shopify migration.</p></div>
+      </div>
+      <div class="recrow">
+        <div class="recrow__tag now">Now</div>
+        <div><div class="recrow__title">Push ComfyNap's LCP under 2.5s</div><p class="recrow__desc">92/100 is good, but the hero image itself is still the slowest link. Once on Shopify's CDN (which serves over HTTP/2 with edge caching) this likely closes most of the remaining gap on its own — worth re-measuring after launch before doing more work here.</p></div>
+      </div>
+      <div class="recrow">
+        <div class="recrow__tag next">Next</div>
+        <div><div class="recrow__title">Add a quantity discount</div><p class="recrow__desc">"Buy 2, save X%" is a proven average-order-value lever and Dr. Brace already validated it works for this audience. Cheap to add as a native Shopify variant, no new app required.</p></div>
+      </div>
+      <div class="recrow">
+        <div class="recrow__tag next">Next</div>
+        <div><div class="recrow__title">Fix Dr. Brace's four issues above</div><p class="recrow__desc">Independent of ComfyNap: swapping that one video for a compressed, self-hosted file and removing the duplicate Google tags would likely take Dr. Brace from "Poor" to "Good" without touching a single conversion feature.</p></div>
+      </div>
+      <div class="recrow">
+        <div class="recrow__tag later">Later</div>
+        <div><div class="recrow__title">Live chat and financing</div><p class="recrow__desc">Both proven, both add a render-blocking-capable third-party script. Worth it once there's traffic to justify the app cost and support load — not before.</p></div>
+      </div>
+      <div class="recrow">
+        <div class="recrow__tag later">Later</div>
+        <div><div class="recrow__title">Personalization (Visually.io)</div><p class="recrow__desc">Powerful once you have enough Meta/Google traffic segments to personalize against. At current volume it's mostly added weight for no measurable lift — revisit once ad spend scales.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Measured with Google Lighthouse 12.8.2, mobile form factor, simulated throttling (the same methodology PageSpeed Insights uses). Dr. Brace numbers are from the live site at dr-brace.com; ComfyNap numbers are from today's prototype served locally, so real-world numbers after moving to Shopify's CDN will shift slightly — expected to improve, since Shopify serves over HTTP/2 with edge caching versus this test's plain local server. Byte breakdown and offending requests pulled directly from Lighthouse's network request log, not estimated. Core Web Vitals thresholds (Good / Needs Improvement / Poor) are Google's own published values for LCP, TBT, Speed Index and TTI.
+  </footer>
+
+</div>
