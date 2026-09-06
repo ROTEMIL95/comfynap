@@ -1385,16 +1385,12 @@ h1, h2, h3, h4 {
 .footer__links a { font-weight: 600; color: var(--c-navy-700); text-decoration: none; }
 .footer__links a:hover { color: var(--c-blue-600); }
 
-/* Sticky mobile CTA */
+/* Sticky Add to Cart bar — mobile and desktop */
 .sticky-cta {
   position: fixed;
   left: 0; right: 0; bottom: 0;
   z-index: 70;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom));
+  padding: 0.75rem 0 calc(0.75rem + env(safe-area-inset-bottom));
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--line);
@@ -1408,6 +1404,7 @@ h1, h2, h3, h4 {
   visibility: visible;
   transition: transform 0.3s var(--ease), visibility 0s;
 }
+.sticky-cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .sticky-cta__info { display: flex; flex-direction: column; line-height: 1.2; }
 .sticky-cta__name { font-size: 0.9375rem; font-weight: 700; color: var(--heading); }
 .sticky-cta__price { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--heading); }
@@ -1474,8 +1471,6 @@ h1, h2, h3, h4 {
   .tech { gap: 1.25rem; }
   .materials { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
   .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
-  .sticky-cta { display: none; }
-  .footer { padding-bottom: 2.5rem; }
 }
 
 @media (min-width: 1000px) {
