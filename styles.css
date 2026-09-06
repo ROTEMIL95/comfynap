@@ -897,24 +897,6 @@ h1, h2, h3, h4 {
 }
 .buy .btn--block { max-width: 460px; }
 
-/* Offer countdown — a plain line, not a colored box */
-.offer-line {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0.25rem 0 0;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.offer-line .icon { width: 1rem; height: 1rem; color: var(--c-blue-600); }
-.offer-line__time {
-  font-variant-numeric: tabular-nums;
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--c-blue-700);
-}
-
 /* Quantity / bundle tiers — plain rows with a hairline divider, not cards */
 .tiers { display: flex; flex-direction: column; margin-top: 0.5rem; border: 0; border-top: 1px solid var(--line); padding: 0; }
 .tier {

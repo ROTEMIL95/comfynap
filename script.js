@@ -787,33 +787,6 @@
     }
 
     recalc();
-
-    // Launch-offer countdown: a rolling window kept in sessionStorage so a
-    // reload mid-session doesn't reset it. Swap for a real promo end-date
-    // (and copy) once the client confirms the launch offer.
-    const timerEl = $('[data-offer-time]', buy);
-    if (timerEl && !reducedMotion) {
-      const DURATION_MS = 20 * 60 * 1000;
-      const STORAGE_KEY = 'comfynap_offer_end';
-      let end = 0;
-      try { end = parseInt(sessionStorage.getItem(STORAGE_KEY) || '0', 10); } catch (err) { end = 0; }
-      if (!end || end < Date.now()) {
-        end = Date.now() + DURATION_MS;
-        try { sessionStorage.setItem(STORAGE_KEY, String(end)); } catch (err) { /* private mode: timer still runs, just won't persist */ }
-      }
-      function tick() {
-        const remaining = Math.max(0, end - Date.now());
-        const mins = Math.floor(remaining / 60000);
-        const secs = Math.floor((remaining % 60000) / 1000);
-        timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-        if (remaining <= 0) {
-          end = Date.now() + DURATION_MS;
-          try { sessionStorage.setItem(STORAGE_KEY, String(end)); } catch (err) {}
-        }
-      }
-      tick();
-      setInterval(tick, 1000);
-    }
   }
 
   /* ------------------------------------------------------------------
