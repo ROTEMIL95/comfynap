@@ -36,11 +36,12 @@
   --c-navy-700: #1B2F5C;
   --c-slate-600: #4A5878;
   --c-slate-400: #8593A9;
-  --c-blue-700: #1A46D1;
-  --c-blue-600: #2356F4;
-  --c-blue-300: #7FA3FF;
-  --c-blue-100: #E1EAFF;
-  --c-blue-50: #F2F6FD;
+  /* Royal blue matched to ostrichpillow.eu's Add to Cart button (rgb(15,50,195)), which the client liked */
+  --c-blue-700: #0C28A0;
+  --c-blue-600: #0F32C3;
+  --c-blue-300: #8098E8;
+  --c-blue-100: #E4E8FB;
+  --c-blue-50: #F4F6FD;
   --c-white: #FFFFFF;
   --c-line: #DCE4F1;
   --c-amber: #F2B441;
@@ -228,16 +229,16 @@ h1, h2, h3, h4 {
   transition: background-color 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
 }
 .btn--primary {
-  background: var(--c-navy-950);
+  background: var(--c-blue-600);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(6, 18, 41, 0.22);
+  box-shadow: 0 8px 20px rgba(15, 50, 195, 0.28);
 }
 .btn--primary:hover {
-  background: var(--c-navy-900);
+  background: var(--c-blue-700);
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(6, 18, 41, 0.28);
+  box-shadow: 0 12px 24px rgba(15, 50, 195, 0.34);
 }
-.btn--primary:active { transform: translateY(0); box-shadow: 0 8px 20px rgba(6, 18, 41, 0.22); }
+.btn--primary:active { transform: translateY(0); box-shadow: 0 8px 20px rgba(15, 50, 195, 0.28); }
 .btn--sm { padding: 0.65rem 1.1rem; font-size: 0.9rem; }
 .btn--lg { padding: 1.125rem 2.25rem; font-size: 1.0625rem; }
 .btn--block { width: 100%; }
@@ -912,7 +913,7 @@ h1, h2, h3, h4 {
   flex: none;
   width: 18px;
   height: 18px;
-  accent-color: var(--c-navy-900);
+  accent-color: var(--c-blue-600);
 }
 .tier__row { flex: 1 1 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
 .tier__name { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--c-navy-900); }
@@ -969,7 +970,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 1px 3px rgba(6, 18, 41, 0.3);
   transition: transform 0.15s var(--ease);
 }
-.switch input:checked + .switch__track { background: var(--c-navy-900); }
+.switch input:checked + .switch__track { background: var(--c-blue-600); }
 .switch input:checked + .switch__track::before { transform: translateX(18px); }
 .switch input:focus-visible + .switch__track { outline: 2px solid var(--focus); outline-offset: 2px; }
 
