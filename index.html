@@ -89,6 +89,7 @@
   <symbol id="ico-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></symbol>
   <symbol id="ico-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9a4.5 4.5 0 010 6"/></symbol>
   <symbol id="ico-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 10l5 5M21 10l-5 5"/></symbol>
+  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
   <symbol id="ico-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor"/></symbol>
   <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol>
   <symbol id="ico-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
@@ -264,7 +265,7 @@
     </div>
 
     <!-- Buy box -->
-    <div class="buy" id="buy" data-product data-product-id="comfynap-360" data-variant-id="" data-product-name="ComfyNap® 360° Travel Pillow" data-price="49.90" data-currency="USD">
+    <div class="buy" id="buy" data-product data-product-id="comfynap-360" data-variant-id="" data-product-name="ComfyNap® 360° Travel Pillow" data-price="118.00" data-currency="USD">
       <!-- "Patented" per the Amazon listing title and packaging; confirm wording with the client. -->
       <span class="badge"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Patented design</span>
       <h1 class="buy__title">ComfyNap® 360° Travel Pillow</h1>
@@ -284,16 +285,51 @@
         <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>One-Click Adjustable Strap</li>
       </ul>
 
-      <div class="price">
-        <!-- Price from the brief; confirm the launch price and currency with the client. -->
-        <span class="price__now" data-price-display>$49.90</span>
-        <!-- Optional compare-at price. Enable once the approved compare-at value is confirmed:
-        <s class="price__was">$69.90</s>
-        <span class="price__save">Save $20</span>
-        -->
+      <!-- Launch-offer countdown: a rolling window that resets each visit. Swap for the client's real promo calendar/end-date before launch. -->
+      <div class="offer-bar" data-offer-timer>
+        <span class="offer-bar__text"><svg class="icon" aria-hidden="true"><use href="#ico-clock"/></svg>Launch pricing ends in</span>
+        <span class="offer-bar__time" data-offer-time aria-live="off">20:00</span>
       </div>
 
-      <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart →</button>
+      <!-- Quantity/bundle tiers. Bundle discount shown is illustrative — confirm margin-safe pricing with the client before launch. -->
+      <fieldset class="tiers" data-tiers>
+        <legend class="visually-hidden">Choose your bundle</legend>
+
+        <label class="tier is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
+          <input type="radio" name="tier" value="2" checked>
+          <span class="tier__badge">Most Popular — Save $20</span>
+          <span class="tier__row">
+            <span class="tier__name">2 ComfyNap</span>
+            <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
+          </span>
+          <span class="tier__note">One for you, one for the road</span>
+        </label>
+
+        <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
+          <input type="radio" name="tier" value="1">
+          <span class="tier__row">
+            <span class="tier__name">1 ComfyNap</span>
+            <span class="tier__price"><span class="tier__now">$69</span></span>
+          </span>
+          <span class="tier__note">Great for solo travelers</span>
+        </label>
+      </fieldset>
+
+      <!-- Eye-mask upsell. Price is the client's; image and product name are placeholders pending the final SKU. -->
+      <label class="upsell" data-upsell data-addon-price="39.00">
+        <span class="upsell__media" aria-hidden="true">IMG</span>
+        <span class="upsell__body">
+          <span class="upsell__title">Add the ComfyNap Sleep Mask <span class="ph">[Placeholder product]</span></span>
+          <span class="upsell__desc">Block out light for even deeper sleep on the go — <strong>+$39</strong></span>
+        </span>
+        <span class="switch"><input type="checkbox" data-upsell-toggle aria-label="Add the ComfyNap Sleep Mask for $39"><span class="switch__track" aria-hidden="true"></span></span>
+      </label>
+
+      <div class="price">
+        <span class="price__now" data-price-display>$118.00</span>
+      </div>
+
+      <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart</button>
 
       <ul class="trust">
         <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
@@ -735,7 +771,7 @@
 
     <div class="midcta">
       <p class="midcta__text">Ready when you are.</p>
-      <button type="button" class="btn btn--primary" data-cta-location="midpage" data-add-to-cart>Add to Cart →</button>
+      <button type="button" class="btn btn--primary" data-cta-location="midpage" data-add-to-cart>Add to Cart</button>
     </div>
   </div>
 </section>
@@ -905,7 +941,7 @@
     </blockquote>
     <h2 class="final__title">Ready to Sleep Better on Your Next Trip?</h2>
     <p class="final__lead">Better support. Better comfort. Better travel.</p>
-    <button type="button" class="btn btn--primary btn--lg" data-cta-location="final" data-add-to-cart>Add to Cart →</button>
+    <button type="button" class="btn btn--primary btn--lg" data-cta-location="final" data-add-to-cart>Add to Cart</button>
     <ul class="trust">
       <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
       <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
@@ -940,7 +976,7 @@
     <span class="sticky-cta__name">ComfyNap</span>
     <span class="sticky-cta__price">$49.90</span>
   </div>
-  <button type="button" class="btn btn--primary" data-cta-location="sticky" data-add-to-cart>Add to Cart →</button>
+  <button type="button" class="btn btn--primary" data-cta-location="sticky" data-add-to-cart>Add to Cart</button>
 </div>
 
 <!-- Shared video modal (snippets/cn-video-modal.liquid) -->

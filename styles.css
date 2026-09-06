@@ -216,7 +216,7 @@ h1, h2, h3, h4 {
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem 1.75rem;
-  border-radius: var(--r-pill);
+  border-radius: var(--r-md);
   border: 1px solid transparent;
   font-family: var(--font-body);
   font-weight: 700;
@@ -228,16 +228,16 @@ h1, h2, h3, h4 {
   transition: background-color 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
 }
 .btn--primary {
-  background: var(--c-blue-600);
+  background: var(--c-navy-950);
   color: #fff;
-  box-shadow: var(--shadow-cta);
+  box-shadow: 0 8px 20px rgba(6, 18, 41, 0.22);
 }
 .btn--primary:hover {
-  background: var(--c-blue-700);
+  background: var(--c-navy-900);
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(35, 86, 244, 0.34);
+  box-shadow: 0 12px 24px rgba(6, 18, 41, 0.28);
 }
-.btn--primary:active { transform: translateY(0); box-shadow: var(--shadow-cta); }
+.btn--primary:active { transform: translateY(0); box-shadow: 0 8px 20px rgba(6, 18, 41, 0.22); }
 .btn--sm { padding: 0.65rem 1.1rem; font-size: 0.9rem; }
 .btn--lg { padding: 1.125rem 2.25rem; font-size: 1.0625rem; }
 .btn--block { width: 100%; }
@@ -891,6 +891,127 @@ h1, h2, h3, h4 {
   background: var(--c-blue-100);
 }
 .buy .btn--block { max-width: 460px; }
+
+/* Offer countdown bar */
+.offer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--r-sm);
+  background: var(--c-blue-50);
+  border: 1px solid var(--c-blue-100);
+}
+.offer-bar__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--c-navy-900);
+}
+.offer-bar__text .icon { width: 1rem; height: 1rem; color: var(--c-blue-600); }
+.offer-bar__time {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--c-blue-700);
+}
+
+/* Quantity / bundle tiers */
+.tiers { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.25rem; border: 0; padding: 0; }
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--r-md);
+  border: 2px solid var(--line);
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.tier input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tier.is-selected { border-color: var(--c-navy-900); background: var(--c-blue-50); }
+.tier__badge {
+  align-self: flex-start;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--r-pill);
+  background: var(--c-navy-900);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.tier__row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.tier__name { font-weight: 700; color: var(--c-navy-900); }
+.tier__price { display: inline-flex; align-items: baseline; gap: 0.5rem; font-family: var(--font-display); font-weight: 700; }
+.tier__now { font-size: 1.125rem; color: var(--c-navy-900); }
+.tier__was { font-size: 0.875rem; font-weight: 500; color: var(--muted); }
+.tier__note { font-size: 0.8125rem; color: var(--muted); }
+
+/* Eye-mask upsell toggle */
+.upsell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--r-md);
+  border: 1px dashed var(--line);
+  cursor: pointer;
+}
+.upsell__media {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--muted);
+  color: var(--muted);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.upsell__body { display: flex; flex-direction: column; gap: 0.15rem; flex: 1 1 auto; min-width: 0; }
+.upsell__title { font-size: 0.875rem; font-weight: 700; color: var(--c-navy-900); }
+.upsell__desc { font-size: 0.8125rem; color: var(--muted); }
+.upsell__desc strong { color: var(--c-navy-900); }
+.switch {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 42px;
+  height: 24px;
+}
+.switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.switch__track {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-pill);
+  background: var(--line);
+  pointer-events: none;
+  transition: background-color 0.15s var(--ease);
+}
+.switch__track::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(6, 18, 41, 0.3);
+  transition: transform 0.15s var(--ease);
+}
+.switch input:checked + .switch__track { background: var(--c-navy-900); }
+.switch input:checked + .switch__track::before { transform: translateX(18px); }
+.switch input:focus-visible + .switch__track { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* Problem → Solution: real photo left, two panels right */
 .compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-items: start; }

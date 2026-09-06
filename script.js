@@ -749,6 +749,84 @@
   }
 
   /* ------------------------------------------------------------------
+     Buy box: bundle tiers, eye-mask upsell, launch countdown.
+     Recomputes PRODUCT.price so every CTA (header, midpage, sticky,
+     final) and the analytics payload stay in sync with the buy box.
+     ------------------------------------------------------------------ */
+  function initBuyBox() {
+    const buy = $('.buy[data-product]');
+    if (!buy) return;
+
+    const priceDisplay = $('[data-price-display]', buy);
+    const tiers = $$('[data-tier]', buy);
+    const upsell = $('[data-upsell]', buy);
+    const upsellToggle = upsell && $('[data-upsell-toggle]', upsell);
+
+    function selectedTier() {
+      return tiers.find((t) => $('input', t).checked) || tiers[0];
+    }
+
+    function recalc() {
+      const tier = selectedTier();
+      if (!tier) return;
+      const tierPrice = parseFloat(tier.dataset.tierPrice || '0');
+      const addonPrice = upsellToggle && upsellToggle.checked ? parseFloat(upsell.dataset.addonPrice || '0') : 0;
+      const total = tierPrice + addonPrice;
+
+      PRODUCT.price = total;
+      buy.dataset.price = total.toFixed(2);
+      if (priceDisplay) priceDisplay.textContent = '$' + total.toFixed(2);
+    }
+
+    tiers.forEach((tier) => {
+      const input = $('input', tier);
+      if (!input) return;
+      input.addEventListener('change', () => {
+        tiers.forEach((t) => t.classList.toggle('is-selected', t === tier));
+        recalc();
+        Analytics.track('bundle_select', { qty: tier.dataset.qty, tier_price: tier.dataset.tierPrice });
+      });
+    });
+
+    if (upsellToggle) {
+      upsellToggle.addEventListener('change', () => {
+        upsell.classList.toggle('is-active', upsellToggle.checked);
+        recalc();
+        Analytics.track('upsell_toggle', { addon: 'sleep-mask', selected: upsellToggle.checked });
+      });
+    }
+
+    recalc();
+
+    // Launch-offer countdown: a rolling window kept in sessionStorage so a
+    // reload mid-session doesn't reset it. Swap for a real promo end-date
+    // (and copy) once the client confirms the launch offer.
+    const timerEl = $('[data-offer-time]', buy);
+    if (timerEl && !reducedMotion) {
+      const DURATION_MS = 20 * 60 * 1000;
+      const STORAGE_KEY = 'comfynap_offer_end';
+      let end = 0;
+      try { end = parseInt(sessionStorage.getItem(STORAGE_KEY) || '0', 10); } catch (err) { end = 0; }
+      if (!end || end < Date.now()) {
+        end = Date.now() + DURATION_MS;
+        try { sessionStorage.setItem(STORAGE_KEY, String(end)); } catch (err) { /* private mode: timer still runs, just won't persist */ }
+      }
+      function tick() {
+        const remaining = Math.max(0, end - Date.now());
+        const mins = Math.floor(remaining / 60000);
+        const secs = Math.floor((remaining % 60000) / 1000);
+        timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        if (remaining <= 0) {
+          end = Date.now() + DURATION_MS;
+          try { sessionStorage.setItem(STORAGE_KEY, String(end)); } catch (err) {}
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+  }
+
+  /* ------------------------------------------------------------------
      Boot
      ------------------------------------------------------------------ */
   initHeader();
@@ -761,6 +839,7 @@
   initReveal();
   initScrollDepth();
   initCtas();
+  initBuyBox();
   initMisc();
 
   Analytics.track('view_item', Analytics.itemPayload());
