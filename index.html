@@ -943,12 +943,29 @@
   </div>
 </footer>
 
-<!-- 17. STICKY ADD TO CART — mobile and desktop (snippets/cn-sticky-cta.liquid) -->
+<!-- 17. STICKY ADD TO CART — mobile and desktop (snippets/cn-sticky-cta.liquid).
+     Color swatches added per Matador's sticky bar reference. Swatch colors are
+     sampled from real ComfyNap product photos (Amazon gallery); the Sky Blue
+     and Grey colorways only exist as lifestyle shots today, not full clean
+     product-photo sets, so picking a swatch doesn't (yet) swap the gallery —
+     it just records the preference. Build a full photo set per color before
+     wiring that up. -->
 <div class="sticky-cta" id="sticky-cta">
   <div class="sticky-cta__inner container">
-    <div class="sticky-cta__info">
-      <span class="sticky-cta__name">ComfyNap</span>
-      <span class="sticky-cta__price" data-price-display>$118.00</span>
+    <div class="sticky-cta__product">
+      <picture>
+        <source type="image/webp" srcset="assets/img/hero-main-400.webp">
+        <img class="sticky-cta__thumb" src="assets/img/hero-main-400.jpg" width="44" height="44" alt="" loading="lazy" decoding="async">
+      </picture>
+      <div class="sticky-cta__info">
+        <span class="sticky-cta__name">ComfyNap</span>
+        <span class="sticky-cta__price" data-price-display>$118.00</span>
+      </div>
+      <div class="sticky-cta__colors" role="radiogroup" aria-label="Color" data-color-swatches>
+        <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" aria-pressed="true" aria-label="Black"></button>
+        <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" aria-pressed="false" aria-label="Sky Blue"></button>
+        <button type="button" class="swatch-dot" style="background:#A3A3A3" data-color="Grey" aria-pressed="false" aria-label="Grey"></button>
+      </div>
     </div>
     <button type="button" class="btn btn--primary" data-cta-location="sticky" data-add-to-cart>Add to Cart</button>
   </div>

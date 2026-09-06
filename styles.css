@@ -1405,10 +1405,31 @@ h1, h2, h3, h4 {
   transition: transform 0.3s var(--ease), visibility 0s;
 }
 .sticky-cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.sticky-cta__info { display: flex; flex-direction: column; line-height: 1.2; }
+.sticky-cta__product { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+/* The thumbnail + color swatches need more room than a narrow phone has
+   next to name/price/button — hide them below 480px rather than let them
+   overflow onto the Add to Cart button, and show them once there's space. */
+.sticky-cta__thumb { display: none; width: 44px; height: 44px; border-radius: var(--r-sm); object-fit: cover; flex: none; }
+.sticky-cta__info { display: flex; flex-direction: column; line-height: 1.2; flex: none; }
 .sticky-cta__name { font-size: 0.9375rem; font-weight: 700; color: var(--heading); }
 .sticky-cta__price { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--heading); }
-.sticky-cta .btn { padding: 0.9rem 1.4rem; }
+.sticky-cta__colors { display: none; align-items: center; gap: 0.4rem; padding-left: 0.5rem; border-left: 1px solid var(--line); }
+@media (min-width: 480px) {
+  .sticky-cta__thumb { display: block; }
+  .sticky-cta__colors { display: flex; }
+}
+.swatch-dot {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  outline: 1px solid var(--line);
+  cursor: pointer;
+  padding: 0;
+}
+.swatch-dot.is-selected { outline: 2px solid var(--c-blue-600); outline-offset: 1px; }
+.sticky-cta .btn { padding: 0.9rem 1.4rem; flex: none; }
 .sticky-cta.is-visible ~ .toast,
 .toast { bottom: 1.25rem; }
 

@@ -598,8 +598,8 @@
   }
 
   /* ------------------------------------------------------------------
-     Sticky mobile CTA — shows after the buy box scrolls out, hides when
-     the final CTA is on screen (CSS hides it entirely ≥ 900px)
+     Sticky Add to Cart bar (mobile + desktop) — shows whenever the buy
+     box's own button isn't on screen, hides when the final CTA is visible
      ------------------------------------------------------------------ */
   function initStickyCta() {
     const bar = $('#sticky-cta');
@@ -626,6 +626,25 @@
         apply();
       }, { threshold: 0.15 }).observe(finalCta);
     }
+  }
+
+  /* ------------------------------------------------------------------
+     Color swatches (sticky bar) — records the preferred colorway; there's
+     no full photo set per color yet, so nothing else on the page changes.
+     ------------------------------------------------------------------ */
+  function initColorSwatches() {
+    const group = $('[data-color-swatches]');
+    if (!group) return;
+    const dots = $$('.swatch-dot', group);
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        dots.forEach((d) => {
+          d.classList.toggle('is-selected', d === dot);
+          d.setAttribute('aria-pressed', String(d === dot));
+        });
+        Analytics.track('color_select', { color: dot.dataset.color });
+      });
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -799,6 +818,7 @@
   initVideoModal();
   initAmbientVideos();
   initStickyCta();
+  initColorSwatches();
   initReveal();
   initScrollDepth();
   initCtas();
