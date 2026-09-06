@@ -603,19 +603,22 @@
      ------------------------------------------------------------------ */
   function initStickyCta() {
     const bar = $('#sticky-cta');
-    const buy = $('#buy');
+    const heroBtn = $('[data-cta-location="hero"][data-add-to-cart]');
     const finalCta = $('#final-cta');
-    if (!bar || !buy || !('IntersectionObserver' in window)) return;
+    if (!bar || !heroBtn || !('IntersectionObserver' in window)) return;
 
-    let pastBuy = false;
+    // Shows whenever the buy box's own Add to Cart button isn't on screen —
+    // including on first load, when a tall gallery pushes it below the fold —
+    // not just after scrolling past it. Otherwise mobile has no visible CTA
+    // at all until the whole buy box has scrolled by.
+    let btnHidden = false;
     let finalVisible = false;
-    const apply = () => bar.classList.toggle('is-visible', pastBuy && !finalVisible);
+    const apply = () => bar.classList.toggle('is-visible', btnHidden && !finalVisible);
 
     new IntersectionObserver((entries) => {
-      const e = entries[0];
-      pastBuy = !e.isIntersecting && e.boundingClientRect.bottom < 0;
+      btnHidden = !entries[0].isIntersecting;
       apply();
-    }, { threshold: 0 }).observe(buy);
+    }, { threshold: 0 }).observe(heroBtn);
 
     if (finalCta) {
       new IntersectionObserver((entries) => {
@@ -744,7 +747,7 @@
     const buy = $('.buy[data-product]');
     if (!buy) return;
 
-    const priceDisplay = $('[data-price-display]', buy);
+    const priceDisplays = $$('[data-price-display]');
     const tiers = $$('[data-tier]', buy);
     const upsell = $('[data-upsell]', buy);
     const upsellToggle = upsell && $('[data-upsell-toggle]', upsell);
@@ -762,7 +765,7 @@
 
       PRODUCT.price = total;
       buy.dataset.price = total.toFixed(2);
-      if (priceDisplay) priceDisplay.textContent = '$' + total.toFixed(2);
+      priceDisplays.forEach((el) => { el.textContent = '$' + total.toFixed(2); });
     }
 
     tiers.forEach((tier) => {
