@@ -259,27 +259,16 @@
       <!-- "Patented" per the Amazon listing title and packaging; confirm wording with the client. -->
       <span class="badge"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Patented design</span>
       <h1 class="buy__title">ComfyNap® 360° Travel Pillow</h1>
-
-      <blockquote class="press-quote">
-        <span class="press-quote__source" aria-label="Quoted from CNN">CNN</span>
-        <p class="press-quote__text">“Travel Pillow design is actually BRILLIANT”</p>
-      </blockquote>
+      <p class="buy__press">As seen on CNN: “Travel Pillow design is actually BRILLIANT”</p>
 
       <p class="buy__headline">Stop Head Bobbing. Sleep Better Anywhere.</p>
       <p class="buy__lead">360° ergonomic support for your neck, head &amp; chin — designed for travelers who want real rest, wherever they sit.</p>
 
-      <ul class="buy__highlights">
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Full 360° Neck Support</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>9 Positions, 3 Techniques</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Premium Memory Foam</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>One-Click Adjustable Strap</li>
-      </ul>
-
       <!-- Launch-offer countdown: a rolling window that resets each visit. Swap for the client's real promo calendar/end-date before launch. -->
-      <div class="offer-bar" data-offer-timer>
-        <span class="offer-bar__text"><svg class="icon" aria-hidden="true"><use href="#ico-clock"/></svg>Launch pricing ends in</span>
-        <span class="offer-bar__time" data-offer-time aria-live="off">20:00</span>
-      </div>
+      <p class="offer-line" data-offer-timer>
+        <svg class="icon" aria-hidden="true"><use href="#ico-clock"/></svg>
+        Launch pricing ends in <span class="offer-line__time" data-offer-time aria-live="off">20:00</span>
+      </p>
 
       <!-- Quantity/bundle tiers. Bundle discount shown is illustrative — confirm margin-safe pricing with the client before launch. -->
       <fieldset class="tiers" data-tiers>
@@ -287,12 +276,10 @@
 
         <label class="tier is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
           <input type="radio" name="tier" value="2" checked>
-          <span class="tier__badge">Most Popular — Save $20</span>
           <span class="tier__row">
-            <span class="tier__name">2 ComfyNap</span>
+            <span class="tier__name">2 ComfyNap <span class="tier__chip">Save $20</span></span>
             <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
           </span>
-          <span class="tier__note">One for you, one for the road</span>
         </label>
 
         <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
@@ -301,18 +288,16 @@
             <span class="tier__name">1 ComfyNap</span>
             <span class="tier__price"><span class="tier__now">$69</span></span>
           </span>
-          <span class="tier__note">Great for solo travelers</span>
         </label>
       </fieldset>
 
-      <!-- Eye-mask upsell. Price is the client's; image and product name are placeholders pending the final SKU. -->
+      <!-- Eye-mask upsell. Price is the client's; product name is a placeholder pending the final SKU. -->
       <label class="upsell" data-upsell data-addon-price="39.00">
-        <span class="upsell__media" aria-hidden="true">IMG</span>
-        <span class="upsell__body">
-          <span class="upsell__title">Add the ComfyNap Sleep Mask <span class="ph">[Placeholder product]</span></span>
-          <span class="upsell__desc">Block out light for even deeper sleep on the go — <strong>+$39</strong></span>
-        </span>
         <span class="switch"><input type="checkbox" data-upsell-toggle aria-label="Add the ComfyNap Sleep Mask for $39"><span class="switch__track" aria-hidden="true"></span></span>
+        <span class="upsell__body">
+          <span class="upsell__title">Add the ComfyNap Sleep Mask <span class="ph">[Placeholder product]</span> — <strong>+$39</strong></span>
+          <span class="upsell__desc">Block out light for even deeper sleep on the go</span>
+        </span>
       </label>
 
       <div class="price">
@@ -321,10 +306,13 @@
 
       <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart</button>
 
-      <ul class="trust">
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-lock"/></svg>Secure Checkout</li>
+      <p class="buy__trust-line">Free Shipping &nbsp;·&nbsp; 30-Day Returns &nbsp;·&nbsp; Secure Checkout</p>
+
+      <ul class="buy__highlights">
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Full 360° Neck Support</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>9 Positions, 3 Techniques</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Premium Memory Foam</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>One-Click Adjustable Strap</li>
       </ul>
     </div>
 
