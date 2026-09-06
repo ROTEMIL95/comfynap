@@ -696,7 +696,7 @@ h1, h2, h3, h4 {
 .topbar {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   height: var(--header-h);
 }
 .logo {
@@ -716,16 +716,31 @@ h1, h2, h3, h4 {
 .logo--sm .logo__mark { width: 22px; height: 22px; }
 .topbar .logo { color: #fff; }
 .topbar .logo__mark { color: var(--c-blue-300); }
+@media (max-width: 420px) {
+  .topbar .logo { font-size: 1.125rem; gap: 0.35rem; }
+  .topbar .logo__mark { width: 22px; height: 22px; }
+}
+@media (max-width: 340px) {
+  .topbar { gap: 0.35rem; }
+  .topbar__text--short { font-size: 0.75rem; }
+  .cart-btn { width: 38px; height: 38px; }
+  .cart-btn .icon { width: 20px; height: 20px; }
+}
 .topbar__text {
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
-  overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
   text-align: center;
   font-size: 0.8125rem;
   color: rgba(255, 255, 255, 0.85);
+}
+/* A full sentence doesn't fit next to the logo + cart icon on phones;
+   swap to a shorter one instead of truncating it with an ellipsis. */
+.topbar__text--full { display: none; }
+@media (min-width: 700px) {
+  .topbar__text--short { display: none; }
+  .topbar__text--full { display: inline; }
 }
 .cart-btn {
   display: inline-flex;
