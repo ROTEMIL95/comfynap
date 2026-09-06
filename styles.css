@@ -724,45 +724,7 @@ h1, h2, h3, h4 {
 .logo__mark { width: 26px; height: 26px; color: var(--c-blue-600); }
 .logo--sm { font-size: 1.125rem; }
 .logo--sm .logo__mark { width: 22px; height: 22px; }
-.nav__links { display: none; }
-.nav__links a {
-  display: block;
-  padding: 0.5rem 0.25rem;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--c-navy-700);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.nav__links a:hover { color: var(--c-blue-600); }
 .nav__actions { display: flex; align-items: center; gap: 0.5rem; }
-/* Below the desktop breakpoint the sticky bottom bar already carries the buy
-   action, so the header CTA (whose fixed-width, non-wrapping text pushed the
-   logo + hamburger past the viewport edge on narrow phones) is dropped —
-   logo + menu toggle only, a lighter mobile header. */
-.nav__actions .btn { display: none; }
-.nav__toggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: #fff;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-.header.is-menu-open .nav__links {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 0; right: 0; top: 100%;
-  padding: 0.5rem var(--gutter) 1rem;
-  background: #fff;
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 20px 40px rgba(6, 18, 41, 0.1);
-}
-.header.is-menu-open .nav__links a { padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
-.header.is-menu-open .nav__links li:last-child a { border-bottom: 0; }
 
 /* Hero */
 .hero { padding-block: clamp(1.25rem, 3vw, 2.5rem) var(--section-y); }
@@ -1493,10 +1455,6 @@ h1, h2, h3, h4 {
 }
 
 @media (min-width: 900px) {
-  .nav__links { display: flex; gap: 2rem; }
-  .nav__toggle { display: none; }
-  .nav__actions .btn { display: inline-flex; }
-
   .hero__grid {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: clamp(2.5rem, 5vw, 5rem);

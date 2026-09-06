@@ -108,19 +108,6 @@
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    const toggle = $('.nav__toggle', header);
-    const links = $('#nav-links', header);
-    if (!toggle || !links) return;
-
-    const setOpen = (open) => {
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      header.classList.toggle('is-menu-open', open);
-    };
-    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-    links.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
   }
 
   /* ------------------------------------------------------------------
