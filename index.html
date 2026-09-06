@@ -105,21 +105,18 @@
   <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></symbol>
 </svg>
 
-<!-- 2. HEADER (sections/cn-header.liquid) — top bar (cn-announcement) now lives inside so both stay pinned together on scroll -->
+<!-- 1+2. HEADER — the top bar (cn-announcement) IS the header; logo + cart
+     were added into it directly rather than keeping a separate nav row -->
 <header class="header" data-section="header">
-  <div class="topbar" data-section="announcement">
-    Free shipping over $50 · 30-day returns · Secure checkout
-  </div>
-  <nav class="nav container" aria-label="Primary">
+  <nav class="topbar container" aria-label="Primary" data-section="announcement">
     <a class="logo" href="#top" aria-label="ComfyNap home">
       <svg class="logo__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="19.5" cy="6.5" r="2.2" fill="currentColor"/></svg>
       ComfyNap
     </a>
-    <div class="nav__actions">
-      <a class="cart-btn" href="#buy" data-cta-location="header" aria-label="Order now">
-        <svg class="icon" aria-hidden="true"><use href="#ico-cart"/></svg>
-      </a>
-    </div>
+    <p class="topbar__text">Free shipping over $50 · 30-day returns · Secure checkout</p>
+    <a class="cart-btn" href="#buy" data-cta-location="header" aria-label="Order now">
+      <svg class="icon" aria-hidden="true"><use href="#ico-cart"/></svg>
+    </a>
   </nav>
 </header>
 
