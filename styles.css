@@ -246,7 +246,8 @@ h1, h2, h3, h4 {
 .btn--lg { padding: 1.125rem 2.25rem; font-size: 1.0625rem; }
 .btn--block { width: 100%; }
 
-/* Badge (used once, per brief) */
+/* Badge — filled for the product claim, outlined for press accreditation so the
+   two read as different kinds of credential rather than one repeated chip. */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -262,6 +263,7 @@ h1, h2, h3, h4 {
   color: var(--c-blue-700);
 }
 .badge .icon { width: 1rem; height: 1rem; }
+.badge--press { background: transparent; border: 1px solid var(--line); color: var(--heading); }
 
 /* Chip */
 .chip {
@@ -839,11 +841,7 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
   color: var(--heading);
 }
-.buy__press {
-  margin: -0.4rem 0 0;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
+.buy__badges { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .buy__lead { font-size: 1.0625rem; max-width: 46ch; }
 .buy__highlights {
   display: grid;
@@ -853,12 +851,20 @@ h1, h2, h3, h4 {
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
-.buy__trust-line {
+/* Trust triad sits above the button, where the objection actually surfaces —
+   the line below it spells the return window out, which is what Baymard found
+   people hunt for on the product page itself. */
+.buy .trust { gap: 0.45rem 1.25rem; font-size: 0.8125rem; }
+.buy__guarantee {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   margin: 0;
-  text-align: center;
+  max-width: 460px;
   font-size: 0.8125rem;
   color: var(--muted);
 }
+.buy__guarantee .icon { width: 1rem; height: 1rem; flex: none; margin-top: 0.2rem; color: var(--c-blue-600); }
 .buy__highlights li {
   display: flex;
   align-items: center;
