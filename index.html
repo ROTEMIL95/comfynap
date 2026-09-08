@@ -267,37 +267,57 @@
       <p class="buy__headline">Stop Head Bobbing. Sleep Better Anywhere.</p>
       <p class="buy__lead">360° ergonomic support for your neck, head &amp; chin — designed for travelers who want real rest, wherever they sit.</p>
 
+      <p class="buy__rating">
+        <span class="stars" role="img" aria-label="Star rating placeholder"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <span class="ph">[Approved rating and review count, with source]</span>
+      </p>
+
+      <!-- Colorway names on the Amazon listing are Earth / Mercury / Moon / Zeus, but which name
+           maps to which fabric is unconfirmed, so these stay descriptive. Swatch colours are
+           sampled from real ComfyNap product photos in assets/src/amazon/. -->
+      <div class="colorway">
+        <p class="colorway__label">Color — <span data-color-name>Black</span></p>
+        <div class="colorway__swatches" role="radiogroup" aria-label="Color" data-color-swatches>
+          <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" aria-pressed="true" aria-label="Black"></button>
+          <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" aria-pressed="false" aria-label="Sky Blue"></button>
+          <button type="button" class="swatch-dot" style="background:#A3A3A3" data-color="Grey" aria-pressed="false" aria-label="Grey"></button>
+        </div>
+      </div>
+
       <!-- Quantity/bundle tiers. Bundle discount shown is illustrative — confirm margin-safe pricing with the client before launch. -->
       <fieldset class="tiers" data-tiers>
         <legend class="visually-hidden">Choose your bundle</legend>
 
-        <label class="tier is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
+        <label class="tier tier--popular is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
+          <span class="tier__flag">Most popular</span>
           <input type="radio" name="tier" value="2" checked>
           <span class="tier__row">
-            <span class="tier__name">2 ComfyNap <span class="tier__chip">Save $20</span></span>
+            <span class="tier__name">2 × ComfyNap</span>
             <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
+          </span>
+          <span class="tier__note">Best value — one for you, one for the road</span>
+          <span class="tier__perks">
+            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Free shipping</span>
+            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>30-day money-back</span>
+            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Save $20</span>
+            <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>2 free eye masks included ($78 value)</span>
           </span>
         </label>
 
         <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
           <input type="radio" name="tier" value="1">
           <span class="tier__row">
-            <span class="tier__name">1 ComfyNap</span>
+            <span class="tier__name">1 × ComfyNap</span>
             <span class="tier__price"><span class="tier__now">$69</span></span>
+          </span>
+          <span class="tier__note">Great for solo travelers</span>
+          <span class="tier__perks">
+            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Free shipping</span>
+            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>30-day money-back</span>
+            <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask included ($39 value)</span>
           </span>
         </label>
       </fieldset>
-
-      <!-- Eye-mask upsell. Price is the client's and confirmed; "ComfyNap Sleep Mask" and the
-           description are working names, not yet a confirmed product name/photo — kept unmarked
-           in the UI per Daniel's request for the sketch review, but still not final. -->
-      <label class="upsell" data-upsell data-addon-price="39.00">
-        <span class="switch"><input type="checkbox" data-upsell-toggle aria-label="Add the ComfyNap Sleep Mask for $39"><span class="switch__track" aria-hidden="true"></span></span>
-        <span class="upsell__body">
-          <span class="upsell__title">Add the ComfyNap Sleep Mask — <strong>+$39</strong></span>
-          <span class="upsell__desc">Block out light for even deeper sleep on the go</span>
-        </span>
-      </label>
 
       <div class="price">
         <span class="price__now" data-price-display>$118.00</span>
@@ -311,10 +331,27 @@
 
       <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart — <span data-price-display>$118.00</span></button>
 
+      <p class="buy__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask with every order</p>
+
       <p class="buy__guarantee">
         <svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>
         <span>Not the right fit? Return it within 30 days of delivery. <span class="ph">[Confirm: who pays return shipping]</span></span>
       </p>
+
+      <!-- The eye mask ships free with every order, so this is a "what you also get" card, not a
+           paid add-on. $39 is the value the client quoted for it; the product name and photo are
+           still working placeholders. -->
+      <div class="included">
+        <p class="included__label">Included with every order</p>
+        <div class="included__card">
+          <span class="included__media" aria-hidden="true">IMG</span>
+          <span class="included__body">
+            <span class="included__title">Contoured Sleep Mask <span class="ph">[Placeholder product]</span></span>
+            <span class="included__desc">Total blackout for deeper sleep — pairs with your pillow.</span>
+          </span>
+          <span class="included__value"><s>$39</s><b>Free</b></span>
+        </div>
+      </div>
 
       <ul class="buy__highlights">
         <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Full 360° Neck Support</li>

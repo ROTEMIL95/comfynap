@@ -629,20 +629,33 @@
   }
 
   /* ------------------------------------------------------------------
-     Color swatches (sticky bar) — records the preferred colorway; there's
-     no full photo set per color yet, so nothing else on the page changes.
+     Color swatches — the buy box and the sticky bar each carry a set, and
+     picking in either keeps the other in step. Records the preferred
+     colorway only; there's no full photo set per color yet, so nothing
+     else on the page changes.
      ------------------------------------------------------------------ */
   function initColorSwatches() {
-    const group = $('[data-color-swatches]');
-    if (!group) return;
-    const dots = $$('.swatch-dot', group);
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        dots.forEach((d) => {
-          d.classList.toggle('is-selected', d === dot);
-          d.setAttribute('aria-pressed', String(d === dot));
+    const groups = $$('[data-color-swatches]');
+    if (!groups.length) return;
+    const nameLabels = $$('[data-color-name]');
+
+    function select(color) {
+      groups.forEach((group) => {
+        $$('.swatch-dot', group).forEach((d) => {
+          const on = d.dataset.color === color;
+          d.classList.toggle('is-selected', on);
+          d.setAttribute('aria-pressed', String(on));
         });
-        Analytics.track('color_select', { color: dot.dataset.color });
+      });
+      nameLabels.forEach((el) => { el.textContent = color; });
+    }
+
+    groups.forEach((group) => {
+      $$('.swatch-dot', group).forEach((dot) => {
+        dot.addEventListener('click', () => {
+          select(dot.dataset.color);
+          Analytics.track('color_select', { color: dot.dataset.color });
+        });
       });
     });
   }
@@ -758,9 +771,10 @@
   }
 
   /* ------------------------------------------------------------------
-     Buy box: bundle tiers, eye-mask upsell, launch countdown.
-     Recomputes PRODUCT.price so every CTA (header, midpage, sticky,
-     final) and the analytics payload stay in sync with the buy box.
+     Buy box: bundle tiers. Recomputes PRODUCT.price so every price
+     display (buy box, button, sticky bar) and the analytics payload stay
+     in sync with the selected tier. The eye mask ships free with every
+     order, so there is no paid add-on to add into the total.
      ------------------------------------------------------------------ */
   function initBuyBox() {
     const buy = $('.buy[data-product]');
@@ -768,8 +782,6 @@
 
     const priceDisplays = $$('[data-price-display]');
     const tiers = $$('[data-tier]', buy);
-    const upsell = $('[data-upsell]', buy);
-    const upsellToggle = upsell && $('[data-upsell-toggle]', upsell);
 
     function selectedTier() {
       return tiers.find((t) => $('input', t).checked) || tiers[0];
@@ -778,9 +790,7 @@
     function recalc() {
       const tier = selectedTier();
       if (!tier) return;
-      const tierPrice = parseFloat(tier.dataset.tierPrice || '0');
-      const addonPrice = upsellToggle && upsellToggle.checked ? parseFloat(upsell.dataset.addonPrice || '0') : 0;
-      const total = tierPrice + addonPrice;
+      const total = parseFloat(tier.dataset.tierPrice || '0');
 
       PRODUCT.price = total;
       buy.dataset.price = total.toFixed(2);
@@ -796,14 +806,6 @@
         Analytics.track('bundle_select', { qty: tier.dataset.qty, tier_price: tier.dataset.tierPrice });
       });
     });
-
-    if (upsellToggle) {
-      upsellToggle.addEventListener('change', () => {
-        upsell.classList.toggle('is-active', upsellToggle.checked);
-        recalc();
-        Analytics.track('upsell_toggle', { addon: 'sleep-mask', selected: upsellToggle.checked });
-      });
-    }
 
     recalc();
   }

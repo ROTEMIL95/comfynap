@@ -907,81 +907,113 @@ h1, h2, h3, h4 {
 }
 .buy .btn--block { max-width: 460px; }
 
-/* Quantity / bundle tiers — plain rows with a hairline divider, not cards */
-.tiers { display: flex; flex-direction: column; margin-top: 0.5rem; border: 0; border-top: 1px solid var(--line); padding: 0; }
+/* Rating row + colorway picker, above the tiers */
+.buy__rating { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--muted); }
+.colorway { display: flex; flex-direction: column; gap: 0.45rem; }
+.colorway__label { margin: 0; font-size: 0.8125rem; font-weight: 700; color: var(--heading); }
+.colorway__label span { font-weight: 400; color: var(--muted); }
+.colorway__swatches { display: flex; align-items: center; gap: 0.5rem; }
+.colorway .swatch-dot { width: 28px; height: 28px; }
+
+/* Quantity / bundle tiers — cards that spell the offer out per tier */
+.tiers { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.25rem; border: 0; padding: 0; }
 .tier {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.55rem 0.1rem;
-  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
   cursor: pointer;
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.tier.is-selected { border-color: var(--heading); box-shadow: 0 0 0 1px var(--heading); }
+.tier--popular { padding-top: 2.35rem; }
+.tier__flag {
+  position: absolute;
+  inset-inline: -1px;
+  top: -1px;
+  padding: 0.3rem 1rem;
+  border-radius: var(--r-md) var(--r-md) 0 0;
+  background: var(--heading);
+  color: var(--bg);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .tier input {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
   flex: none;
   width: 18px;
   height: 18px;
   accent-color: var(--c-blue-600);
 }
-.tier__row { flex: 1 1 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
-.tier__name { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--heading); }
-.tier__chip {
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--r-pill);
-  background: var(--c-blue-100);
-  color: var(--c-blue-700);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: none;
-}
+.tier__row { grid-column: 2; display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.tier__name { font-weight: 700; color: var(--heading); }
 .tier__price { display: inline-flex; align-items: baseline; gap: 0.5rem; font-family: var(--font-display); font-weight: 700; }
-.tier__now { font-size: 1.125rem; color: var(--heading); }
+.tier__now { font-size: 1.25rem; color: var(--heading); }
 .tier__was { font-size: 0.875rem; font-weight: 500; color: var(--muted); }
+.tier__note { grid-column: 2; font-size: 0.8125rem; color: var(--muted); }
+.tier__perks {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+}
+.tier__perk { display: flex; align-items: center; gap: 0.45rem; }
+.tier__perk .icon { width: 0.95rem; height: 0.95rem; flex: none; color: var(--c-blue-600); }
+.tier__perk--gift { font-weight: 700; color: var(--c-blue-700); }
 
-/* Eye-mask upsell — a plain row, no card */
-.upsell {
+/* The eye mask ships free with every order, so this is a "what you also get"
+   card rather than a paid add-on — no toggle, no price to weigh up. */
+.buy__gift {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  max-width: 460px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--c-blue-700);
+}
+.buy__gift .icon { width: 1rem; height: 1rem; flex: none; }
+.included { display: flex; flex-direction: column; gap: 0.45rem; }
+.included__label { margin: 0; font-size: 0.8125rem; font-weight: 700; color: var(--heading); }
+.included__card {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.4rem 0.1rem;
-  cursor: pointer;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--c-blue-50);
 }
-.upsell__body { display: flex; flex-direction: column; gap: 0.15rem; flex: 1 1 auto; min-width: 0; }
-.upsell__title { font-size: 0.875rem; font-weight: 700; color: var(--heading); }
-.upsell__desc { font-size: 0.8125rem; color: var(--muted); }
-.upsell__desc strong { color: var(--heading); }
-.switch {
-  position: relative;
-  display: inline-block;
+.included__media {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   flex: none;
-  width: 42px;
-  height: 24px;
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--muted);
+  color: var(--muted);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
 }
-.switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
-.switch__track {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--r-pill);
-  background: var(--line);
-  pointer-events: none;
-  transition: background-color 0.15s var(--ease);
-}
-.switch__track::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(6, 18, 41, 0.3);
-  transition: transform 0.15s var(--ease);
-}
-.switch input:checked + .switch__track { background: var(--c-blue-600); }
-.switch input:checked + .switch__track::before { transform: translateX(18px); }
-.switch input:focus-visible + .switch__track { outline: 2px solid var(--focus); outline-offset: 2px; }
+.included__body { display: flex; flex-direction: column; gap: 0.15rem; flex: 1 1 auto; min-width: 0; }
+.included__title { font-size: 0.875rem; font-weight: 700; color: var(--heading); }
+.included__desc { font-size: 0.8125rem; color: var(--muted); }
+.included__value { display: flex; flex-direction: column; align-items: flex-end; flex: none; font-size: 0.75rem; color: var(--muted); }
+.included__value b { font-family: var(--font-display); font-size: 1rem; color: var(--c-blue-700); }
 
 /* Problem → Solution: real photo left, two panels right */
 .compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-items: start; }
