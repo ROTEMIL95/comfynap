@@ -75,7 +75,7 @@
   /* Layout */
   --container: 1320px;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
-  --section-y: clamp(3.5rem, 6vw, 6.5rem);
+  --section-y: clamp(2.75rem, 4.5vw, 4.75rem);
   --header-h: 60px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -242,6 +242,13 @@ h1, h2, h3, h4 {
   box-shadow: 0 12px 24px rgba(15, 50, 195, 0.34);
 }
 .btn--primary:active { transform: translateY(0); box-shadow: 0 8px 20px rgba(15, 50, 195, 0.28); }
+/* Secondary action that must never compete with Add to Cart */
+.btn--ghost {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--heading);
+}
+.btn--ghost:hover { border-color: var(--heading); }
 .btn--sm { padding: 0.65rem 1.1rem; font-size: 0.9rem; }
 .btn--lg { padding: 1.125rem 2.25rem; font-size: 1.0625rem; }
 .btn--block { width: 100%; }
@@ -452,8 +459,6 @@ h1, h2, h3, h4 {
 .card__kicker { font-size: 0.75rem; font-weight: 700; color: var(--c-blue-600); margin-bottom: 0.3rem; }
 .card__title { font-size: 1.0625rem; margin-bottom: 0.35rem; }
 .card__text { font-size: 0.9375rem; }
-.media--strip { aspect-ratio: 16 / 9; }
-.tech__strip { margin-top: 1.25rem; }
 
 /* Carousel (scroll-snap; JS only drives the arrows) */
 .carousel { position: relative; --carousel-gap: 1rem; }
@@ -854,7 +859,7 @@ h1, h2, h3, h4 {
 /* Trust triad sits above the button, where the objection actually surfaces —
    the line below it spells the return window out, which is what Baymard found
    people hunt for on the product page itself. */
-.buy .trust { gap: 0.45rem 1.25rem; font-size: 0.8125rem; }
+.buy .trust { gap: 0.45rem 1.25rem; margin-top: 0.25rem; font-size: 0.8125rem; }
 .buy__guarantee {
   display: flex;
   align-items: flex-start;
@@ -880,30 +885,6 @@ h1, h2, h3, h4 {
   border-radius: 50%;
   background: var(--c-blue-100);
   color: var(--c-blue-700);
-}
-.price {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  margin-top: 0.1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--line);
-}
-.price__now {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--heading);
-}
-.price__was { color: var(--muted); font-size: 1.0625rem; }
-.price__save {
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--r-pill);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--c-blue-700);
-  background: var(--c-blue-100);
 }
 .buy .btn--block { max-width: 460px; }
 
@@ -974,17 +955,6 @@ h1, h2, h3, h4 {
 
 /* The eye mask ships free with every order, so this is a "what you also get"
    card rather than a paid add-on — no toggle, no price to weigh up. */
-.buy__gift {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  max-width: 460px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--c-blue-700);
-}
-.buy__gift .icon { width: 1rem; height: 1rem; flex: none; }
 .included { display: flex; flex-direction: column; gap: 0.45rem; }
 .included__label { margin: 0; font-size: 0.8125rem; font-weight: 700; color: var(--heading); }
 .included__card {
@@ -1015,53 +985,45 @@ h1, h2, h3, h4 {
 .included__value { display: flex; flex-direction: column; align-items: flex-end; flex: none; font-size: 0.75rem; color: var(--muted); }
 .included__value b { font-family: var(--font-display); font-size: 1rem; color: var(--c-blue-700); }
 
-/* Problem → Solution: real photo left, two panels right */
-.compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+/* Problem → Solution: the photo carries the story; the two lists sit side by
+   side at every width as columns split by a rule, not as two cards. The short
+   bullets fit two-up even at 375px, which keeps this section from stacking
+   into a second screen of cards on phones. */
+.compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+.compare > .section__head { margin-bottom: 0; }
 .compare__media { aspect-ratio: 1 / 1; }
-.compare__panels { display: grid; gap: 1rem; }
-.compare__panel {
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border-radius: var(--r-lg);
-  background: var(--surface);
-  border: 1px solid var(--line);
-}
+.compare__panels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.compare__panel { padding-block: 1rem 0.25rem; border-top: 2px solid var(--line); }
+.compare__panel--problem { padding-inline-end: clamp(0.75rem, 2.5vw, 1.75rem); }
 .compare__panel--solution {
-  --heading: #fff;
-  --text: rgba(255, 255, 255, 0.8);
-  border-color: transparent;
-  background: var(--c-navy-900);
-  color: var(--text);
+  padding-inline-start: clamp(0.75rem, 2.5vw, 1.75rem);
+  border-top-color: var(--c-blue-600);
+  border-inline-start: 1px solid var(--line);
 }
 .compare__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.8125rem;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--c-red);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.compare__tag::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.compare__panel--solution .compare__tag { color: var(--c-blue-300); }
-.compare__title { font-size: 1.375rem; margin-bottom: 1rem; }
-.compare__list { display: grid; gap: 0.6rem; }
+.compare__panel--solution .compare__tag { color: var(--c-blue-600); }
+.compare__list { display: grid; gap: 0.75rem; }
 .compare__list li {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--heading);
 }
-.compare__list .icon { width: 22px; height: 22px; padding: 4px; border-radius: 50%; }
+.compare__panel--problem .compare__list li { color: var(--text); font-weight: 500; }
+.compare__list .icon { flex: none; width: 20px; height: 20px; padding: 4px; border-radius: 50%; }
 .compare__panel--problem .compare__list .icon { background: #FBE9E8; color: var(--c-red); }
-.compare__panel--solution .compare__list .icon { background: rgba(35, 86, 244, 0.45); color: #fff; }
+.compare__panel--solution .compare__list .icon { background: var(--c-blue-100); color: var(--c-blue-700); }
 
 /* Press quote (hero + final CTA) */
 .press-quote {
@@ -1098,66 +1060,60 @@ h1, h2, h3, h4 {
 
 /* Demo video */
 .demo__media { max-width: 1000px; margin-inline: auto; }
-.demo__steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-  max-width: 1000px;
-  margin: 1.25rem auto 0;
-}
-.demo__steps li {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--heading);
-}
-.demo__num {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 0.75rem;
-  background: var(--c-blue-50);
-  color: var(--c-blue-700);
-}
 
-/* How it works: the three techniques */
-.tech { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-.tech-card { display: flex; flex-direction: column; }
-.tech-card .media { aspect-ratio: 4 / 3; }
-.tech-card__body { padding: 1.125rem 1.25rem 1.375rem; display: grid; gap: 0.5rem; }
-.tech-card__head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
-.tech-card__head h3 { font-size: 1.125rem; }
-.tech-card__count {
+/* System: technique filter above the positions carousel. The button row
+   scrolls sideways rather than wrapping if it ever runs out of room. */
+.techniques { display: grid; gap: 0.85rem; margin-bottom: 1.5rem; }
+.techniques__buttons {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-block: 2px;
+  scrollbar-width: none;
+}
+.techniques__buttons::-webkit-scrollbar { display: none; }
+.technique {
   flex: none;
-  padding: 0.3rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--heading);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.technique:hover { border-color: var(--heading); }
+.technique__count {
+  min-width: 1.5rem;
+  padding: 0.1rem 0.4rem;
   border-radius: var(--r-pill);
   font-size: 0.75rem;
-  font-weight: 700;
+  text-align: center;
   background: var(--c-blue-100);
   color: var(--c-blue-700);
-  white-space: nowrap;
 }
-.tech-card__text { font-size: 0.9375rem; }
-.tech-card__positions {
-  margin-top: 0.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-.tech-card__positions li {
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--line);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--heading);
+.technique.is-active { background: var(--heading); border-color: var(--heading); color: var(--bg); }
+.technique.is-active .technique__count { background: rgba(255, 255, 255, 0.18); color: inherit; }
+.techniques__desc p { max-width: 62ch; font-size: 0.9375rem; }
+/* Phones: four equal segments that always fit, count stacked under the name */
+@media (max-width: 639px) {
+  .techniques__buttons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.4rem; overflow: visible; }
+  .technique {
+    flex-direction: column;
+    gap: 0.2rem;
+    min-height: 52px;
+    padding: 0.4rem 0.2rem;
+    border-radius: var(--r-md);
+    font-size: 0.8125rem;
+  }
+  .technique__count { min-width: 0; padding: 0 0.35rem; font-size: 0.6875rem; }
 }
 
 /* Materials — icon-left rows on phones, stacked cards from 640px */
@@ -1286,7 +1242,30 @@ h1, h2, h3, h4 {
   color: var(--heading);
 }
 
-/* Product details */
+/* Full specifications — a native <details> under the materials cards */
+.specs-more {
+  margin-top: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.specs-more__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: inherit;
+  font-weight: 700;
+  color: var(--heading);
+  cursor: pointer;
+  list-style: none;
+}
+.specs-more__summary::-webkit-details-marker { display: none; }
+.specs-more[open] .faq__icon { background: var(--c-blue-600); color: #fff; }
+.specs-more[open] .faq__icon::after { transform: rotate(0deg); }
+.specs-more .specs { padding: 0 1.25rem 1.25rem; }
+.specs-more .specs__item { background: var(--c-blue-50); border-color: transparent; }
 .specs { display: grid; gap: 0.75rem; }
 .specs__item {
   display: grid;
@@ -1321,6 +1300,33 @@ h1, h2, h3, h4 {
 .reviews__count { font-size: 0.9375rem; }
 .reviews__summary .stars .icon { width: 1.25rem; height: 1.25rem; }
 .reviews__grid { display: grid; gap: 1rem; }
+.reviews__more { display: flex; justify-content: center; margin-top: 1.5rem; }
+
+/* Phones: a single swipeable row instead of six stacked cards. The next card
+   peeks in at the edge so it reads as scrollable without extra UI. */
+@media (max-width: 639px) {
+  .reviews__grid {
+    grid-auto-flow: column;
+    grid-auto-columns: 85%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    padding-inline: var(--gutter);
+    padding-block: 4px;
+    margin-inline: calc(-1 * var(--gutter));
+    scrollbar-width: none;
+  }
+  .reviews__grid::-webkit-scrollbar { display: none; }
+  .review { scroll-snap-align: start; }
+  .reviews__more { display: none; }
+}
+/* Tablet/desktop: first full row only until "Show all" (class set by JS) */
+@media (min-width: 640px) and (max-width: 999px) {
+  .reviews__grid.is-collapsed > li:nth-child(n+3) { display: none; }
+}
+@media (min-width: 1000px) {
+  .reviews__grid.is-collapsed > li:nth-child(n+4) { display: none; }
+}
 .review {
   display: flex;
   flex-direction: column;
@@ -1499,17 +1505,11 @@ h1, h2, h3, h4 {
   .materials { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .mat-card { display: block; padding: 1.5rem; }
   .mat-card__media { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 1.25rem; border-radius: var(--r-md); }
-  .tech { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 639px) {
   .cmp th, .cmp td { padding: 0.875rem 0.6rem; font-size: 0.875rem; }
   .cmp thead th { font-size: 0.9375rem; }
-}
-
-@media (min-width: 700px) {
-  .demo__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .media--strip { aspect-ratio: 16 / 5; }
 }
 
 @media (min-width: 900px) {
@@ -1523,11 +1523,18 @@ h1, h2, h3, h4 {
 
   .carousel__track { --cols: var(--cols-md, 3); }
 
+  /* Photo on the left spanning both rows; heading + lists stack on the right
+     so the text column fills the photo's height instead of floating mid-air. */
   .compare {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
+    grid-template-areas: "media head" "media panels";
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    row-gap: 2.25rem;
   }
-  .tech { gap: 1.25rem; }
+  .compare > .section__head { grid-area: head; align-self: end; }
+  .compare__media { grid-area: media; }
+  .compare__panels { grid-area: panels; align-self: start; }
+  .compare__list { gap: 1rem; }
   .materials { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
   .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
 }

@@ -9,13 +9,14 @@
      Header         scrolled state, mobile menu
      Gallery        hero thumbnails, swipe, keyboard
      Carousels      arrow buttons for scroll-snap tracks
+     TechniqueFilter  System section: filter positions by technique
      Faq            accessible accordion
      VideoModal     shared <video> dialog for every data-video-trigger
      StickyCta      mobile bottom bar visibility
      Reveal         reveal-on-scroll for [data-reveal]
      ScrollDepth    scroll_25 / scroll_50 / scroll_75
      Ctas           CTA click events + prototype add-to-cart
-     Hotspots       how-it-works diagram ↔ cards
+     Reviews        "show all" toggle for the desktop review grid
    ===================================================================== */
 (function () {
   'use strict';
@@ -221,7 +222,8 @@
       if (!track) return;
 
       const step = () => {
-        const card = track.firstElementChild;
+        // First *visible* card: the System section's technique filter hides some.
+        const card = Array.from(track.children).find((c) => !c.hidden);
         const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
         return card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
       };
@@ -237,6 +239,65 @@
       track.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
       update();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Technique filter — narrows the positions carousel to one technique.
+     The buttons ship hidden so a no-JS visitor simply sees all nine cards.
+     ------------------------------------------------------------------ */
+  function initTechniqueFilter() {
+    $$('[data-technique-filter]').forEach((root) => {
+      const wrap = $('[data-techniques]', root);
+      const track = $('[data-carousel-track]', root);
+      if (!wrap || !track) return;
+
+      const buttons = $$('button[data-technique]', wrap);
+      const descs = $$('[data-technique-desc]', wrap);
+      const cards = $$('[data-technique]', track);
+
+      const select = (technique) => {
+        buttons.forEach((b) => {
+          const on = b.dataset.technique === technique;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+        descs.forEach((d) => { d.hidden = d.dataset.techniqueDesc !== technique; });
+        cards.forEach((c) => { c.hidden = technique !== 'all' && c.dataset.technique !== technique; });
+        track.scrollTo({ left: 0, behavior: 'instant' });
+        // Re-sync the carousel arrows, whose enabled state depends on scroll width.
+        track.dispatchEvent(new Event('scroll'));
+      };
+
+      buttons.forEach((b) => b.addEventListener('click', () => {
+        if (b.classList.contains('is-active')) return;
+        select(b.dataset.technique);
+        Analytics.track('technique_selected', { technique: b.dataset.technique });
+      }));
+
+      wrap.hidden = false;
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Reviews — collapse the tablet/desktop grid to its first row behind a
+     "Show all" toggle. On phones CSS turns the grid into a swipe row and
+     hides the toggle, so the collapsed class has no effect there.
+     ------------------------------------------------------------------ */
+  function initReviews() {
+    const grid = $('[data-reviews-grid]');
+    const toggle = $('[data-reviews-toggle]');
+    if (!grid || !toggle) return;
+
+    grid.classList.add('is-collapsed');
+    toggle.parentElement.hidden = false;
+
+    toggle.addEventListener('click', () => {
+      const expand = toggle.getAttribute('aria-expanded') !== 'true';
+      grid.classList.toggle('is-collapsed', !expand);
+      toggle.setAttribute('aria-expanded', String(expand));
+      toggle.textContent = expand ? 'Show fewer reviews' : 'Show all reviews';
+      if (expand) Analytics.track('reviews_expand');
     });
   }
 
@@ -816,6 +877,8 @@
   initHeader();
   initGallery();
   initCarousels();
+  initTechniqueFilter();
+  initReviews();
   initFaq();
   initVideoModal();
   initAmbientVideos();

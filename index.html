@@ -296,9 +296,9 @@
             <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
           </span>
           <span class="tier__note">Best value — one for you, one for the road</span>
+          <!-- Only what's specific to this tier. Shipping and returns apply to every order and sit
+               in the trust row under the tiers, so they aren't repeated per card. -->
           <span class="tier__perks">
-            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Free shipping</span>
-            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>30-day money-back</span>
             <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Save $20</span>
             <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>2 free eye masks included ($78 value)</span>
           </span>
@@ -312,17 +312,12 @@
           </span>
           <span class="tier__note">Great for solo travelers</span>
           <span class="tier__perks">
-            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Free shipping</span>
-            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>30-day money-back</span>
             <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask included ($39 value)</span>
           </span>
         </label>
       </fieldset>
 
-      <div class="price">
-        <span class="price__now" data-price-display>$118.00</span>
-      </div>
-
+      <!-- No separate price line: the selected tier shows it and the button carries it. -->
       <ul class="trust">
         <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
         <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
@@ -330,8 +325,6 @@
       </ul>
 
       <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart — <span data-price-display>$118.00</span></button>
-
-      <p class="buy__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask with every order</p>
 
       <p class="buy__guarantee">
         <svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>
@@ -369,12 +362,12 @@
      ═══════════════════════════════════════════════════════════════════ -->
 <section id="problem-solution" class="section section--tint" data-section="problem-solution">
   <div class="container">
-    <header class="section__head" data-reveal>
-      <h2 class="section__title">Why Regular Travel Pillows Still Let Your Head Fall</h2>
-      <p class="section__lead">A U-shaped pillow holds the sides of your neck. Nothing holds your chin. The moment you drift off, your head drops.</p>
-    </header>
-
     <div class="compare">
+      <header class="section__head" data-reveal>
+        <h2 class="section__title">Why Regular Travel Pillows Still Let Your Head Fall</h2>
+        <p class="section__lead">A U-shaped pillow holds the sides of your neck. Nothing holds your chin. The moment you drift off, your head drops.</p>
+      </header>
+
       <figure class="media compare__media" data-reveal>
         <picture>
           <source type="image/webp" srcset="assets/img/head-bobbing-95-400.webp 400w, assets/img/head-bobbing-95-800.webp 800w, assets/img/head-bobbing-95-1500.webp 1500w" sizes="(min-width: 900px) 48vw, 100vw">
@@ -384,8 +377,7 @@
 
       <div class="compare__panels">
         <article class="compare__panel compare__panel--problem" data-reveal>
-          <p class="compare__tag">Regular Pillow</p>
-          <h3 class="compare__title">Support on the sides. Nothing in front.</h3>
+          <h3 class="compare__tag">Regular Pillow</h3>
           <ul class="compare__list">
             <li><svg class="icon" aria-hidden="true"><use href="#ico-x"/></svg>Head falls forward</li>
             <li><svg class="icon" aria-hidden="true"><use href="#ico-x"/></svg>Neck strained</li>
@@ -395,8 +387,7 @@
         </article>
 
         <article class="compare__panel compare__panel--solution" data-reveal>
-          <p class="compare__tag">With ComfyNap</p>
-          <h3 class="compare__title">Support all the way around, chin included.</h3>
+          <h3 class="compare__tag">With ComfyNap</h3>
           <ul class="compare__list">
             <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>No head bobbing</li>
             <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Spine aligned</li>
@@ -439,89 +430,23 @@
       </button>
       <figcaption class="media__label">How To Use Your Neck Pillow</figcaption>
     </figure>
-
-    <ol class="demo__steps" aria-label="The three techniques shown in the video">
-      <li><span class="demo__num">1</span>ChinRest Technique</li>
-      <li><span class="demo__num">2</span>HeadRest Technique</li>
-      <li><span class="demo__num">3</span>FullRest Technique</li>
-    </ol>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     6. HOW IT WORKS: 3 TECHNIQUES (sections/cn-how-it-works.liquid)
-     ═══════════════════════════════════════════════════════════════════ -->
-<section id="how-it-works" class="section section--tint" data-section="how-it-works">
-  <div class="container">
-    <header class="section__head" data-reveal>
-      <h2 class="section__title">3 Techniques. 9 Positions.</h2>
-      <p class="section__lead">One patented shape, worn three ways. Each technique unlocks its own set of sleeping positions.</p>
-    </header>
-
-    <ul class="tech">
-      <li class="card tech-card">
-        <figure class="media">
-          <picture>
-            <source type="image/webp" srcset="assets/img/pos-2-490.webp">
-            <img src="assets/img/pos-2-490.jpg" width="490" height="390" alt="Traveler sitting upright with his chin resting on the ComfyNap pillow" loading="lazy" decoding="async">
-          </picture>
-        </figure>
-        <div class="tech-card__body">
-          <div class="tech-card__head"><h3>ChinRest Technique</h3><span class="tech-card__count">3 positions</span></div>
-          <p class="tech-card__text">Keeps your chin supported and breathing easy. The fold-under method creates three support options that stop head bobbing.</p>
-          <ul class="tech-card__positions" aria-label="ChinRest positions"><li>Under the chin</li><li>On the side</li><li>Behind the head</li></ul>
-        </div>
-      </li>
-      <li class="card tech-card">
-        <figure class="media">
-          <picture>
-            <source type="image/webp" srcset="assets/img/pos-4-490.webp">
-            <img src="assets/img/pos-4-490.jpg" width="490" height="390" alt="Traveler leaning her head back against the seat with ComfyNap cradling her neck" loading="lazy" decoding="async">
-          </picture>
-        </figure>
-        <div class="tech-card__body">
-          <div class="tech-card__head"><h3>HeadRest Technique</h3><span class="tech-card__count">4 positions</span></div>
-          <p class="tech-card__text">Cradles your head for comfortable rest and relaxation. Four adaptable positions, whether you're stuck in the middle seat or leaning against the window.</p>
-          <ul class="tech-card__positions" aria-label="HeadRest positions"><li>Full Rest</li><li>Back Support</li><li>Side Lean Support</li><li>Chin Support</li></ul>
-        </div>
-      </li>
-      <li class="card tech-card">
-        <figure class="media">
-          <picture>
-            <source type="image/webp" srcset="assets/img/pos-8-490.webp">
-            <img src="assets/img/pos-8-490.jpg" width="490" height="390" alt="Traveler asleep face-down on the ComfyNap pillow laid flat on a tray table" loading="lazy" decoding="async">
-          </picture>
-        </figure>
-        <div class="tech-card__body">
-          <div class="tech-card__head"><h3>FullRest Technique</h3><span class="tech-card__count">2 positions</span></div>
-          <p class="tech-card__text">Wraps around for complete support and uninterrupted sleep. Transforms from a neck pillow into a plush tray table cushion or a traditional sleeping pillow.</p>
-          <ul class="tech-card__positions" aria-label="FullRest positions"><li>Tray table cushion</li><li>Sleeping pillow</li></ul>
-        </div>
-      </li>
-    </ul>
-
-    <figure class="media media--strip tech__strip" data-reveal>
-      <picture>
-        <source type="image/webp" srcset="assets/img/seats-strip-400.webp 400w, assets/img/seats-strip-800.webp 800w, assets/img/seats-strip-1078.webp 1078w" sizes="(min-width: 1200px) 1200px, 100vw">
-        <img src="assets/img/seats-strip-800.jpg" srcset="assets/img/seats-strip-400.jpg 400w, assets/img/seats-strip-800.jpg 800w, assets/img/seats-strip-1078.jpg 1078w" sizes="(min-width: 1200px) 1200px, 100vw" width="1078" height="208" alt="Four travelers in a row of airplane seats, each asleep in a different position with ComfyNap" loading="lazy" decoding="async">
-      </picture>
-      <figcaption class="media__label">Support in any seat position</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════
-     7. POSITIONS (sections/cn-positions.liquid)
+     6. SYSTEM: 3 TECHNIQUES → 9 POSITIONS (sections/cn-system.liquid)
+     Replaces the separate How It Works + Positions sections, which told the
+     same "3 techniques, 9 positions" story twice. The technique buttons filter
+     the positions carousel; without JS they stay hidden and all nine cards show.
      Photo-to-position pairing is our best read of the brand's grid; confirm with the client.
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="positions" class="section" data-section="positions">
+<section id="system" class="section section--tint" data-section="system">
   <div class="container">
-    <div class="carousel" data-carousel>
+    <div class="carousel" data-carousel data-technique-filter>
       <header class="section__head section__head--row" data-reveal>
         <div>
-          <h2 class="section__title">One Travel Pillow. Endless Possibilities.</h2>
-          <p class="section__sub">9 Positions · 3 Techniques</p>
-          <p class="section__lead">Every card below is one of the nine. Swipe through and find yours.</p>
+          <h2 class="section__title">3 Techniques. 9 Positions.</h2>
+          <p class="section__lead">One patented shape, worn three ways. Each technique unlocks its own set of sleeping positions.</p>
         </div>
         <div class="carousel__nav">
           <button type="button" class="carousel__btn" data-carousel-prev aria-label="Previous positions"><svg class="icon" aria-hidden="true"><use href="#ico-chev-left"/></svg></button>
@@ -529,40 +454,55 @@
         </div>
       </header>
 
-      <ul class="carousel__track" data-carousel-track aria-label="Sleep positions">
-        <li class="card pos-card">
+      <div class="techniques" data-techniques hidden>
+        <div class="techniques__buttons" role="group" aria-label="Show positions by technique">
+          <button type="button" class="technique is-active" data-technique="all" aria-pressed="true" aria-controls="system-track">All<span class="technique__count">9</span></button>
+          <button type="button" class="technique" data-technique="chinrest" aria-pressed="false" aria-controls="system-track">ChinRest<span class="technique__count">3</span></button>
+          <button type="button" class="technique" data-technique="headrest" aria-pressed="false" aria-controls="system-track">HeadRest<span class="technique__count">4</span></button>
+          <button type="button" class="technique" data-technique="fullrest" aria-pressed="false" aria-controls="system-track">FullRest<span class="technique__count">2</span></button>
+        </div>
+        <div class="techniques__desc" aria-live="polite">
+          <p data-technique-desc="all">Every card below is one of the nine. Swipe through and find yours.</p>
+          <p data-technique-desc="chinrest" hidden>Keeps your chin supported and breathing easy. The fold-under method creates three support options that stop head bobbing.</p>
+          <p data-technique-desc="headrest" hidden>Cradles your head for comfortable rest and relaxation. Four adaptable positions, whether you're stuck in the middle seat or leaning against the window.</p>
+          <p data-technique-desc="fullrest" hidden>Wraps around for complete support and uninterrupted sleep. Transforms from a neck pillow into a plush tray table cushion or a traditional sleeping pillow.</p>
+        </div>
+      </div>
+
+      <ul class="carousel__track" id="system-track" data-carousel-track aria-label="Sleep positions">
+        <li class="card pos-card" data-technique="chinrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-2-490.webp"><img src="assets/img/pos-2-490.jpg" width="490" height="390" alt="Chin resting on the front of the pillow while sitting upright" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">ChinRest</p><h3 class="card__title">Under the Chin</h3><p class="card__text">Fold the front under your chin so your head can't drop forward.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="chinrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-5-490.webp"><img src="assets/img/pos-5-490.jpg" width="490" height="390" alt="Head tilted to one side onto the pillow's support" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">ChinRest</p><h3 class="card__title">On the Side</h3><p class="card__text">Shift the support to one side and lean into it.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="chinrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-6-490.webp"><img src="assets/img/pos-6-490.jpg" width="490" height="390" alt="Passenger in a car seat with the pillow behind her head" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">ChinRest</p><h3 class="card__title">Behind the Head</h3><p class="card__text">Turn the support to the back and rest your head against it.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="headrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-4-490.webp"><img src="assets/img/pos-4-490.jpg" width="490" height="390" alt="Traveler fully reclined against the seat with the pillow around her neck" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">HeadRest</p><h3 class="card__title">Full Rest</h3><p class="card__text">Settle back with your neck cradled all the way around.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="headrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-3-490.webp"><img src="assets/img/pos-3-490.jpg" width="490" height="390" alt="Traveler leaning back into the seat by the window" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">HeadRest</p><h3 class="card__title">Back Support</h3><p class="card__text">Lean back into the seat with the pillow filling the gap.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="headrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-1-490.webp"><img src="assets/img/pos-1-490.jpg" width="490" height="390" alt="Traveler leaning toward the airplane window with the pillow's side wall supporting her" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">HeadRest</p><h3 class="card__title">Side Lean Support</h3><p class="card__text">Lean toward the window and let the side wall hold you.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="headrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-7-490.webp"><img src="assets/img/pos-7-490.jpg" width="490" height="390" alt="Train passenger with his head level and chin supported" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">HeadRest</p><h3 class="card__title">Chin Support</h3><p class="card__text">Keep your head level with the front pad under your chin.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="fullrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-8-490.webp"><img src="assets/img/pos-8-490.jpg" width="490" height="390" alt="Traveler resting forward on the pillow laid flat on a tray table" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">FullRest</p><h3 class="card__title">Tray Table Cushion</h3><p class="card__text">Fold it flat and rest forward on the tray table.</p></div>
         </li>
-        <li class="card pos-card">
+        <li class="card pos-card" data-technique="fullrest">
           <figure class="media media--tall"><picture><source type="image/webp" srcset="assets/img/pos-9-490.webp"><img src="assets/img/pos-9-490.jpg" width="490" height="390" alt="Traveler lying down outdoors with the pillow under his head" loading="lazy" decoding="async"></picture></figure>
           <div class="card__body"><p class="card__kicker">FullRest</p><h3 class="card__title">Sleeping Pillow</h3><p class="card__text">Open it up and use it as a traditional pillow.</p></div>
         </li>
@@ -572,9 +512,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     8. MATERIALS (sections/cn-materials.liquid)
+     8. MATERIALS + FULL SPECS (sections/cn-materials.liquid, absorbs cn-product-details)
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="materials" class="section section--tint" data-section="materials">
+<section id="materials" class="section" data-section="materials">
   <div class="container">
     <header class="section__head" data-reveal>
       <h2 class="section__title">Comfort in Every Detail</h2>
@@ -632,13 +572,30 @@
         </div>
       </li>
     </ul>
+
+    <!-- Full spec sheet (was its own Product Details section). Same items, collapsed:
+         the cards above already cover materials and certifications. -->
+    <details class="specs-more">
+      <summary class="specs-more__summary">View full specifications<span class="faq__icon" aria-hidden="true"></span></summary>
+      <dl class="specs">
+        <div class="specs__item"><dt>Dimensions</dt><dd>8.5″ × 8.5″ × 8.5″</dd></div>
+        <div class="specs__item"><dt>Weight</dt><dd><span class="ph">[Product Weight]</span></dd></div>
+        <div class="specs__item"><dt>Materials</dt><dd>Fill: 100% polyurethane memory foam. Cover: 100% polyester. Inner cooling fabric: 75% nylon, 25% spandex. Latex free.</dd></div>
+        <div class="specs__item"><dt>Care Instructions</dt><dd>Removable cover, machine wash. Do not wash the memory foam core.</dd></div>
+        <div class="specs__item"><dt>Travel Bag</dt><dd>Drawstring travel case included.</dd></div>
+        <div class="specs__item"><dt>What's Included</dt><dd>ComfyNap pillow, travel case. <span class="ph">[Confirm: ear plugs]</span></dd></div>
+        <div class="specs__item"><dt>Fit / Compatibility</dt><dd>One size fits all. One-click adjustable strap.</dd></div>
+        <div class="specs__item"><dt>Firmness</dt><dd>Soft</dd></div>
+        <div class="specs__item"><dt>Certifications</dt><dd>OEKO-TEX, CertiPUR-US</dd></div>
+      </dl>
+    </details>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
      9. UGC (sections/cn-ugc.liquid) — customer clips still to be supplied
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="ugc" class="section ugc" data-section="ugc">
+<section id="ugc" class="section section--tint ugc" data-section="ugc">
   <div class="container">
     <div class="carousel" data-carousel>
       <header class="section__head section__head--row" data-reveal>
@@ -790,33 +747,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     12. PRODUCT DETAILS (sections/cn-product-details.liquid)
-     Specs from the Amazon listing. Weight and box contents still unconfirmed.
-     ═══════════════════════════════════════════════════════════════════ -->
-<section id="product-details" class="section section--tint" data-section="product-details">
-  <div class="container">
-    <header class="section__head" data-reveal>
-      <h2 class="section__title">Product Details</h2>
-      <p class="section__lead">Convinced? Here's exactly what you're getting.</p>
-    </header>
-    <dl class="specs">
-      <div class="specs__item"><dt>Dimensions</dt><dd>8.5″ × 8.5″ × 8.5″</dd></div>
-      <div class="specs__item"><dt>Weight</dt><dd><span class="ph">[Product Weight]</span></dd></div>
-      <div class="specs__item"><dt>Materials</dt><dd>Fill: 100% polyurethane memory foam. Cover: 100% polyester. Inner cooling fabric: 75% nylon, 25% spandex. Latex free.</dd></div>
-      <div class="specs__item"><dt>Care Instructions</dt><dd>Removable cover, machine wash. Do not wash the memory foam core.</dd></div>
-      <div class="specs__item"><dt>Travel Bag</dt><dd>Drawstring travel case included.</dd></div>
-      <div class="specs__item"><dt>What's Included</dt><dd>ComfyNap pillow, travel case. <span class="ph">[Confirm: ear plugs]</span></dd></div>
-      <div class="specs__item"><dt>Fit / Compatibility</dt><dd>One size fits all. One-click adjustable strap.</dd></div>
-      <div class="specs__item"><dt>Firmness</dt><dd>Soft</dd></div>
-      <div class="specs__item"><dt>Certifications</dt><dd>OEKO-TEX, CertiPUR-US</dd></div>
-    </dl>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════
      14. FAQ (sections/cn-faq.liquid)
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="faq" class="section" data-section="faq">
+<section id="faq" class="section section--tint" data-section="faq">
   <div class="container container--narrow">
     <header class="section__head section__head--center" data-reveal>
       <h2 class="section__title">Questions, Answered</h2>
@@ -863,7 +796,7 @@
      15. REVIEWS (sections/cn-reviews.liquid)
      Cards are labelled placeholders. Import approved reviews before launch.
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="reviews" class="section section--tint" data-section="reviews">
+<section id="reviews" class="section" data-section="reviews">
   <div class="container">
     <header class="section__head" data-reveal>
       <h2 class="section__title">What Travelers Are Saying</h2>
@@ -876,7 +809,9 @@
       <p class="reviews__count"><span class="ph">[Approved rating and review count, with source]</span></p>
     </div>
 
-    <ul class="reviews__grid">
+    <!-- Phones: one swipeable row. Tablet/desktop: the first row of cards, with a
+         "Show all" toggle (script.js initReviews) — without JS every card shows. -->
+    <ul class="reviews__grid" id="reviews-grid" data-reviews-grid tabindex="0" aria-label="Customer reviews">
       <li class="review">
         <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
         <p class="review__text"><span class="ph">[Approved Review. Two to three sentences about comfort, fit and sleeping on the flight.]</span></p>
@@ -939,6 +874,9 @@
         </div>
       </li>
     </ul>
+    <div class="reviews__more" hidden>
+      <button type="button" class="btn btn--ghost" data-reviews-toggle aria-controls="reviews-grid" aria-expanded="false">Show all reviews</button>
+    </div>
   </div>
 </section>
 
