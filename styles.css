@@ -476,6 +476,11 @@ h1, h2, h3, h4 {
   -webkit-overflow-scrolling: touch;
 }
 .carousel__track::-webkit-scrollbar { display: none; }
+/* position:relative makes the track the containing block, so cards that Flip
+   briefly positions absolutely while they fade out stay clipped by the track
+   instead of spilling past the viewport edge. */
+.carousel__track { position: relative; }
+.carousel__track > .is-filtered-out { display: none; }
 .carousel__track > * {
   flex: 0 0 calc((100% - (var(--cols) - 1) * var(--carousel-gap)) / var(--cols));
   scroll-snap-align: start;

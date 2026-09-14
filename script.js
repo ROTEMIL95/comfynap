@@ -10,6 +10,7 @@
      Gallery        hero thumbnails, swipe, keyboard
      Carousels      arrow buttons for scroll-snap tracks
      TechniqueFilter  System section: filter positions by technique
+                      (GSAP Flip ≥900px, loaded on demand; CSS fade below)
      Faq            accessible accordion
      VideoModal     shared <video> dialog for every data-video-trigger
      StickyCta      mobile bottom bar visibility
@@ -223,7 +224,7 @@
 
       const step = () => {
         // First *visible* card: the System section's technique filter hides some.
-        const card = Array.from(track.children).find((c) => !c.hidden);
+        const card = Array.from(track.children).find((c) => c.offsetWidth > 0);
         const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
         return card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
       };
@@ -245,7 +246,37 @@
   /* ------------------------------------------------------------------
      Technique filter — narrows the positions carousel to one technique.
      The buttons ship hidden so a no-JS visitor simply sees all nine cards.
+
+     Motion is visual only: the filter state (cards, description,
+     aria-pressed, analytics) always updates immediately.
+       >= 900px  GSAP Flip, loaded on demand after window load. Three to
+                 four cards are visible at this width, so they visibly slide
+                 into their new places. Phones never download GSAP.
+       < 900px   a 200ms fade-up of the track instead: at 1.25 cards per
+                 view the moving cards would be almost entirely off-screen.
+                 Also used on desktop until GSAP arrives, or if the CDN fails.
+       reduced   instant swap.
      ------------------------------------------------------------------ */
+  const GSAP_CDN = 'https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/';
+  let flipLoading = null;
+
+  function loadFlip() {
+    if (!flipLoading) {
+      const load = (file) => new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = GSAP_CDN + file;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+      flipLoading = load('gsap.min.js')
+        .then(() => load('Flip.min.js'))
+        .then(() => { window.gsap.registerPlugin(window.Flip); return true; })
+        .catch(() => false);
+    }
+    return flipLoading;
+  }
+
   function initTechniqueFilter() {
     $$('[data-technique-filter]').forEach((root) => {
       const wrap = $('[data-techniques]', root);
@@ -255,18 +286,82 @@
       const buttons = $$('button[data-technique]', wrap);
       const descs = $$('[data-technique-desc]', wrap);
       const cards = $$('[data-technique]', track);
+      const wide = window.matchMedia('(min-width: 900px)');
+      let flipReady = false;
+      let flipTl = null;
 
-      const select = (technique) => {
+      const prepareFlip = () => {
+        if (reducedMotion || !wide.matches || flipReady) return;
+        loadFlip().then((ok) => { flipReady = ok; });
+      };
+      if (document.readyState === 'complete') prepareFlip();
+      else window.addEventListener('load', prepareFlip, { once: true });
+      wide.addEventListener('change', prepareFlip);
+
+      // Filtered cards get a class, not [hidden]: the global
+      // [hidden] { display: none !important } would stop Flip from briefly
+      // showing the cards that are leaving.
+      const apply = (technique) => {
         buttons.forEach((b) => {
           const on = b.dataset.technique === technique;
           b.classList.toggle('is-active', on);
           b.setAttribute('aria-pressed', String(on));
         });
         descs.forEach((d) => { d.hidden = d.dataset.techniqueDesc !== technique; });
-        cards.forEach((c) => { c.hidden = technique !== 'all' && c.dataset.technique !== technique; });
+        cards.forEach((c) => c.classList.toggle('is-filtered-out', technique !== 'all' && c.dataset.technique !== technique));
         track.scrollTo({ left: 0, behavior: 'instant' });
         // Re-sync the carousel arrows, whose enabled state depends on scroll width.
         track.dispatchEvent(new Event('scroll'));
+      };
+
+      // Mandatory scroll-snap re-snaps the track to wherever Flip has just
+      // translated the snapped card, scrolling in lockstep with the animation
+      // so nothing appears to move. Snap is switched off for the duration.
+      const cleanUpFlip = () => {
+        flipTl = null;
+        window.gsap.set(cards, { clearProps: 'opacity,transform' });
+        track.style.scrollSnapType = '';
+        track.scrollTo({ left: 0, behavior: 'instant' });
+      };
+
+      const finishFlip = () => {
+        if (!flipTl) return;
+        const tl = flipTl;
+        tl.eventCallback('onComplete', null);
+        tl.progress(1).kill();
+        cleanUpFlip();
+      };
+
+      const select = (technique) => {
+        finishFlip();
+
+        if (reducedMotion) { apply(technique); return; }
+
+        if (flipReady && wide.matches) {
+          const { gsap, Flip } = window;
+          // State first, then change the DOM (incl. the scroll reset), then animate.
+          const state = Flip.getState(cards);
+          track.style.scrollSnapType = 'none';
+          apply(technique);
+          flipTl = Flip.from(state, {
+            duration: 0.45,
+            ease: 'power2.inOut',
+            absoluteOnLeave: true,
+            onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.3, delay: 0.15, ease: 'power1.out' }),
+            onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.96, duration: 0.2, ease: 'power1.in' }),
+            onComplete: cleanUpFlip,
+          });
+          return;
+        }
+
+        apply(technique);
+        if (track.animate) {
+          track.getAnimations().forEach((a) => a.cancel());
+          track.animate(
+            [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 200, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' }
+          );
+        }
       };
 
       buttons.forEach((b) => b.addEventListener('click', () => {
