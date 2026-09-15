@@ -54,7 +54,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/bricolage-grotesque-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/caveat-600-latin.woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/poster-lori-hero-540.webp" type="image/webp" imagesrcset="assets/img/poster-lori-hero-540.webp 540w, assets/img/poster-lori-hero-1080.webp 1080w" imagesizes="(min-width: 900px) 52vw, 100vw">
+<link rel="preload" as="image" href="assets/img/poster-hero-ugc-540.webp" type="image/webp" imagesrcset="assets/img/poster-hero-ugc-540.webp 540w, assets/img/poster-hero-ugc-1080.webp 1080w" imagesizes="(min-width: 900px) 50vw, 100vw">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 
@@ -150,17 +150,17 @@
 
     <figure class="media media--video hero__media" data-ambient-video>
       <picture>
-        <source type="image/webp" srcset="assets/img/poster-lori-hero-540.webp 540w, assets/img/poster-lori-hero-1080.webp 1080w" sizes="(min-width: 900px) 52vw, 100vw">
-        <img src="assets/img/poster-lori-hero-540.jpg" srcset="assets/img/poster-lori-hero-540.jpg 540w, assets/img/poster-lori-hero-1080.jpg 1080w" sizes="(min-width: 900px) 52vw, 100vw" width="1080" height="1920" alt="A customer holds up the ComfyNap pillow and shows its shape in her kitchen" loading="eager" fetchpriority="high" decoding="async">
+        <source type="image/webp" srcset="assets/img/poster-hero-ugc-540.webp 540w, assets/img/poster-hero-ugc-1080.webp 1080w" sizes="(min-width: 900px) 50vw, 100vw">
+        <img src="assets/img/poster-hero-ugc-540.jpg" srcset="assets/img/poster-hero-ugc-540.jpg 540w, assets/img/poster-hero-ugc-1080.jpg 1080w" sizes="(min-width: 900px) 50vw, 100vw" width="1080" height="1920" alt="A customer wears the ComfyNap pillow and shows its chin support" loading="eager" fetchpriority="high" decoding="async">
       </picture>
       <!-- Silent ambient loop: script.js (initAmbientVideo) attaches the HLS stream after
            window load. The trigger opens the same clip with sound in the modal. -->
-      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/f0281115-c82a-4bc8-9814-26354a149176/default.vertical.jobtemplate.hls.m3u8" poster="assets/img/poster-lori-hero-1080.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
-      <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-ugc-lori"
-        data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/f0281115-c82a-4bc8-9814-26354a149176/default.vertical.jobtemplate.hls.m3u8"
-        data-video-poster="assets/img/poster-lori-hero-1080.jpg" data-video-duration="2:16"
-        data-video-title="Versatile Travel Neck Pillow for Comfortable Flights">
-        <span class="visually-hidden">Play with sound: a customer demonstrates the ComfyNap pillow</span>
+      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/25d00e2b-95c0-4d39-942a-c049e349cf96/default.vertical.jobtemplate.hls.m3u8" poster="assets/img/poster-hero-ugc-1080.webp" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+      <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-ugc-customer"
+        data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/25d00e2b-95c0-4d39-942a-c049e349cf96/default.vertical.jobtemplate.hls.m3u8"
+        data-video-poster="assets/img/poster-hero-ugc-1080.jpg" data-video-duration="0:44"
+        data-video-title="Customer video: ComfyNap travel pillow">
+        <span class="visually-hidden">Play with sound: a customer shows how he wears the ComfyNap pillow</span>
       </button>
       <button type="button" class="mute-toggle" data-mute-toggle aria-pressed="true" aria-label="Unmute video" hidden>
         <svg class="icon" aria-hidden="true" data-mute-icon-muted><use href="#ico-mute"/></svg>
@@ -219,7 +219,7 @@
                 <span class="tier__name">1 × ComfyNap</span>
                 <span class="tier__price"><span class="tier__now">$69</span></span>
                 <span class="tier__note">Great for solo travelers</span>
-                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask included</span>
+                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>+ Free eye mask</span>
               </span>
             </span>
           </label>
@@ -233,7 +233,7 @@
                 <span class="tier__save">Save $20</span>
                 <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
                 <span class="tier__note">One for you, one for the road</span>
-                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>2 free eye masks included</span>
+                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>+ 2 free eye masks</span>
               </span>
             </span>
           </label>
