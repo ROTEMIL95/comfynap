@@ -218,7 +218,8 @@
      Carousels - CSS scroll-snap does the work; JS drives the arrows
      ------------------------------------------------------------------ */
   function initCarousels() {
-    $$('[data-carousel]').forEach((root) => {
+    // Centre-mode carousels run their own loop (initCenterCarousel)
+    $$('[data-carousel]:not([data-carousel-center])').forEach((root) => {
       const track = $('[data-carousel-track]', root);
       const prev = $('[data-carousel-prev]', root);
       const next = $('[data-carousel-next]', root);
@@ -239,9 +240,151 @@
 
       if (prev) prev.addEventListener('click', () => scroll(-1));
       if (next) next.addEventListener('click', () => scroll(1));
-      track.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
+
+      // Optional page dots: one per screenful of cards, rebuilt on resize
+      const dotsWrap = $('[data-carousel-dots]', root);
+      let dots = [];
+      const buildDots = () => {
+        if (!dotsWrap) return;
+        const pages = Math.max(1, Math.round(track.scrollWidth / track.clientWidth));
+        if (pages === dots.length) return;
+        dotsWrap.replaceChildren();
+        dots = Array.from({ length: pages }, (_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'reviews__dot';
+          dot.setAttribute('aria-label', `Page ${i + 1} of ${pages}`);
+          dot.addEventListener('click', () => {
+            const max = track.scrollWidth - track.clientWidth;
+            track.scrollTo({ left: pages > 1 ? (max * i) / (pages - 1) : 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+          });
+          dotsWrap.appendChild(dot);
+          return dot;
+        });
+        dotsWrap.hidden = pages < 2;
+      };
+      const markDot = () => {
+        if (!dots.length) return;
+        const max = track.scrollWidth - track.clientWidth;
+        const i = max > 0 ? Math.round((track.scrollLeft / max) * (dots.length - 1)) : 0;
+        dots.forEach((d, j) => {
+          d.classList.toggle('is-active', j === i);
+          d.setAttribute('aria-current', j === i ? 'true' : 'false');
+        });
+      };
+
+      track.addEventListener('scroll', () => { update(); markDot(); }, { passive: true });
+      window.addEventListener('resize', () => { update(); buildDots(); markDot(); });
       update();
+      buildDots();
+      markDot();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Centre-mode loop carousel ([data-carousel-center], Real Travelers).
+     Cards sit in slots around the middle one (-2 … +2) and the order wraps
+     around, so the row is always full: there is no first or last clip to
+     run out of. CSS places each card from its --slot and lifts the
+     .is-center one. Arrows, dashes, swipe and a click on a side card all
+     move the loop; a click on the centre card plays it as usual.
+     Without JS the native scroll-snap carousel stays in place.
+     ------------------------------------------------------------------ */
+  function initCenterCarousel() {
+    $$('[data-carousel-center]').forEach((root) => {
+      const track = $('[data-carousel-track]', root);
+      const prev = $('[data-carousel-prev]', root);
+      const next = $('[data-carousel-next]', root);
+      const dotsWrap = $('[data-carousel-dots]', root);
+      if (!track) return;
+      const cards = Array.from(track.children);
+      const n = cards.length;
+      let current = Math.floor(n / 2);
+
+      // Shortest signed distance from the centre card, wrapping around
+      const slotOf = (i) => {
+        let d = (i - current) % n;
+        if (d > n / 2) d -= n;
+        if (d < -n / 2) d += n;
+        return d;
+      };
+
+      const dots = cards.map((card, i) => {
+        if (!dotsWrap) return null;
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'ugc__dot';
+        const caption = ($('.ugc-card__caption', card) || {}).textContent || '';
+        dot.setAttribute('aria-label', `Video ${i + 1}: ${caption}`);
+        dot.addEventListener('click', () => go(i));
+        dotsWrap.appendChild(dot);
+        return dot;
+      });
+
+      function render(animate) {
+        cards.forEach((card, i) => {
+          const slot = slotOf(i);
+          const before = card.style.getPropertyValue('--slot');
+          const jump = animate && before !== '' && Math.abs(slot - Number(before)) > 1;
+          if (jump && !reducedMotion) {
+            // The card wrapping to the other end: drop it in from just
+            // outside that end instead of sliding across the whole row.
+            card.style.transition = 'none';
+            card.style.setProperty('--slot', String(slot + Math.sign(slot)));
+            card.style.opacity = '0';
+            void card.offsetWidth;
+            card.style.transition = '';
+          }
+          card.style.setProperty('--slot', String(slot));
+          card.style.opacity = Math.abs(slot) > 2 ? '0' : '';
+          card.classList.toggle('is-center', slot === 0);
+          card.classList.toggle('is-far', Math.abs(slot) > 2);
+        });
+        dots.forEach((dot, i) => {
+          if (!dot) return;
+          dot.classList.toggle('is-active', i === current);
+          dot.setAttribute('aria-current', i === current ? 'true' : 'false');
+        });
+      }
+
+      function go(i) {
+        const target = ((i % n) + n) % n;
+        if (target === current) return;
+        current = target;
+        render(true);
+      }
+
+      if (prev) prev.addEventListener('click', () => go(current - 1));
+      if (next) next.addEventListener('click', () => go(current + 1));
+
+      // Swipe, and a click on a side card brings it to the middle instead of
+      // playing it. Capture phase so the video modal never sees those clicks.
+      let startX = null;
+      let swiped = false;
+      track.addEventListener('pointerdown', (e) => { startX = e.clientX; swiped = false; });
+      track.addEventListener('pointerup', (e) => {
+        if (startX === null) return;
+        const dx = e.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) < 40) return;
+        swiped = true;
+        go(current + (dx < 0 ? 1 : -1));
+      });
+      track.addEventListener('pointercancel', () => { startX = null; });
+      track.addEventListener('click', (e) => {
+        const card = e.target.closest('.ugc-card');
+        if (!card) return;
+        const i = cards.indexOf(card);
+        if (swiped || i !== current) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!swiped) go(i);
+        }
+        swiped = false;
+      }, true);
+
+      root.classList.add('is-loop');
+      render(false);
     });
   }
 
@@ -260,24 +403,34 @@
        reduced   instant swap.
      ------------------------------------------------------------------ */
   const GSAP_CDN = 'https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/';
-  let flipLoading = null;
+  const gsapPlugins = {};
+  let gsapCoreLoading = null;
 
-  function loadFlip() {
-    if (!flipLoading) {
-      const load = (file) => new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = GSAP_CDN + file;
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-      flipLoading = load('gsap.min.js')
-        .then(() => load('Flip.min.js'))
-        .then(() => { window.gsap.registerPlugin(window.Flip); return true; })
+  function loadGsapFile(file) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = GSAP_CDN + file;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // GSAP core is shared: Flip (technique filter) and ScrollTrigger (scroll
+  // story) each load on demand and never fetch the core twice. Resolves
+  // true once the plugin is registered, false if the CDN fails.
+  function loadGsapPlugin(name) {
+    if (!gsapPlugins[name]) {
+      if (!gsapCoreLoading) gsapCoreLoading = loadGsapFile('gsap.min.js');
+      gsapPlugins[name] = gsapCoreLoading
+        .then(() => loadGsapFile(name + '.min.js'))
+        .then(() => { window.gsap.registerPlugin(window[name]); return true; })
         .catch(() => false);
     }
-    return flipLoading;
+    return gsapPlugins[name];
   }
+
+  function loadFlip() { return loadGsapPlugin('Flip'); }
 
   function initTechniqueFilter() {
     $$('[data-technique-filter]').forEach((root) => {
@@ -377,24 +530,195 @@
   }
 
   /* ------------------------------------------------------------------
-     Reviews - collapse the tablet/desktop grid to its first row behind a
-     "Show all" toggle. On phones CSS turns the grid into a swipe row and
-     hides the toggle, so the collapsed class has no effect there.
+     System scroll story (desktop, motion allowed). The section pins and
+     each scroll step brings the next of the nine position cards to the
+     front of a fanned deck; the left panel follows with the technique
+     number, name and description, a map of all nine positions (click a
+     tick to jump there) and a position counter.
+     Phones, short screens and reduced motion keep the swipe carousel and
+     technique filter. GSAP + ScrollTrigger load after window load on
+     desktop only, and gsap.matchMedia undoes everything if the screen
+     drops out of range.
+     ------------------------------------------------------------------ */
+  const STORY_MQ = '(min-width: 900px) and (min-height: 620px) and (prefers-reduced-motion: no-preference)';
+
+  function initSystemStory() {
+    const section = $('#system');
+    const panel = section && $('[data-story]', section);
+    const track = section && $('[data-carousel-track]', section);
+    if (!panel || !track || !window.matchMedia(STORY_MQ).matches) return;
+
+    const boot = () => loadGsapPlugin('ScrollTrigger').then((ok) => { if (ok) buildSystemStory(section, panel, track); });
+    if (document.readyState === 'complete') boot();
+    else window.addEventListener('load', boot, { once: true });
+  }
+
+  function buildSystemStory(section, panel, track) {
+    const { gsap, ScrollTrigger } = window;
+    const cards = Array.from(track.children);
+    const n = cards.length;
+    const numEl = $('[data-story-num]', panel);
+    const nameEl = $('[data-story-name]', panel);
+    const descEl = $('[data-story-desc]', panel);
+    const indexEl = $('[data-story-index]', panel);
+    const totalEl = $('[data-story-total]', panel);
+    const hintEl = $('[data-story-hint]', panel);
+    const map = $('[data-story-map]', panel);
+    const pad = (v) => String(v).padStart(2, '0');
+
+    // Technique order, names and descriptions come from the filter markup
+    const techButtons = $$('.techniques button[data-technique]', section).filter((b) => b.dataset.technique !== 'all');
+    const techs = techButtons.map((b, i) => ({
+      key: b.dataset.technique,
+      name: b.firstChild.textContent.trim(),
+      desc: ($(`[data-technique-desc="${b.dataset.technique}"]`, section) || {}).textContent || '',
+      num: i + 1,
+    }));
+    const techOf = (card) => techs.find((t) => t.key === card.dataset.technique) || techs[0];
+
+    // Map: one row per technique, one tick per position
+    map.replaceChildren();
+    const ticks = [];
+    techs.forEach((t) => {
+      const row = document.createElement('div');
+      row.className = 'story__row';
+      row.dataset.tech = t.key;
+      const label = document.createElement('span');
+      label.className = 'story__row-name';
+      label.textContent = t.name;
+      const tickWrap = document.createElement('span');
+      tickWrap.className = 'story__ticks';
+      row.append(label, tickWrap);
+      cards.forEach((card, i) => {
+        if (card.dataset.technique !== t.key) return;
+        const title = ($('.card__title', card) || {}).textContent || '';
+        const tick = document.createElement('button');
+        tick.type = 'button';
+        tick.className = 'story__tick';
+        tick.setAttribute('aria-label', `Position ${i + 1}: ${title}`);
+        tick.dataset.index = String(i);
+        tickWrap.appendChild(tick);
+        ticks[i] = tick;
+      });
+      map.appendChild(row);
+    });
+    const rows = $$('.story__row', map);
+    totalEl.textContent = pad(n);
+
+    const mm = gsap.matchMedia();
+    mm.add(STORY_MQ, () => {
+      let active = -1;
+      let activeTech = null;
+
+      section.classList.add('is-story');
+      panel.hidden = false;
+      cards.forEach((c) => c.classList.remove('is-filtered-out'));
+      gsap.set(cards, { xPercent: -50, yPercent: -50, transformOrigin: '50% 60%' });
+
+      // Deck layout relative to the card in front: the next two peek out
+      // to the right, cards already seen slide off to the left.
+      const stateFor = (d) => {
+        if (d < 0) return { x: -90, rotation: -7, scale: 0.9, opacity: 0, zIndex: 1 };
+        if (d === 0) return { x: 0, rotation: 0, scale: 1, opacity: 1, zIndex: 10 };
+        if (d === 1) return { x: 56, rotation: 3.5, scale: 0.92, opacity: 0.55, zIndex: 9 };
+        if (d === 2) return { x: 104, rotation: 7, scale: 0.84, opacity: 0.25, zIndex: 8 };
+        return { x: 140, rotation: 9, scale: 0.78, opacity: 0, zIndex: 1 };
+      };
+
+      const go = (index, instant) => {
+        if (index === active) return;
+        const prev = active;
+        active = index;
+        cards.forEach((card, i) => {
+          const s = stateFor(i - index);
+          card.classList.toggle('is-front', i === index);
+          card.setAttribute('aria-hidden', String(i !== index));
+          gsap.to(card, { ...s, duration: instant ? 0 : 0.7, ease: 'power3.out', overwrite: 'auto' });
+        });
+        ticks.forEach((t, i) => {
+          t.classList.toggle('is-active', i === index);
+          t.classList.toggle('is-done', i < index);
+        });
+        indexEl.textContent = pad(index + 1);
+
+        const tech = techOf(cards[index]);
+        rows.forEach((r) => r.classList.toggle('is-current', r.dataset.tech === tech.key));
+        if (tech !== activeTech) {
+          activeTech = tech;
+          const swap = () => {
+            numEl.textContent = pad(tech.num);
+            nameEl.textContent = tech.name;
+            descEl.textContent = tech.desc;
+          };
+          if (instant || prev === -1) swap();
+          else {
+            const dir = index > prev ? 1 : -1;
+            gsap.timeline()
+              .to([numEl, nameEl, descEl], { y: -14 * dir, opacity: 0, duration: 0.18, ease: 'power1.in', stagger: 0.03 })
+              .add(swap)
+              .fromTo([numEl, nameEl, descEl], { y: 16 * dir, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out', stagger: 0.05 });
+          }
+        }
+        if (hintEl && index > 0) hintEl.classList.add('is-gone');
+      };
+
+      const wasPast = section.getBoundingClientRect().bottom < 0;
+      const st = ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * 0.45 * (n - 1)),
+        pin: true,
+        anticipatePin: 1,
+        snap: { snapTo: 1 / (n - 1), duration: { min: 0.2, max: 0.5 }, delay: 0.08, ease: 'power1.inOut' },
+        onUpdate: (self) => go(Math.round(self.progress * (n - 1))),
+      });
+      go(Math.round(st.progress * (n - 1)), true);
+      // Pinning adds scroll length above anything further down the page; if
+      // the visitor is already below the section (reload mid-page), keep
+      // their view where it was.
+      if (wasPast) window.scrollTo({ top: window.scrollY + (st.end - st.start), behavior: 'instant' });
+
+      const onTick = (e) => {
+        const tick = e.target.closest('.story__tick');
+        if (!tick) return;
+        const i = Number(tick.dataset.index);
+        window.scrollTo({ top: st.start + (st.end - st.start) * (i / (n - 1)), behavior: 'smooth' });
+        Analytics.track('position_jump', { position: i + 1 });
+      };
+      map.addEventListener('click', onTick);
+
+      return () => {
+        map.removeEventListener('click', onTick);
+        section.classList.remove('is-story');
+        panel.hidden = true;
+        cards.forEach((c) => { c.classList.remove('is-front'); c.removeAttribute('aria-hidden'); });
+        gsap.set(cards, { clearProps: 'all' });
+        gsap.set([numEl, nameEl, descEl], { clearProps: 'all' });
+      };
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Reviews - the cards page through a carousel; "Show all reviews" lays
+     every card out as a grid (tablet/desktop; phones keep swiping).
      ------------------------------------------------------------------ */
   function initReviews() {
     const grid = $('[data-reviews-grid]');
     const toggle = $('[data-reviews-toggle]');
     if (!grid || !toggle) return;
+    const carousel = grid.closest('.reviews__carousel');
+    const label = toggle.firstChild;
 
-    grid.classList.add('is-collapsed');
     toggle.parentElement.hidden = false;
 
     toggle.addEventListener('click', () => {
       const expand = toggle.getAttribute('aria-expanded') !== 'true';
-      grid.classList.toggle('is-collapsed', !expand);
+      if (carousel) carousel.classList.toggle('is-expanded', expand);
+      grid.scrollTo({ left: 0, behavior: 'instant' });
       toggle.setAttribute('aria-expanded', String(expand));
-      toggle.textContent = expand ? 'Show fewer reviews' : 'Show all reviews';
+      label.textContent = expand ? 'Show fewer reviews' : 'Show all reviews';
       if (expand) Analytics.track('reviews_expand');
+      else grid.dispatchEvent(new Event('scroll'));
     });
   }
 
@@ -466,16 +790,21 @@
   // cdnjs the first time any video on the page needs it), then calls
   // `onReady` once playback can start. Returns a handle whose `destroy()`
   // tears down the hls.js instance, if one was created.
-  function attachVideoSource(videoEl, src, onReady) {
+  // `hq`: start on the sharpest rendition instead of hls.js's cautious
+  // low-bitrate opening (it still steps down if the connection can't keep up).
+  function attachVideoSource(videoEl, src, onReady, hq) {
     if (isHlsSource(src) && !playsHlsNatively(videoEl)) {
       let hls = null;
       loadHlsLib()
         .then((Hls) => {
           if (!Hls || !Hls.isSupported()) throw new Error('MediaSource unsupported');
-          hls = new Hls({ enableWorker: true });
+          hls = new Hls(hq ? { enableWorker: true, abrEwmaDefaultEstimate: 8000000, capLevelToPlayerSize: false } : { enableWorker: true });
           hls.loadSource(src);
           hls.attachMedia(videoEl);
-          hls.on(Hls.Events.MANIFEST_PARSED, () => { if (onReady) onReady(); });
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            if (hq && hls.levels.length) hls.startLevel = hls.levels.length - 1;
+            if (onReady) onReady();
+          });
         })
         .catch((err) => {
           console.warn('[video]', err.message, '- falling back to native src');
@@ -710,7 +1039,7 @@
       video.playsInline = true;
       if (pageHasBeenInteractedWith) video.muted = false;
       else { video.muted = true; ambientVideosAwaitingInteraction.push(video); }
-      hlsHandle = attachVideoSource(video, src, () => sync());
+      hlsHandle = attachVideoSource(video, src, () => sync(), el.hasAttribute('data-video-hq'));
     }
 
     video.addEventListener('playing', () => {
@@ -757,33 +1086,20 @@
 
   /* ------------------------------------------------------------------
      Sticky Add to Cart bar (mobile + desktop) - shows whenever the buy
-     box's own button isn't on screen, hides when the final CTA is visible
+     box's own button isn't on screen
      ------------------------------------------------------------------ */
   function initStickyCta() {
     const bar = $('#sticky-cta');
     const heroBtn = $('[data-cta-location="hero"][data-add-to-cart]');
-    const finalCta = $('#final-cta');
     if (!bar || !heroBtn || !('IntersectionObserver' in window)) return;
 
     // Shows whenever the buy box's own Add to Cart button isn't on screen -
     // including on first load, when a tall gallery pushes it below the fold -
-    // not just after scrolling past it. Otherwise mobile has no visible CTA
-    // at all until the whole buy box has scrolled by.
-    let btnHidden = false;
-    let finalVisible = false;
-    const apply = () => bar.classList.toggle('is-visible', btnHidden && !finalVisible);
-
+    // not just after scrolling past it. The closing section has no button of
+    // its own any more, so the bar stays up all the way to the footer.
     new IntersectionObserver((entries) => {
-      btnHidden = !entries[0].isIntersecting;
-      apply();
+      bar.classList.toggle('is-visible', !entries[0].isIntersecting);
     }, { threshold: 0 }).observe(heroBtn);
-
-    if (finalCta) {
-      new IntersectionObserver((entries) => {
-        finalVisible = entries[0].isIntersecting;
-        apply();
-      }, { threshold: 0.15 }).observe(finalCta);
-    }
   }
 
   /* ------------------------------------------------------------------
@@ -929,6 +1245,9 @@
         e.preventDefault();
         cartQty += 1;
         Analytics.track('add_to_cart', Analytics.itemPayload({ cta_location: location }));
+        // Prototype: Buy Now adds like any Add to Cart; in Shopify it then
+        // redirects to /checkout instead of showing the toast.
+        if (cta.hasAttribute('data-buy-now')) Analytics.track('begin_checkout', Analytics.itemPayload());
         showToast();
       }
     });
@@ -972,6 +1291,8 @@
     if (!buy) return;
 
     const priceDisplays = $$('[data-price-display]');
+    const compareDisplays = $$('[data-compare-display]');
+    const saveDisplays = $$('[data-save-display]');
     const tiers = $$('[data-tier]', buy);
 
     function selectedTier() {
@@ -986,6 +1307,18 @@
       PRODUCT.price = total;
       buy.dataset.price = total.toFixed(2);
       priceDisplays.forEach((el) => { el.textContent = '$' + total.toFixed(2); });
+
+      // Compare-at price and saving only exist for discounted tiers
+      const compare = parseFloat(tier.dataset.tierCompare || '0');
+      const saving = compare > total ? compare - total : 0;
+      compareDisplays.forEach((el) => {
+        el.hidden = !saving;
+        el.textContent = '$' + compare.toFixed(2);
+      });
+      saveDisplays.forEach((el) => {
+        el.hidden = !saving;
+        el.textContent = 'Save $' + saving.toFixed(2);
+      });
     }
 
     tiers.forEach((tier) => {
@@ -1007,7 +1340,9 @@
   initHeader();
   initGallery();
   initCarousels();
+  initCenterCarousel();
   initTechniqueFilter();
+  initSystemStory();
   initReviews();
   initFaq();
   initVideoModal();
