@@ -15,6 +15,7 @@
      Faq            accessible accordion
      VideoModal     shared <video> dialog for every data-video-trigger
      StickyCta      mobile bottom bar visibility
+     HeroDock       lines the video's uses strip up with the hero Add to Cart
      Reveal         reveal-on-scroll for [data-reveal]
      ScrollDepth    scroll_25 / scroll_50 / scroll_75
      Ctas           CTA click events + prototype add-to-cart
@@ -786,6 +787,39 @@
   }
 
   /* ------------------------------------------------------------------
+     Hero dock line (desktop): keeps the video's "uses" strip on the same
+     line as the buy box's Add to Cart. The button sits wherever the content
+     puts it, so its distance from the bottom of the video panel is measured
+     and handed to CSS as --uses-bottom whenever anything resizes (viewport,
+     fonts arriving, bundle or colour changes).
+     ------------------------------------------------------------------ */
+  function initHeroDock() {
+    const media = $('.hero__media');
+    const cta = $('.buy__cta');
+    const strip = $('.uses', media || document);
+    if (!media || !cta || !strip) return;
+
+    const wide = window.matchMedia('(min-width: 900px)');
+    const sync = () => {
+      if (!wide.matches) { media.style.removeProperty('--uses-bottom'); return; }
+      const gap = media.getBoundingClientRect().bottom - cta.getBoundingClientRect().bottom;
+      media.style.setProperty('--uses-bottom', Math.max(0, Math.round(gap)) + 'px');
+    };
+    let frame = 0;
+    const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(sync); };
+
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(schedule);
+      ro.observe(media);
+      ro.observe(cta.parentElement);
+    }
+    window.addEventListener('resize', schedule);
+    wide.addEventListener('change', schedule);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    sync();
+  }
+
+  /* ------------------------------------------------------------------
      Color swatches - the buy box and the sticky bar each carry a set, and
      picking in either keeps the other in step. Records the preferred
      colorway only; there's no full photo set per color yet, so nothing
@@ -979,6 +1013,7 @@
   initVideoModal();
   initAmbientVideos();
   initStickyCta();
+  initHeroDock();
   initColorSwatches();
   initReveal();
   initScrollDepth();

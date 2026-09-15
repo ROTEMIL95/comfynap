@@ -1305,31 +1305,25 @@ h1, h2, h3, h4 {
   .uses .icon { width: 1.2rem; height: 1.2rem; }
 }
 
-/* Dock line: the hero Add to Cart and the video's "uses" strip share one
-   height and one distance from the bottom of the hero, so they always sit
-   side by side. The trust row hangs under the button, spread across its
-   full width. Placed last so it wins over the size-specific rules above. */
+/* Dock line: the hero Add to Cart sits right after the buy box content (no
+   gap), and the video's "uses" strip is lined up with it. The strip shares
+   the button's height; script.js (initHeroDock) sets --uses-bottom from the
+   button's real position so the two stay on one line at every size. The
+   trust row sits under the button, spread across its full width. Placed
+   last so it wins over the size-specific rules above. */
 @media (min-width: 900px) {
-  .hero { --dock-bottom: clamp(3rem, 8vh, 5.25rem); --dock-h: 72px; }
-  .uses { bottom: var(--dock-bottom); height: var(--dock-h); padding-block: 0; transition: none; }
-  .hero__buy { align-items: stretch; padding-bottom: var(--dock-bottom); }
-  .buy { position: relative; }
-  .buy__cta { margin-top: auto; height: var(--dock-h); min-height: 0; padding-block: 0; }
+  .hero { --dock-h: 72px; }
+  .uses { bottom: var(--uses-bottom, clamp(3rem, 8vh, 5.25rem)); height: var(--dock-h); padding-block: 0; transition: none; }
+  .buy__cta { height: var(--dock-h); min-height: 0; padding-block: 0; }
   .buy__trust {
-    position: absolute;
-    top: calc(100% + 0.7rem);
-    left: 0;
-    right: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 0;
+    margin-top: -0.35rem;
   }
   .buy__trust li { justify-content: center; padding-inline: 0.5rem; }
 }
 @media (min-width: 900px) and (max-height: 960px) {
-  .hero { --dock-bottom: 2.35rem; --dock-h: 56px; }
-  .hero__buy { padding-top: clamp(0.75rem, 1.6vh, 1.25rem); }
-  .buy__trust { top: calc(100% + 0.55rem); }
+  .hero { --dock-h: 58px; }
 }
 @media (min-width: 900px) and (max-width: 1100px) {
   .buy__trust { font-size: 0.75rem; }
