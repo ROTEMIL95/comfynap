@@ -812,7 +812,37 @@ h1, h2, h3, h4 {
 .hero__media > picture::after { background: linear-gradient(180deg, rgba(6, 18, 41, 0) 60%, rgba(6, 18, 41, 0.16) 100%); }
 /* The duration chip would sit under the "uses" strip; the clip opens in the modal anyway */
 .hero__media .media__duration { display: none; }
-.hero__media .mute-toggle { z-index: 3; background: rgba(255, 255, 255, 0.78); color: var(--heading); }
+/* Premium finish on the hero film (CSS only, no re-encode): a gentle
+   cinematic grade, a soft vignette that settles the edges, and a faint film
+   grain. The overlays ride on the full-size play trigger, which already sits
+   above the video, so they add no extra elements. */
+.hero__media > picture > img,
+.hero__media .ambient-video { filter: saturate(0.88) contrast(1.07) brightness(1.03); }
+.hero__media .media__trigger--ambient {
+  background:
+    radial-gradient(125% 95% at 50% 42%, rgba(8, 12, 24, 0) 52%, rgba(8, 12, 24, 0.26) 100%),
+    linear-gradient(180deg, rgba(8, 12, 24, 0.16) 0%, rgba(8, 12, 24, 0) 16%, rgba(8, 12, 24, 0) 68%, rgba(8, 12, 24, 0.2) 100%);
+}
+.hero__media .media__trigger--ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+/* Sound toggle in dark glass, matching the Add to Cart button */
+.hero__media .mute-toggle {
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(14, 14, 18, 0.42);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  backdrop-filter: blur(12px) saturate(1.3);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+.hero__media .mute-toggle:hover { background: rgba(14, 14, 18, 0.58); }
 .hero__buy { padding: 1.75rem var(--edge) var(--section-y); }
 
 /* Where it's used - a frosted strip over the bottom of the video */
