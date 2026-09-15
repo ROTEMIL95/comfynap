@@ -801,18 +801,6 @@
           hls.attachMedia(videoEl);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             if (hq && hls.levels.length) hls.startLevel = hls.levels.length - 1;
-            // Everything else is capped to the size it is actually drawn at.
-            // The loops fill their box with object-fit: cover, so the height
-            // that matters is the larger of the box height and the 16:9 height
-            // of its width. hls.js's own capLevelToPlayerSize compares both
-            // sides and picks 1080p for a square phone box; this settles for
-            // the smallest rendition within 15% of the needed height.
-            if (!hq && hls.levels.length) {
-              const box = videoEl.getBoundingClientRect();
-              const need = Math.max(box.height, (box.width * 9) / 16) * (window.devicePixelRatio || 1) * 0.85;
-              const cap = hls.levels.findIndex((l) => l.height >= need);
-              if (cap >= 0) hls.autoLevelCapping = cap;
-            }
             if (onReady) onReady();
           });
         })
@@ -1000,6 +988,24 @@
   // One ambient (silent-until-interacted, pauses off-screen) looping video.
   // `el` is the figure carrying [data-ambient-video]; if it sits inside a
   // gallery slide, playback also gates on that slide being the active one.
+  // Amazon's HLS masters sit next to one playlist per height
+  // (default.jobtemplate.hls360/480/720/1080.m3u8). A muted loop can go
+  // straight to the one that matches how big it is drawn, which works the
+  // same with hls.js and with browsers that play HLS natively (current
+  // Chrome and Safari, where no script can steer the quality). The loops
+  // fill their box with object-fit: cover, so the height that matters is
+  // the larger of the box height and the 16:9 height of its width; the
+  // smallest rendition within 15% of that is used.
+  const HLS_HEIGHTS = [360, 480, 720, 1080];
+  function renditionFor(src, videoEl) {
+    const master = /default\.jobtemplate\.hls\.m3u8$/;
+    if (!master.test(src)) return src;
+    const box = videoEl.getBoundingClientRect();
+    const need = Math.max(box.height, (box.width * 9) / 16) * (window.devicePixelRatio || 1) * 0.85;
+    const height = HLS_HEIGHTS.find((h) => h >= need) || HLS_HEIGHTS[HLS_HEIGHTS.length - 1];
+    return src.replace(master, `default.jobtemplate.hls${height}.m3u8`);
+  }
+
   function initAmbientVideo(el) {
     const video = $('video', el);
     const src = video && video.dataset.src;
@@ -1049,7 +1055,8 @@
       video.playsInline = true;
       if (pageHasBeenInteractedWith) video.muted = false;
       else { video.muted = true; ambientVideosAwaitingInteraction.push(video); }
-      hlsHandle = attachVideoSource(video, src, () => sync(), el.hasAttribute('data-video-hq'));
+      const hq = el.hasAttribute('data-video-hq');
+      hlsHandle = attachVideoSource(video, hq ? src : renditionFor(src, video), () => sync(), hq);
     }
 
     video.addEventListener('playing', () => {
