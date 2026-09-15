@@ -10,17 +10,17 @@
       file covers the whole weight range used on the page.
    ------------------------------------------------------------------ */
 @font-face {
-  font-family: "Bricolage Grotesque";
-  src: url("assets/fonts/bricolage-grotesque-variable-latin.woff2") format("woff2-variations"),
-       url("assets/fonts/bricolage-grotesque-variable-latin.woff2") format("woff2");
-  font-weight: 500 800;
+  font-family: "Inter Tight";
+  src: url("assets/fonts/inter-tight-variable-latin.woff2") format("woff2-variations"),
+       url("assets/fonts/inter-tight-variable-latin.woff2") format("woff2");
+  font-weight: 600 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Manrope";
-  src: url("assets/fonts/manrope-variable-latin.woff2") format("woff2-variations"),
-       url("assets/fonts/manrope-variable-latin.woff2") format("woff2");
+  font-family: "Inter";
+  src: url("assets/fonts/inter-variable-latin.woff2") format("woff2-variations"),
+       url("assets/fonts/inter-variable-latin.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -69,8 +69,9 @@
   --focus: var(--c-blue-600);
 
   /* Type */
-  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* Inter Tight / Inter: the closest real match to the reference design's type */
+  --font-display: "Inter Tight", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 
   /* Shape & depth */
   --r-sm: 10px;
@@ -137,7 +138,7 @@ h1, h2, h3, h4 {
   color: var(--heading);
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.005em;
   line-height: 1.1;
 }
 
@@ -204,7 +205,7 @@ h1, h2, h3, h4 {
 .section__title {
   font-size: clamp(2rem, 1.3rem + 2.4vw, 3rem);
   line-height: 1.06;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em; /* Inter Tight is already tightly spaced */
 }
 .section__lead {
   margin-top: 0.875rem;
@@ -858,7 +859,7 @@ h1, h2, h3, h4 {
   font-weight: 800;
   font-size: clamp(2.6rem, 1.4rem + 3vw, 3.9rem);
   line-height: 0.98;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   color: var(--heading);
 }
 .buy__headline span { display: block; color: var(--c-blue-400); }
