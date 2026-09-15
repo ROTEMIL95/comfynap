@@ -54,8 +54,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/caveat-600-latin.woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/poster-hero-ugc-540.webp" type="image/webp" imagesrcset="assets/img/poster-hero-ugc-540.webp 540w, assets/img/poster-hero-ugc-1080.webp 1080w" imagesizes="100vw" media="(max-width: 899px)">
-<link rel="preload" as="image" href="assets/img/poster-hero-ugc-1080.webp" type="image/webp" media="(min-width: 900px)">
+<link rel="preload" as="image" href="assets/img/poster-hero-film-960.webp" type="image/webp" imagesrcset="assets/img/poster-hero-film-960.webp 960w, assets/img/poster-hero-film-1920.webp 1920w" imagesizes="(min-width: 900px) 50vw, 100vw">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 
@@ -159,21 +158,18 @@
 
     <figure class="media media--video hero__media" data-ambient-video>
       <picture>
-        <!-- Desktop shows the vertical clip at 9:16 over this pre-blurred frame (a few KB,
-             no CSS filter to repaint); phones get the sharp frame edge to edge. -->
-        <source media="(min-width: 900px)" type="image/webp" srcset="assets/img/poster-hero-ugc-blur.webp">
-        <source media="(min-width: 900px)" srcset="assets/img/poster-hero-ugc-blur.jpg">
-        <source type="image/webp" srcset="assets/img/poster-hero-ugc-540.webp 540w, assets/img/poster-hero-ugc-1080.webp 1080w" sizes="100vw">
-        <img src="assets/img/poster-hero-ugc-540.jpg" srcset="assets/img/poster-hero-ugc-540.jpg 540w, assets/img/poster-hero-ugc-1080.jpg 1080w" sizes="100vw" width="1080" height="1920" alt="A customer wears the ComfyNap pillow and shows its chin support" loading="eager" fetchpriority="high" decoding="async">
+        <source type="image/webp" srcset="assets/img/poster-hero-film-960.webp 960w, assets/img/poster-hero-film-1920.webp 1920w" sizes="(min-width: 900px) 50vw, 100vw">
+        <img src="assets/img/poster-hero-film-960.jpg" srcset="assets/img/poster-hero-film-960.jpg 960w, assets/img/poster-hero-film-1920.jpg 1920w" sizes="(min-width: 900px) 50vw, 100vw" width="1920" height="1080" alt="A passenger asleep in her airplane seat, her head held by the black ComfyNap pillow" loading="eager" fetchpriority="high" decoding="async">
       </picture>
-      <!-- Silent ambient loop: script.js (initAmbientVideo) attaches the HLS stream after
-           window load. The trigger opens the same clip with sound in the modal. -->
-      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/25d00e2b-95c0-4d39-942a-c049e349cf96/default.vertical.jobtemplate.hls.m3u8" poster="assets/img/poster-hero-ugc-1080.webp" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
-      <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-ugc-customer"
-        data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/25d00e2b-95c0-4d39-942a-c049e349cf96/default.vertical.jobtemplate.hls.m3u8"
-        data-video-poster="assets/img/poster-hero-ugc-1080.jpg" data-video-duration="0:44"
-        data-video-title="Customer video: ComfyNap travel pillow">
-        <span class="visually-hidden">Play with sound: a customer shows how he wears the ComfyNap pillow</span>
+      <!-- The brand film (first video on the Amazon listing, 1920x1080): bright cabin shots of
+           travelers asleep with ComfyNap. Loops silently via script.js initAmbientVideo after
+           window load; the trigger opens it with sound in the modal. Poster = its frame at 40s. -->
+      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8" poster="assets/img/poster-hero-film-1920.webp" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+      <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-brand-film"
+        data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8"
+        data-video-poster="assets/img/poster-hero-film-1920.jpg" data-video-duration="0:59"
+        data-video-title="ComfyNap: Meet The Last Travel Pillow You'll Ever Need">
+        <span class="visually-hidden">Play with sound: Meet The Last Travel Pillow You'll Ever Need</span>
       </button>
       <button type="button" class="mute-toggle" data-mute-toggle aria-pressed="true" aria-label="Unmute video" hidden>
         <svg class="icon" aria-hidden="true" data-mute-icon-muted><use href="#ico-mute"/></svg>
@@ -568,6 +564,23 @@
           </figure>
           <span class="ugc-card__verified"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Amazon Influencer</span>
           <p class="ugc-card__caption">Versatile Travel Neck Pillow for Comfortable Flights</p>
+        </li>
+        <li class="ugc-card">
+          <figure class="media media--portrait media--video">
+            <picture>
+              <source type="image/webp" srcset="assets/img/poster-hero-ugc-540.webp 540w, assets/img/poster-hero-ugc-1080.webp 1080w" sizes="(min-width: 1100px) 25vw, 64vw">
+              <img src="assets/img/poster-hero-ugc-540.jpg" srcset="assets/img/poster-hero-ugc-540.jpg 540w, assets/img/poster-hero-ugc-1080.jpg 1080w" sizes="(min-width: 1100px) 25vw, 64vw" width="1080" height="1920" alt="Video poster: a customer wearing the black ComfyNap pillow" loading="lazy" decoding="async">
+            </picture>
+            <!-- Vertical customer clip from the Amazon listing's video lightbox (was the hero video). -->
+            <button type="button" class="media__trigger" data-video-trigger data-video-id="ugc-customer-demo"
+              data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/25d00e2b-95c0-4d39-942a-c049e349cf96/default.vertical.jobtemplate.hls.m3u8"
+              data-video-poster="assets/img/poster-hero-ugc-1080.jpg" data-video-duration="0:44"
+              data-video-title="Customer video: wearing the ComfyNap pillow">
+              <span class="play-btn"><svg class="icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
+              <span class="visually-hidden">Play video: a customer shows how he wears the pillow</span>
+            </button>
+          </figure>
+          <p class="ugc-card__caption">How he wears it: chin support and strap</p>
         </li>
         <li class="ugc-card">
           <figure class="media media--portrait media--video">

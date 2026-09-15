@@ -795,14 +795,20 @@ h1, h2, h3, h4 {
     linear-gradient(180deg, #F6F8FE 0%, #FFFFFF 78%);
 }
 .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+/* Phones: square crop of the 16:9 film (subjects sit mid-frame) */
 .hero__media {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   max-height: 72svh;
   width: 100%;
   border-radius: 0;
 }
 .hero__media > picture > img,
-.hero__media .ambient-video { object-position: center 28%; }
+.hero__media .ambient-video { object-position: center 40%; }
+/* The film's encode carries a thin dark line on its top edge; a slight
+   overscale pushes it outside the panel (the figure clips overflow). */
+.hero__media .ambient-video { transform: scale(1.03); }
+/* Lighter than the default video scrim: the film is bright and the poster should stay so */
+.hero__media > picture::after { background: linear-gradient(180deg, rgba(6, 18, 41, 0) 60%, rgba(6, 18, 41, 0.16) 100%); }
 /* The duration chip would sit under the "uses" strip; the clip opens in the modal anyway */
 .hero__media .media__duration { display: none; }
 .hero__media .mute-toggle { z-index: 3; background: rgba(255, 255, 255, 0.78); color: var(--heading); }
@@ -1136,23 +1142,6 @@ h1, h2, h3, h4 {
     max-height: none;
     height: auto;
     min-height: 0;
-  }
-  /* The clip is vertical and this panel is wide, so the video sits at its
-     natural 9:16 in the middle, its side edges feathered into a bright,
-     blurred copy of the same frame - closer to the reference's airy,
-     edge-to-edge photo than a hard-edged box. */
-  .hero__media > picture > img { transform: scale(1.08); }
-  .hero__media > picture::after { background: linear-gradient(180deg, rgba(246, 248, 254, 0.35) 0%, rgba(246, 248, 254, 0.5) 100%); }
-  .hero__media .ambient-video {
-    inset: 0 auto 0 50%;
-    width: auto;
-    height: 100%;
-    aspect-ratio: 9 / 16;
-    transform: translateX(-50%);
-    object-fit: cover;
-    opacity: 1;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
   }
   /* Soft hand-off from the media into the page on its right edge */
   .hero__media::after {
