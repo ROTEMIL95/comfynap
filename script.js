@@ -110,7 +110,7 @@
     if (!header) return;
 
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
-    onScroll();
+    requestAnimationFrame(onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
@@ -275,9 +275,7 @@
 
       track.addEventListener('scroll', () => { update(); markDot(); }, { passive: true });
       window.addEventListener('resize', () => { update(); buildDots(); markDot(); });
-      update();
-      buildDots();
-      markDot();
+      requestAnimationFrame(() => { update(); buildDots(); markDot(); });
     });
   }
 
@@ -798,7 +796,9 @@
       loadHlsLib()
         .then((Hls) => {
           if (!Hls || !Hls.isSupported()) throw new Error('MediaSource unsupported');
-          hls = new Hls(hq ? { enableWorker: true, abrEwmaDefaultEstimate: 8000000, capLevelToPlayerSize: false } : { enableWorker: true });
+          // Everything else is capped to the player's size: a 400px-wide phone
+          // loop no longer pulls 1080p segments.
+          hls = new Hls(hq ? { enableWorker: true, abrEwmaDefaultEstimate: 8000000, capLevelToPlayerSize: false } : { enableWorker: true, capLevelToPlayerSize: true });
           hls.loadSource(src);
           hls.attachMedia(videoEl);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {

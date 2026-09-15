@@ -53,8 +53,9 @@
      fonts.googleapis.com - see @font-face rules at the top of styles.css. -->
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-variable-latin.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/caveat-600-latin.woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/poster-hero-film-960.webp" type="image/webp" imagesrcset="assets/img/poster-hero-film-960.webp 960w, assets/img/poster-hero-film-1920.webp 1920w" imagesizes="(min-width: 900px) 50vw, 100vw">
+<link rel="preload" as="image" fetchpriority="high" href="assets/img/poster-hero-film-960.webp" type="image/webp" imagesrcset="assets/img/poster-hero-film-960.webp 960w, assets/img/poster-hero-film-1920.webp 1920w" imagesizes="(min-width: 900px) 50vw, 100vw">
+<link rel="preconnect" href="https://m.media-amazon.com" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M12 3.4a8.6 8.6 0 1 0 8.6 8.6%22 fill=%22none%22 stroke=%22%231D4BEA%22 stroke-width=%224.2%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2219.6%22 cy=%225.4%22 r=%222.5%22 fill=%22%231D4BEA%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 
@@ -173,7 +174,7 @@
       <!-- The brand film (first video on the Amazon listing, 1920x1080): bright cabin shots of
            travelers asleep with ComfyNap. Loops silently via script.js initAmbientVideo after
            window load; the trigger opens it with sound in the modal. Poster = its frame at 40s. -->
-      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8" poster="assets/img/poster-hero-film-1920.webp" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
       <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-brand-film"
         data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8"
         data-video-poster="assets/img/poster-hero-film-1920.jpg" data-video-duration="0:59"
@@ -365,7 +366,7 @@
       </picture>
       <!-- Silent ambient loop, same pattern as the hero - see script.js initAmbientVideo.
            Starts only once this figure actually scrolls into view, not on page load. -->
-      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/401a5579-99d3-47c4-b921-225647d2fbf3/default.jobtemplate.hls.m3u8" poster="assets/img/poster-how-to-use-1500.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/401a5579-99d3-47c4-b921-225647d2fbf3/default.jobtemplate.hls.m3u8" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
       <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="demo-how-to-use"
         data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/401a5579-99d3-47c4-b921-225647d2fbf3/default.jobtemplate.hls.m3u8"
         data-video-poster="assets/img/poster-how-to-use-1500.jpg" data-video-duration="1:49" data-video-captions=""
@@ -980,7 +981,6 @@
   <div class="sticky-cta__inner container">
     <div class="sticky-cta__product">
       <picture>
-        <source type="image/webp" srcset="assets/img/hero-main-400.webp">
         <img class="sticky-cta__thumb" src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async">
       </picture>
       <div class="sticky-cta__info">
