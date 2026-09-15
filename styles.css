@@ -1029,19 +1029,75 @@ h1, h2, h3, h4 {
 }
 .colorway .swatch-dot.is-selected { outline: 2px solid var(--c-navy-700); outline-offset: 3px; }
 
+/* Black glass: a translucent dark fill over a blurred backdrop, a glossy
+   top sheen, a hairline light edge and a deep soft shadow. A diagonal
+   glint crosses it on hover. The only black element in the hero, so it
+   stands apart from the blue accents around it. */
 .buy__cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   gap: 0.8rem;
   min-height: 62px;
   padding-block: 1.1rem;
   font-size: clamp(1.125rem, 0.9rem + 0.5vw, 1.375rem);
   font-weight: 600;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
-  background: linear-gradient(90deg, #0A38E0 0%, #2157F7 100%);
-  box-shadow: 0 12px 30px rgba(20, 70, 245, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(58, 58, 66, 0.88) 0%, rgba(18, 18, 22, 0.94) 52%, rgba(6, 6, 8, 0.97) 100%);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 14px 34px rgba(10, 10, 14, 0.3);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
 }
-.buy__cta:hover { background: linear-gradient(90deg, #0831C6 0%, #1B4DE3 100%); box-shadow: 0 14px 34px rgba(20, 70, 245, 0.36); }
+/* Glossy upper sheen */
+.buy__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 45% 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 140% at 50% -40%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+/* Diagonal glint, parked off to the left until hover */
+.buy__cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  z-index: -1;
+  width: 30%;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-18deg);
+  transition: left 0.7s var(--ease);
+  pointer-events: none;
+}
+.buy__cta:hover {
+  background: linear-gradient(180deg, rgba(70, 70, 80, 0.9) 0%, rgba(24, 24, 30, 0.95) 52%, rgba(8, 8, 10, 0.98) 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 18px 40px rgba(10, 10, 14, 0.36);
+}
+.buy__cta:hover::after { left: 115%; }
+.buy__cta:active { transform: translateY(0); }
 .buy__cta .icon { width: 1.35rem; height: 1.35rem; transition: transform 0.2s var(--ease); }
 .buy__cta:hover .icon { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) {
+  .buy__cta, .buy__cta::after { transition: none; }
+  .buy__cta:hover::after { left: -40%; }
+}
 .buy__trust { justify-content: center; gap: 0.5rem 0; margin-top: -0.2rem; font-size: 0.875rem; font-weight: 400; color: var(--heading); }
 .buy__trust li { padding-inline: 0.9rem; }
 .buy__trust li + li { border-inline-start: 1px solid var(--line); }
