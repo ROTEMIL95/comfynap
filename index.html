@@ -53,7 +53,8 @@
      fonts.googleapis.com — see @font-face rules at the top of styles.css. -->
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/bricolage-grotesque-variable-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-variable-latin.woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/poster-meet-800.webp" type="image/webp" imagesrcset="assets/img/poster-meet-400.webp 400w, assets/img/poster-meet-800.webp 800w, assets/img/poster-meet-1500.webp 1500w" imagesizes="(min-width: 900px) 48vw, 100vw">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/caveat-600-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/poster-lori-hero-540.webp" type="image/webp" imagesrcset="assets/img/poster-lori-hero-540.webp 540w, assets/img/poster-lori-hero-1080.webp 1080w" imagesizes="(min-width: 900px) 52vw, 100vw">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 
@@ -72,7 +73,7 @@
   ],
   "offers": {
     "@type": "Offer",
-    "price": "49.90",
+    "price": "69.00",
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock",
     "url": "[Product URL]"
@@ -101,257 +102,184 @@
   <symbol id="ico-tent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L3 20h18z"/><path d="M12 9v11"/></symbol>
   <symbol id="ico-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.5 11h10l2-7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></symbol>
   <symbol id="ico-badge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 2 3.1-.2.7 3 2.6 1.7-1.3 2.9 1.3 2.9-2.6 1.7-.7 3-3.1-.2L12 21l-2.4-2-3.1.2-.7-3-2.6-1.7 1.3-2.9-1.3-2.9 2.6-1.7.7-3 3.1.2z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="ico-office" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="11" rx="1.5"/><path d="M9 20h6M12 15v5"/></symbol>
+  <symbol id="ico-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="ico-neck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 15.5c0 3 3.4 5 7.5 5s7.5-2 7.5-5"/><path d="M7.5 13.2c1 1.5 2.7 2.3 4.5 2.3s3.5-.8 4.5-2.3"/></symbol>
+  <symbol id="ico-foam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 5 9 5 16v4"/><path d="M5 16c7 0 12-4 15-12"/><path d="M9 13l5-5"/></symbol>
+  <symbol id="ico-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></symbol>
   <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></symbol>
 </svg>
 
-<!-- 1+2. HEADER — the top bar (cn-announcement) IS the header; logo + cart
-     were added into it directly rather than keeping a separate nav row -->
+<!-- 1. HEADER (sections/cn-header.liquid) — logo, section links, store policies, cart.
+     Links collapse on smaller screens; phones keep just the logo and the cart. -->
 <header class="header" data-section="header">
-  <nav class="topbar container" aria-label="Primary" data-section="announcement">
+  <div class="header__inner container">
     <a class="logo" href="#top" aria-label="ComfyNap home">
       <svg class="logo__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="19.5" cy="6.5" r="2.2" fill="currentColor"/></svg>
       ComfyNap
     </a>
-    <p class="topbar__text">
-      <span class="topbar__text--short">Free Shipping</span>
-      <span class="topbar__text--full">Free shipping · 30-day returns · Secure checkout</span>
-    </p>
+    <nav class="header__nav" aria-label="Primary">
+      <ul>
+        <li><a href="#product-demo">How It Works</a></li>
+        <li><a href="#system">9 Positions</a></li>
+        <li><a href="#reviews">Real Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <ul class="header__trust" aria-label="Store policies">
+      <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free shipping</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-day returns</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#ico-lock"/></svg>Secure checkout</li>
+    </ul>
     <a class="cart-btn" href="#buy" data-cta-location="header" aria-label="Order now">
       <svg class="icon" aria-hidden="true"><use href="#ico-cart"/></svg>
     </a>
-  </nav>
+  </div>
 </header>
 
 <main>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     3. HERO (sections/cn-hero.liquid)
+     2. HERO (sections/cn-hero.liquid)
+     Left: a real customer (Amazon Influencer) clip looping silently, edge to
+     edge. Its poster is a full-resolution frame from the same 1080×1920 stream.
+     Right: the buy box.
      ═══════════════════════════════════════════════════════════════════ -->
-<section id="hero" class="section hero" data-section="hero">
-  <div class="container hero__grid">
+<section id="hero" class="hero" data-section="hero">
+  <div class="hero__grid">
 
-    <!-- Gallery -->
-    <div class="gallery" data-gallery>
-      <div class="gallery__stage" data-gallery-stage>
-
-        <!-- Video leads the gallery: motion outperforms a static photo for stopping
-             the scroll on cold Meta/Instagram traffic. Only the poster (a plain
-             image) is eager-loaded for LCP — the video itself never loads until
-             someone taps play, so this costs nothing in page weight. -->
-        <div class="gallery__slide is-active" data-gallery-slide role="tabpanel" id="slide-1" aria-labelledby="thumb-1">
-          <figure class="media media--square media--video" data-ambient-video>
-            <picture>
-              <source type="image/webp" srcset="assets/img/poster-meet-400.webp 400w, assets/img/poster-meet-800.webp 800w, assets/img/poster-meet-1500.webp 1500w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img src="assets/img/poster-meet-800.jpg" srcset="assets/img/poster-meet-400.jpg 400w, assets/img/poster-meet-800.jpg 800w, assets/img/poster-meet-1500.jpg 1500w" sizes="(min-width: 900px) 48vw, 100vw" width="1500" height="844" alt="Video poster: Meet the last travel pillow you'll ever need" loading="eager" fetchpriority="high" decoding="async">
-            </picture>
-            <!-- Silent ambient loop. No src/autoplay/muted attributes in markup — script.js
-                 sets them and attaches the HLS source itself, deferred until just after
-                 window 'load' so this never competes with the poster image above for
-                 bandwidth. data-src holds the same stream the "watch with sound" button
-                 below opens in the full modal. -->
-            <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8" poster="assets/img/poster-meet-1500.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
-            <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-brand-film"
-              data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/8acbb0df-3178-4113-92a9-d1e3b6950f2f/default.jobtemplate.hls.m3u8"
-              data-video-poster="assets/img/poster-meet-1500.jpg" data-video-duration="0:59"
-              data-video-title="ComfyNap: Meet The Last Travel Pillow You'll Ever Need">
-              <span class="visually-hidden">Play with sound: Meet The Last Travel Pillow You'll Ever Need</span>
-            </button>
-            <!-- Sibling, not a descendant, of the trigger button above (buttons can't
-                 nest) — sits on top of it in stacking order so a click here toggles
-                 sound instead of opening the full modal. Starts hidden; script.js
-                 reveals it only once the ambient loop actually starts playing. -->
-            <button type="button" class="mute-toggle" data-mute-toggle aria-pressed="true" aria-label="Unmute video" hidden>
-              <svg class="icon" aria-hidden="true" data-mute-icon-muted><use href="#ico-mute"/></svg>
-              <svg class="icon" aria-hidden="true" data-mute-icon-sound hidden><use href="#ico-sound"/></svg>
-            </button>
-            <figcaption class="media__label">Meet the pillow</figcaption>
-          </figure>
-        </div>
-
-        <!-- All other slides: no src/srcset in markup. Every slide sits stacked in the
-             same box (opacity toggle, not display:none), so native loading="lazy" can't
-             tell they're off-screen and would fetch every one immediately. script.js
-             hydrates data-src/data-srcset into the real attributes on first open. -->
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-2" aria-labelledby="thumb-2" aria-hidden="true">
-          <figure class="media media--square media--video">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/poster-lori-vertical-400.webp 400w, assets/img/poster-lori-vertical-640.webp 640w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img data-src="assets/img/poster-lori-vertical-640.jpg" data-srcset="assets/img/poster-lori-vertical-400.jpg 400w, assets/img/poster-lori-vertical-640.jpg 640w" sizes="(min-width: 900px) 48vw, 100vw" width="640" height="1137" alt="Video poster: traveler demonstrating the ComfyNap pillow in her kitchen" loading="lazy" decoding="async">
-            </picture>
-            <button type="button" class="media__trigger" data-video-trigger data-video-id="hero-ugc-lori"
-              data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/f0281115-c82a-4bc8-9814-26354a149176/default.vertical.jobtemplate.hls.m3u8"
-              data-video-poster="assets/img/poster-lori-vertical-640.jpg" data-video-duration="2:16"
-              data-video-title="Versatile Travel Neck Pillow for Comfortable Flights">
-              <span class="play-btn play-btn--lg"><svg class="icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
-              <span class="visually-hidden">Play video: traveler demonstrates the pillow for comfortable flights</span>
-            </button>
-            <figcaption class="media__label">Amazon Influencer</figcaption>
-          </figure>
-        </div>
-
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-3" aria-labelledby="thumb-3" aria-hidden="true">
-          <figure class="media media--square">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/hero-main-400.webp 400w, assets/img/hero-main-800.webp 800w, assets/img/hero-main-1500.webp 1500w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img data-src="assets/img/hero-main-800.jpg" data-srcset="assets/img/hero-main-400.jpg 400w, assets/img/hero-main-800.jpg 800w, assets/img/hero-main-1500.jpg 1500w" sizes="(min-width: 900px) 48vw, 100vw" width="1500" height="1500" alt="ComfyNap travel pillow worn around the neck: dark textured cover, chin support and adjustable strap" loading="lazy" decoding="async">
-            </picture>
-          </figure>
-        </div>
-
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-4" aria-labelledby="thumb-4" aria-hidden="true">
-          <figure class="media media--square">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/hero-worn-400.webp 400w, assets/img/hero-worn-840.webp 840w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img data-src="assets/img/hero-worn-840.jpg" data-srcset="assets/img/hero-worn-400.jpg 400w, assets/img/hero-worn-840.jpg 840w" sizes="(min-width: 900px) 48vw, 100vw" width="840" height="840" alt="Traveler resting his head to the side against the ComfyNap pillow" loading="lazy" decoding="async">
-            </picture>
-          </figure>
-        </div>
-
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-5" aria-labelledby="thumb-5" aria-hidden="true">
-          <figure class="media media--square">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/pos-1-490.webp">
-              <img data-src="assets/img/pos-1-490.jpg" width="490" height="390" alt="Traveler asleep against an airplane window wearing ComfyNap" loading="lazy" decoding="async">
-            </picture>
-          </figure>
-        </div>
-
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-6" aria-labelledby="thumb-6" aria-hidden="true">
-          <figure class="media media--square">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/hero-foam-400.webp 400w, assets/img/hero-foam-800.webp 800w, assets/img/hero-foam-1410.webp 1410w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img data-src="assets/img/hero-foam-800.jpg" data-srcset="assets/img/hero-foam-400.jpg 400w, assets/img/hero-foam-800.jpg 800w, assets/img/hero-foam-1410.jpg 1410w" sizes="(min-width: 900px) 48vw, 100vw" width="1410" height="830" alt="Hand pressing into the exposed memory foam core of the ComfyNap pillow" loading="lazy" decoding="async">
-            </picture>
-          </figure>
-        </div>
-
-        <div class="gallery__slide" data-gallery-slide role="tabpanel" id="slide-7" aria-labelledby="thumb-7" aria-hidden="true">
-          <figure class="media media--square">
-            <picture>
-              <source type="image/webp" data-srcset="assets/img/hero-dims-400.webp 400w, assets/img/hero-dims-800.webp 800w, assets/img/hero-dims-1490.webp 1490w" sizes="(min-width: 900px) 48vw, 100vw">
-              <img data-src="assets/img/hero-dims-800.jpg" data-srcset="assets/img/hero-dims-400.jpg 400w, assets/img/hero-dims-800.jpg 800w, assets/img/hero-dims-1490.jpg 1490w" sizes="(min-width: 900px) 48vw, 100vw" width="1490" height="880" alt="ComfyNap pillow next to its drawstring travel pouch, measuring 8.5 by 8.5 by 8.5 inches" loading="lazy" decoding="async">
-            </picture>
-          </figure>
-        </div>
-
-      </div>
-
-      <div class="gallery__thumbs" role="tablist" aria-label="Product media">
-        <button type="button" class="gallery__thumb gallery__thumb--video is-active" role="tab" id="thumb-1" aria-controls="slide-1" aria-selected="true" data-gallery-thumb aria-label="Brand video">
-          <img src="assets/img/poster-meet-400.jpg" width="400" height="225" alt="" loading="eager" decoding="async">
-          <span class="gallery__thumb-play"><svg class="icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
-        </button>
-        <button type="button" class="gallery__thumb gallery__thumb--video" role="tab" id="thumb-2" aria-controls="slide-2" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="Customer video">
-          <img src="assets/img/poster-lori-vertical-400.jpg" width="400" height="711" alt="" loading="lazy" decoding="async">
-          <span class="gallery__thumb-play"><svg class="icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
-        </button>
-        <button type="button" class="gallery__thumb" role="tab" id="thumb-3" aria-controls="slide-3" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="Product on white"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></button>
-        <button type="button" class="gallery__thumb" role="tab" id="thumb-4" aria-controls="slide-4" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="Worn by a traveler"><img src="assets/img/hero-worn-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></button>
-        <button type="button" class="gallery__thumb" role="tab" id="thumb-5" aria-controls="slide-5" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="In an airplane seat"><img src="assets/img/pos-1-490.jpg" width="490" height="390" alt="" loading="lazy" decoding="async"></button>
-        <button type="button" class="gallery__thumb" role="tab" id="thumb-6" aria-controls="slide-6" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="Memory foam close-up"><img src="assets/img/hero-foam-400.jpg" width="400" height="235" alt="" loading="lazy" decoding="async"></button>
-        <button type="button" class="gallery__thumb" role="tab" id="thumb-7" aria-controls="slide-7" aria-selected="false" tabindex="-1" data-gallery-thumb aria-label="Size and travel pouch"><img src="assets/img/hero-dims-400.jpg" width="400" height="236" alt="" loading="lazy" decoding="async"></button>
-      </div>
-    </div>
-
-    <!-- Buy box -->
-    <div class="buy" id="buy" data-product data-product-id="comfynap-360" data-variant-id="" data-product-name="ComfyNap® 360° Travel Pillow" data-price="118.00" data-currency="USD">
-      <div class="buy__badges">
-        <!-- "Patented" per the Amazon listing title and packaging; confirm wording with the client. -->
-        <span class="badge"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Patented design</span>
-        <!-- The full CNN pull-quote still runs in the final CTA section; here it's compressed to
-             an accreditation badge, which reads as a credential rather than as body copy. -->
-        <span class="badge badge--press">As seen on CNN</span>
-      </div>
-      <h1 class="buy__title">ComfyNap® 360° Travel Pillow</h1>
-
-      <p class="buy__headline">Stop Head Bobbing. Sleep Better Anywhere.</p>
-      <p class="buy__lead">360° ergonomic support for your neck, head &amp; chin — designed for travelers who want real rest, wherever they sit.</p>
-
-      <p class="buy__rating">
-        <span class="stars" role="img" aria-label="Star rating placeholder"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-        <span class="ph">[Approved rating and review count, with source]</span>
-      </p>
-
-      <!-- Colorway names on the Amazon listing are Earth / Mercury / Moon / Zeus, but which name
-           maps to which fabric is unconfirmed, so these stay descriptive. Swatch colours are
-           sampled from real ComfyNap product photos in assets/src/amazon/. -->
-      <div class="colorway">
-        <p class="colorway__label">Color — <span data-color-name>Black</span></p>
-        <div class="colorway__swatches" role="radiogroup" aria-label="Color" data-color-swatches>
-          <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" aria-pressed="true" aria-label="Black"></button>
-          <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" aria-pressed="false" aria-label="Sky Blue"></button>
-          <button type="button" class="swatch-dot" style="background:#A3A3A3" data-color="Grey" aria-pressed="false" aria-label="Grey"></button>
-        </div>
-      </div>
-
-      <!-- Quantity/bundle tiers. Bundle discount shown is illustrative — confirm margin-safe pricing with the client before launch. -->
-      <fieldset class="tiers" data-tiers>
-        <legend class="visually-hidden">Choose your bundle</legend>
-
-        <label class="tier tier--popular is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
-          <span class="tier__flag">Most popular</span>
-          <input type="radio" name="tier" value="2" checked>
-          <span class="tier__row">
-            <span class="tier__name">2 × ComfyNap</span>
-            <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
-          </span>
-          <span class="tier__note">Best value — one for you, one for the road</span>
-          <!-- Only what's specific to this tier. Shipping and returns apply to every order and sit
-               in the trust row under the tiers, so they aren't repeated per card. -->
-          <span class="tier__perks">
-            <span class="tier__perk"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Save $20</span>
-            <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>2 free eye masks included ($78 value)</span>
-          </span>
-        </label>
-
-        <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
-          <input type="radio" name="tier" value="1">
-          <span class="tier__row">
-            <span class="tier__name">1 × ComfyNap</span>
-            <span class="tier__price"><span class="tier__now">$69</span></span>
-          </span>
-          <span class="tier__note">Great for solo travelers</span>
-          <span class="tier__perks">
-            <span class="tier__perk tier__perk--gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask included ($39 value)</span>
-          </span>
-        </label>
-      </fieldset>
-
-      <!-- No separate price line: the selected tier shows it and the button carries it. -->
-      <ul class="trust">
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-lock"/></svg>Secure Checkout</li>
+    <figure class="media media--video hero__media" data-ambient-video>
+      <picture>
+        <source type="image/webp" srcset="assets/img/poster-lori-hero-540.webp 540w, assets/img/poster-lori-hero-1080.webp 1080w" sizes="(min-width: 900px) 52vw, 100vw">
+        <img src="assets/img/poster-lori-hero-540.jpg" srcset="assets/img/poster-lori-hero-540.jpg 540w, assets/img/poster-lori-hero-1080.jpg 1080w" sizes="(min-width: 900px) 52vw, 100vw" width="1080" height="1920" alt="A customer holds up the ComfyNap pillow and shows its shape in her kitchen" loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+      <!-- Silent ambient loop: script.js (initAmbientVideo) attaches the HLS stream after
+           window load. The trigger opens the same clip with sound in the modal. -->
+      <video class="ambient-video" data-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/f0281115-c82a-4bc8-9814-26354a149176/default.vertical.jobtemplate.hls.m3u8" poster="assets/img/poster-lori-hero-1080.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+      <button type="button" class="media__trigger media__trigger--ambient" data-video-trigger data-video-id="hero-ugc-lori"
+        data-video-src="https://m.media-amazon.com/images/S/vse-vms-transcoding-artifact-us-east-1-prod/f0281115-c82a-4bc8-9814-26354a149176/default.vertical.jobtemplate.hls.m3u8"
+        data-video-poster="assets/img/poster-lori-hero-1080.jpg" data-video-duration="2:16"
+        data-video-title="Versatile Travel Neck Pillow for Comfortable Flights">
+        <span class="visually-hidden">Play with sound: a customer demonstrates the ComfyNap pillow</span>
+      </button>
+      <button type="button" class="mute-toggle" data-mute-toggle aria-pressed="true" aria-label="Unmute video" hidden>
+        <svg class="icon" aria-hidden="true" data-mute-icon-muted><use href="#ico-mute"/></svg>
+        <svg class="icon" aria-hidden="true" data-mute-icon-sound hidden><use href="#ico-sound"/></svg>
+      </button>
+      <!-- Uses exactly as listed on the brand's own "Compact Travel Design" graphic. -->
+      <ul class="uses" aria-label="Made for">
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-plane"/></svg>Airplane</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-car"/></svg>Car</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-train"/></svg>Train</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#ico-office"/></svg>Office</li>
       </ul>
+    </figure>
 
-      <button type="button" class="btn btn--primary btn--block btn--lg" data-cta-location="hero" data-add-to-cart>Add to Cart — <span data-price-display>$118.00</span></button>
+    <div class="hero__buy">
+      <div class="buy" id="buy" data-product data-product-id="comfynap-360" data-variant-id="" data-product-name="ComfyNap® 360° Travel Pillow" data-price="118.00" data-currency="USD">
 
-      <p class="buy__guarantee">
-        <svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>
-        <span>Not the right fit? Return it within 30 days of delivery. <span class="ph">[Confirm: who pays return shipping]</span></span>
-      </p>
+        <div class="buy__top">
+          <!-- "Patented" per the Amazon listing title and packaging; confirm wording with the client. -->
+          <span class="badge badge--outline"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Patented design</span>
+          <!-- Avatars stay generic and the numbers stay placeholders until the real
+               review export arrives. Never ship invented faces or counts. -->
+          <div class="proof">
+            <span class="proof__avatars" aria-hidden="true">
+              <span><svg class="icon"><use href="#ico-user"/></svg></span><span><svg class="icon"><use href="#ico-user"/></svg></span><span><svg class="icon"><use href="#ico-user"/></svg></span><span><svg class="icon"><use href="#ico-user"/></svg></span>
+            </span>
+            <span class="proof__text">
+              <span class="stars" role="img" aria-label="Star rating placeholder"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+              <span class="ph">[Rating]/5 from [count]+ travelers</span>
+            </span>
+          </div>
+        </div>
 
-      <!-- The eye mask ships free with every order, so this is a "what you also get" card, not a
-           paid add-on. $39 is the value the client quoted for it; the product name and photo are
-           still working placeholders. -->
-      <div class="included">
-        <p class="included__label">Included with every order</p>
-        <div class="included__card">
-          <span class="included__media" aria-hidden="true">IMG</span>
-          <span class="included__body">
-            <span class="included__title">Contoured Sleep Mask <span class="ph">[Placeholder product]</span></span>
-            <span class="included__desc">Total blackout for deeper sleep — pairs with your pillow.</span>
-          </span>
-          <span class="included__value"><s>$39</s><b>Free</b></span>
+        <h1 class="buy__headline">Sleep better.<span>Travel better.</span></h1>
+        <p class="buy__lead">ComfyNap® 360° is the ergonomically designed travel pillow that keeps your head in place — so you can finally get real rest, wherever you sit.</p>
+
+        <ul class="features">
+          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-neck"/></svg></span>360° Neck Support</li>
+          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-foam"/></svg></span>Premium Memory Foam</li>
+          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-layers"/></svg></span>Soft &amp; Breathable Fabric</li>
+        </ul>
+
+        <!-- Quantity/bundle tiers. Bundle discount shown is illustrative — confirm margin-safe pricing with the client before launch. -->
+        <div class="bundle">
+          <div class="bundle__head">
+            <p class="bundle__label" id="bundle-label">Choose your bundle</p>
+            <span class="bundle__best" aria-hidden="true">Best value<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6c14 1 24 9 26 26"/><path d="M25 27l7 6 3-9"/></svg></span>
+          </div>
+          <fieldset class="tiers" data-tiers aria-labelledby="bundle-label">
+
+          <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
+            <input type="radio" name="tier" value="1">
+            <span class="tier__inner">
+              <span class="tier__thumb"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></span>
+              <span class="tier__body">
+                <span class="tier__name">1 × ComfyNap</span>
+                <span class="tier__price"><span class="tier__now">$69</span></span>
+                <span class="tier__note">Great for solo travelers</span>
+                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Free eye mask included</span>
+              </span>
+            </span>
+          </label>
+
+          <label class="tier tier--popular is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
+            <input type="radio" name="tier" value="2" checked>
+            <span class="tier__inner">
+              <span class="tier__thumb tier__thumb--pair"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></span>
+              <span class="tier__body">
+                <span class="tier__name">2 × ComfyNap <span class="visually-hidden">(best value)</span></span>
+                <span class="tier__save">Save $20</span>
+                <span class="tier__price"><span class="tier__now">$118</span><s class="tier__was">$138</s></span>
+                <span class="tier__note">One for you, one for the road</span>
+                <span class="tier__gift"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>2 free eye masks included</span>
+              </span>
+            </span>
+          </label>
+          </fieldset>
+        </div>
+
+        <!-- Colorway names on the Amazon listing are Earth / Mercury / Moon / Zeus, but which name
+             maps to which fabric is unconfirmed, so these stay descriptive. Swatch colours are
+             sampled from real ComfyNap product photos in assets/src/amazon/. -->
+        <div class="colorway">
+          <p class="colorway__label">Color — <span data-color-name>Black</span></p>
+          <div class="colorway__swatches" role="radiogroup" aria-label="Color" data-color-swatches>
+            <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" aria-pressed="true" aria-label="Black"></button>
+            <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" aria-pressed="false" aria-label="Sky Blue"></button>
+            <button type="button" class="swatch-dot" style="background:#A3A3A3" data-color="Grey" aria-pressed="false" aria-label="Grey"></button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn--primary btn--block btn--lg buy__cta" data-cta-location="hero" data-add-to-cart>Add to Cart — <span data-price-display>$118.00</span><svg class="icon" aria-hidden="true"><use href="#ico-arrow-right"/></svg></button>
+
+        <ul class="trust buy__trust">
+          <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#ico-lock"/></svg>Secure Checkout</li>
+        </ul>
+
+        <p class="buy__guarantee">
+          <svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>
+          <span>Not the right fit? Return it within 30 days of delivery. <span class="ph">[Confirm: who pays return shipping]</span></span>
+        </p>
+
+        <!-- The eye mask ships free with every order, so this is a "what you also get" card, not a
+             paid add-on. $39 is the value the client quoted for it; the product name and photo are
+             still working placeholders. -->
+        <div class="included">
+          <p class="included__label">Included with every order</p>
+          <div class="included__card">
+            <span class="included__media" aria-hidden="true">IMG</span>
+            <span class="included__body">
+              <span class="included__title">Contoured Sleep Mask <span class="ph">[Placeholder product]</span></span>
+              <span class="included__desc">Total blackout for deeper sleep — pairs with your pillow.</span>
+            </span>
+            <span class="included__value"><s>$39</s><b>Free</b></span>
+          </div>
         </div>
       </div>
-
-      <ul class="buy__highlights">
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Full 360° Neck Support</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>9 Positions, 3 Techniques</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Premium Memory Foam</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>One-Click Adjustable Strap</li>
-      </ul>
     </div>
 
   </div>

@@ -7,7 +7,8 @@
    Modules
      Analytics      event bus → console + dataLayer + gtag/fbq if present
      Header         scrolled state, mobile menu
-     Gallery        hero thumbnails, swipe, keyboard
+     Gallery        hero thumbnails, swipe, keyboard (inactive: the hero is
+                    a single customer video, no [data-gallery] markup)
      Carousels      arrow buttons for scroll-snap tracks
      TechniqueFilter  System section: filter positions by technique
                       (GSAP Flip ≥900px, loaded on demand; CSS fade below)
@@ -769,7 +770,12 @@
     // at all until the whole buy box has scrolled by.
     let btnHidden = false;
     let finalVisible = false;
-    const apply = () => bar.classList.toggle('is-visible', btnHidden && !finalVisible);
+    const apply = () => {
+      const show = btnHidden && !finalVisible;
+      bar.classList.toggle('is-visible', show);
+      // Lets the pinned hero video lift its "uses" strip clear of the bar.
+      document.documentElement.classList.toggle('has-sticky-cta', show);
+    };
 
     new IntersectionObserver((entries) => {
       btnHidden = !entries[0].isIntersecting;
