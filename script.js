@@ -796,13 +796,23 @@
       loadHlsLib()
         .then((Hls) => {
           if (!Hls || !Hls.isSupported()) throw new Error('MediaSource unsupported');
-          // Everything else is capped to the player's size: a 400px-wide phone
-          // loop no longer pulls 1080p segments.
-          hls = new Hls(hq ? { enableWorker: true, abrEwmaDefaultEstimate: 8000000, capLevelToPlayerSize: false } : { enableWorker: true, capLevelToPlayerSize: true });
+          hls = new Hls(hq ? { enableWorker: true, abrEwmaDefaultEstimate: 8000000 } : { enableWorker: true });
           hls.loadSource(src);
           hls.attachMedia(videoEl);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             if (hq && hls.levels.length) hls.startLevel = hls.levels.length - 1;
+            // Everything else is capped to the size it is actually drawn at.
+            // The loops fill their box with object-fit: cover, so the height
+            // that matters is the larger of the box height and the 16:9 height
+            // of its width. hls.js's own capLevelToPlayerSize compares both
+            // sides and picks 1080p for a square phone box; this settles for
+            // the smallest rendition within 15% of the needed height.
+            if (!hq && hls.levels.length) {
+              const box = videoEl.getBoundingClientRect();
+              const need = Math.max(box.height, (box.width * 9) / 16) * (window.devicePixelRatio || 1) * 0.85;
+              const cap = hls.levels.findIndex((l) => l.height >= need);
+              if (cap >= 0) hls.autoLevelCapping = cap;
+            }
             if (onReady) onReady();
           });
         })

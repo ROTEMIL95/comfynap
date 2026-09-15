@@ -1773,7 +1773,7 @@ h1, h2, h3, h4 {
 /* Map of all nine: a row per technique, a tick per position */
 .story__map { display: grid; gap: 0.55rem; max-width: 30rem; }
 .story__row { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; }
-.story__row-name { font-size: 0.875rem; font-weight: 600; color: var(--c-slate-400); transition: color 0.3s var(--ease); }
+.story__row-name { font-size: 0.875rem; font-weight: 600; color: #5F6C88; transition: color 0.3s var(--ease); }
 .story__row.is-current .story__row-name { color: var(--heading); }
 .story__ticks { display: flex; gap: 0.4rem; }
 .story__tick {
