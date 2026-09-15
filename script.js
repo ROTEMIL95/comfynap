@@ -1,5 +1,5 @@
 /* =====================================================================
-   ComfyNap — script.js
+   ComfyNap - script.js
    Vanilla JS, no dependencies. Every module is self-contained and keyed
    off data-* attributes so the markup can move into Shopify Liquid
    sections without touching this file.
@@ -30,7 +30,7 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------
-     Product data — read from the DOM so Liquid renders the source of truth
+     Product data - read from the DOM so Liquid renders the source of truth
      ------------------------------------------------------------------ */
   const productEl = $('[data-product]');
   const PRODUCT = {
@@ -130,7 +130,7 @@
     // looks like the obvious choice here, but with block:'nearest' it also lets
     // the browser treat the whole PAGE as a candidate scroll container: on a
     // hero tall enough that the thumbnail row sits below the fold, selecting a
-    // thumbnail was jumping the entire page down by several hundred px — once
+    // thumbnail was jumping the entire page down by several hundred px - once
     // even to the point of scrolling the CTA button in slide 1 out of view.
     // Scrolling thumbStrip.scrollLeft directly can never touch page scroll.
     function scrollThumbIntoView(thumb) {
@@ -214,7 +214,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Carousels — CSS scroll-snap does the work; JS drives the arrows
+     Carousels - CSS scroll-snap does the work; JS drives the arrows
      ------------------------------------------------------------------ */
   function initCarousels() {
     $$('[data-carousel]').forEach((root) => {
@@ -245,7 +245,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Technique filter — narrows the positions carousel to one technique.
+     Technique filter - narrows the positions carousel to one technique.
      The buttons ship hidden so a no-JS visitor simply sees all nine cards.
 
      Motion is visual only: the filter state (cards, description,
@@ -376,7 +376,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Reviews — collapse the tablet/desktop grid to its first row behind a
+     Reviews - collapse the tablet/desktop grid to its first row behind a
      "Show all" toggle. On phones CSS turns the grid into a swipe row and
      hides the toggle, so the collapsed class has no effect there.
      ------------------------------------------------------------------ */
@@ -477,7 +477,7 @@
           hls.on(Hls.Events.MANIFEST_PARSED, () => { if (onReady) onReady(); });
         })
         .catch((err) => {
-          console.warn('[video]', err.message, '— falling back to native src');
+          console.warn('[video]', err.message, '- falling back to native src');
           videoEl.src = src;
           videoEl.load();
           if (onReady) onReady();
@@ -533,7 +533,7 @@
       document.body.dataset.scrollLockY = String(window.scrollY);
       document.body.style.top = `-${window.scrollY}px`;
       document.body.classList.add('is-locked');
-      // The hero's ambient loop may be the same clip, mid-playback — pause it
+      // The hero's ambient loop may be the same clip, mid-playback - pause it
       // so its audio can't overlap the modal's.
       document.dispatchEvent(new CustomEvent('comfynap:modalopen'));
 
@@ -567,7 +567,7 @@
       modal.hidden = true;
       document.body.classList.remove('is-locked');
       document.body.style.top = '';
-      // instant, not the page's default smooth scroll-behavior — restoring
+      // instant, not the page's default smooth scroll-behavior - restoring
       // position should be invisible, not an animated jump
       window.scrollTo({ top: parseInt(document.body.dataset.scrollLockY || '0', 10), behavior: 'instant' });
       delete document.body.dataset.scrollLockY;
@@ -613,7 +613,7 @@
 
   /* ------------------------------------------------------------------
      Hero autoplay
-     The lead gallery slide loops silently in place of its static poster —
+     The lead gallery slide loops silently in place of its static poster -
      motion reads as more attention-grabbing than a photo for cold ad
      traffic. Kept deliberately safe for performance and access:
        - muted + loop + playsinline, so it satisfies every browser's
@@ -626,13 +626,13 @@
        - paused whenever its slide isn't the active one (see the
          'comfynap:slidechange' event dispatched by initGallery), so it
          isn't decoding frames no one can see.
-       - does not fire the video_play analytics event — that's reserved
+       - does not fire the video_play analytics event - that's reserved
          for someone actually choosing to watch (the modal, with sound).
      ------------------------------------------------------------------ */
   // Shared by every ambient video on the page (hero + "How ComfyNap Works" +
   // any future one): no browser allows audible autoplay on page load, so the
   // closest real equivalent to "sound as soon as it starts" is unmuting on
-  // the very first click/tap/keypress anywhere on the page — the same
+  // the very first click/tap/keypress anywhere on the page - the same
   // pattern X/Twitter and Instagram use for feed video. One shared listener
   // (not one per video) means a video that starts *after* the visitor has
   // already interacted begins unmuted immediately, and one that's already
@@ -646,7 +646,7 @@
   ['click', 'keydown', 'touchend'].forEach((type) =>
     document.addEventListener(type, markPageInteracted, { once: true, passive: true }));
 
-  // toggleHidden uses setAttribute/removeAttribute rather than el.hidden=… —
+  // toggleHidden uses setAttribute/removeAttribute rather than el.hidden=… -
   // `hidden` is a reflected IDL property on HTMLElement but NOT reliably on
   // SVGElement; setting .hidden on an <svg> silently does nothing in this
   // browser (no attribute change, no re-render), which is why a pair of
@@ -675,7 +675,7 @@
     // Single source of truth: the video's own `muted` property. Listening
     // for its native volumechange event (rather than updating the icon
     // inside every place that touches .muted) keeps it right regardless of
-    // what changed it — the toggle button or the first-interaction unmute.
+    // what changed it - the toggle button or the first-interaction unmute.
     function syncMuteIcon() {
       if (!muteBtn) return;
       const isMuted = video.muted;
@@ -691,7 +691,7 @@
 
     // Three independent reasons the loop should be playing right now.
     // Scrolling the whole page away is exactly as valid a reason to stop as
-    // switching gallery slides or opening the modal — sync() re-evaluates
+    // switching gallery slides or opening the modal - sync() re-evaluates
     // all three together instead of each event handler guessing the others.
     const gate = { isActiveSlide: true, modalOpen: false, inView: false };
 
@@ -725,13 +725,13 @@
     }
 
     // Any video opened in the shared modal could otherwise play at the same
-    // time as this ambient loop (including the same clip) — always pause the
+    // time as this ambient loop (including the same clip) - always pause the
     // loop first, resume (if every other gate still allows it) on close.
     document.addEventListener('comfynap:modalopen', () => { gate.modalOpen = true; sync(); });
     document.addEventListener('comfynap:modalclose', () => { gate.modalOpen = false; sync(); });
 
     // Drives both when playback starts at all (the first time this video is
-    // actually scrolled into view — for anything below the fold, that's also
+    // actually scrolled into view - for anything below the fold, that's also
     // exactly when it's correct to begin the network fetch, not sooner) and
     // when it pauses/resumes on every visit after that.
     if ('IntersectionObserver' in window) {
@@ -755,7 +755,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Sticky Add to Cart bar (mobile + desktop) — shows whenever the buy
+     Sticky Add to Cart bar (mobile + desktop) - shows whenever the buy
      box's own button isn't on screen, hides when the final CTA is visible
      ------------------------------------------------------------------ */
   function initStickyCta() {
@@ -764,8 +764,8 @@
     const finalCta = $('#final-cta');
     if (!bar || !heroBtn || !('IntersectionObserver' in window)) return;
 
-    // Shows whenever the buy box's own Add to Cart button isn't on screen —
-    // including on first load, when a tall gallery pushes it below the fold —
+    // Shows whenever the buy box's own Add to Cart button isn't on screen -
+    // including on first load, when a tall gallery pushes it below the fold -
     // not just after scrolling past it. Otherwise mobile has no visible CTA
     // at all until the whole buy box has scrolled by.
     let btnHidden = false;
@@ -791,7 +791,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Color swatches — the buy box and the sticky bar each carry a set, and
+     Color swatches - the buy box and the sticky bar each carry a set, and
      picking in either keeps the other in step. Records the preferred
      colorway only; there's no full photo set per color yet, so nothing
      else on the page changes.

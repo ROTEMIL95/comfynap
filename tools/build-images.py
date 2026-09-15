@@ -1,5 +1,5 @@
 """
-ComfyNap — image build
+ComfyNap - image build
 Reads originals from assets/src/** (Figma exports, Amazon gallery, video posters),
 crops where needed, and writes responsive WebP + JPEG renditions to assets/img/.
 
@@ -12,8 +12,8 @@ widths are skipped), files named <name>-<width>.webp and <name>-<width>.jpg.
 manifest.json records the sizes so HTML srcset/width/height stay in sync.
 
 Sources (see assets/README.md for provenance):
-  Figma file gS0tP6PqwloAHbZ69HwSyI — listing images, brand story, A+ design
-  Amazon B0FZLV4SHQ — gallery JPEGs (fallback) and video posters
+  Figma file gS0tP6PqwloAHbZ69HwSyI - listing images, brand story, A+ design
+  Amazon B0FZLV4SHQ - gallery JPEGs (fallback) and video posters
 """
 import json
 import os
@@ -49,7 +49,7 @@ ENTRIES = {
     "poster-how-to-use":  (f"{POS}/how-to-use.png", None),
     "poster-dr-palacios": (f"{POS}/dr-palacios.png", None),
     # Real UGC / influencer + expert videos found in Amazon's "Videos for this
-    # product" carousel (not brand-produced) — see assets/README.md
+    # product" carousel (not brand-produced) - see assets/README.md
     "poster-lori-vertical": (f"{POS}/lori-vertical-flights.jpg", None),   # 640x1137, genuinely vertical
     "poster-lori-9pos":     (f"{POS}/lori-9positions.jpg", None),          # 640x360
     "poster-palacios-jetlag": (f"{POS}/palacios-jetlag.jpg", None),        # 1500x844
