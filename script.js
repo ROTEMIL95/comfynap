@@ -770,12 +770,7 @@
     // at all until the whole buy box has scrolled by.
     let btnHidden = false;
     let finalVisible = false;
-    const apply = () => {
-      const show = btnHidden && !finalVisible;
-      bar.classList.toggle('is-visible', show);
-      // Lets the pinned hero video lift its "uses" strip clear of the bar.
-      document.documentElement.classList.toggle('has-sticky-cta', show);
-    };
+    const apply = () => bar.classList.toggle('is-visible', btnHidden && !finalVisible);
 
     new IntersectionObserver((entries) => {
       btnHidden = !entries[0].isIntersecting;
