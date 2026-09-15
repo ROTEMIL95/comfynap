@@ -1046,15 +1046,6 @@ h1, h2, h3, h4 {
 .buy__trust li { padding-inline: 0.9rem; }
 .buy__trust li + li { border-inline-start: 1px solid var(--line); }
 .buy__trust .icon { width: 1.3rem; height: 1.3rem; }
-.buy__guarantee {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--muted);
-}
-.buy__guarantee .icon { width: 1rem; height: 1rem; flex: none; margin-top: 0.2rem; color: var(--c-blue-600); }
 
 @media (max-width: 479px) {
   .features li { font-size: 0.8125rem; }
@@ -1066,18 +1057,18 @@ h1, h2, h3, h4 {
 }
 
 @media (min-width: 900px) {
-  /* Buy column capped; the video takes whatever width is left */
-  .hero__grid { grid-template-columns: minmax(0, 1fr) min(50%, 840px); }
-  /* Pinned to the viewport while the (taller) buy box scrolls past it, so the
-     video and its "uses" strip stay fully on screen. */
+  /* One screen, split exactly in half: video | buy box. On screens too short
+     for the buy box the row grows and the video stretches with it. */
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: max(560px, calc(100svh - var(--header-h)));
+  }
   .hero__media {
-    position: sticky;
-    top: var(--header-h);
-    align-self: start;
+    align-self: stretch;
     aspect-ratio: auto;
     max-height: none;
-    height: calc(100svh - var(--header-h));
-    min-height: 560px;
+    height: auto;
+    min-height: 0;
   }
   /* The clip is vertical and this panel is wide, so the video sits at its
      natural 9:16 in the middle, its side edges feathered into a bright,
@@ -1121,10 +1112,11 @@ h1, h2, h3, h4 {
   /* The buy box hugs the same right edge as the cart icon above it */
   .hero__buy {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     padding: clamp(1.25rem, 6.4vh, 4.25rem) var(--edge) clamp(2rem, 4vh, 3.5rem) clamp(1.75rem, 3.5vw, 4rem);
   }
-  .buy { width: 100%; max-width: 620px; gap: clamp(0.75rem, 2.6vh, 1.75rem); }
+  .buy { width: 100%; max-width: 680px; gap: clamp(0.75rem, 2.6vh, 1.75rem); }
   .bundle { padding-top: 1rem; }
   /* Desktop cards: name, price + saving, gift. The generic per-tier line
      ("Great for solo travelers") gives way to the gift, which is the offer. */
@@ -1135,8 +1127,6 @@ h1, h2, h3, h4 {
   .features__icon .icon { width: 26px; height: 26px; }
   .colorway { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
   .colorway .swatch-dot { width: 36px; height: 36px; }
-  /* Guarantee + included card belong to the scroll, not the first screen */
-  .buy__guarantee { margin-top: clamp(0.5rem, 5vh, 3.5rem); }
 }
 
 /* Shorter screens (1536×730 at 125% scaling, 1440×900…): keep everything down to the
@@ -1163,7 +1153,6 @@ h1, h2, h3, h4 {
   .uses li { padding-inline: 0.75rem; font-size: 0.8rem; }
   .uses .icon { width: 1.25rem; height: 1.25rem; }
   .has-sticky-cta .hero__media .uses { bottom: calc(1.25rem + 78px); }
-  .buy__guarantee { margin-top: 0.5rem; }
 }
 
 /* The eye mask ships free with every order, so this is a "what you also get"
@@ -1623,6 +1612,12 @@ h1, h2, h3, h4 {
 .final__lead { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); }
 .final .btn { margin-top: 0.5rem; }
 .final .trust { justify-content: center; }
+.final .included { width: 100%; max-width: 480px; margin-top: 0.5rem; text-align: left; }
+.final .included__label { text-align: center; color: rgba(255, 255, 255, 0.8); }
+.final .included__card { background: rgba(255, 255, 255, 0.96); border-color: transparent; }
+.final .included__title { color: var(--c-ink); }
+.final .included__desc, .final .included__value, .final .included .ph { color: var(--c-slate-600); }
+.final .included__media { border-color: var(--c-slate-400); color: var(--c-slate-400); }
 
 /* Footer */
 .footer {
