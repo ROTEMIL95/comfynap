@@ -1331,6 +1331,27 @@ h1, h2, h3, h4 {
   .buy__trust .icon { width: 1.05rem; height: 1.05rem; }
 }
 
+/* Buy box breathing room: one --buy-gap between blocks that grows with the
+   screen height, so the free space under the trust row goes into the layout
+   instead of sitting empty. "Choose your bundle" gets extra room above and
+   below its divider, and the trust row stays tight to its button. On short
+   screens the top padding is larger than the bottom one, which moves the
+   content down into the space under the trust row. */
+@media (min-width: 900px) {
+  .hero__buy { --buy-gap: clamp(1rem, 2.3vh, 1.75rem); padding-bottom: 1rem; }
+  .buy { gap: var(--buy-gap); }
+  .bundle { margin-top: calc(var(--buy-gap) * 0.6); padding-top: calc(var(--buy-gap) * 0.9); }
+  .buy__trust { margin-top: calc(0.6rem - var(--buy-gap)); }
+}
+@media (min-width: 900px) and (max-height: 960px) {
+  .hero__buy {
+    --buy-gap: clamp(0.55rem, 7.3vh - 2.7rem, 1.65rem);
+    padding-top: clamp(0.9rem, 33.4vh - 14.2rem, 5.75rem);
+    padding-bottom: clamp(0.5rem, 1.2vh, 1rem);
+  }
+  .bundle { gap: 0.65rem; }
+}
+
 /* The eye mask ships free with every order, so this is a "what you also get"
    card rather than a paid add-on - no toggle, no price to weigh up. */
 .included { display: flex; flex-direction: column; gap: 0.45rem; }
