@@ -1163,15 +1163,33 @@
     if (!groups.length) return;
     const nameLabels = $$('[data-color-name]');
 
+    // Every [data-color-picture] (bundle cards, sticky bar) follows the choice.
+    // The swatch carries the file's base path; a swatch without one (a colour
+    // we have no photo of yet) leaves the pictures untouched.
+    const pictures = $$('[data-color-picture]');
+
+    function showColorImage(base) {
+      if (!base) return;
+      pictures.forEach((picture) => {
+        const source = $('source', picture);
+        const img = $('img', picture);
+        if (source) source.srcset = base + '-200.webp';
+        if (img) img.src = base + '-200.jpg';
+      });
+    }
+
     function select(color) {
+      let base = '';
       groups.forEach((group) => {
         $$('.swatch-dot', group).forEach((d) => {
           const on = d.dataset.color === color;
           d.classList.toggle('is-selected', on);
           d.setAttribute('aria-pressed', String(on));
+          if (on && d.dataset.colorImg) base = d.dataset.colorImg;
         });
       });
       nameLabels.forEach((el) => { el.textContent = color; });
+      showColorImage(base);
     }
 
     groups.forEach((group) => {
@@ -1181,6 +1199,150 @@
           Analytics.track('color_select', { color: dot.dataset.color });
         });
       });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Position gallery - the three "ways to wear it" tiles in the buy box
+     open the positions of that technique in a lightbox instead of jumping
+     down the page. Slides are read from the #system cards at runtime, so
+     the photos and captions live in one place. Without JS the tiles keep
+     their href and simply scroll to that section.
+     ------------------------------------------------------------------ */
+  function initTechniqueGallery() {
+    const modal = $('#technique-modal');
+    const source = $('#system [data-carousel-track]');
+    if (!modal || !source) return;
+
+    const els = {
+      title: $('#technique-modal-title', modal),
+      sub: $('[data-gallery-sub]', modal),
+      webp: $('[data-gallery-webp]', modal),
+      img: $('[data-gallery-img]', modal),
+      step: $('[data-gallery-step]', modal),
+      name: $('[data-gallery-name]', modal),
+      text: $('[data-gallery-text]', modal),
+      prev: $('[data-gallery-prev]', modal),
+      next: $('[data-gallery-next]', modal),
+      dots: $('[data-gallery-dots]', modal),
+      close: $('.modal__close', modal),
+    };
+
+    // One entry per position card, in page order
+    const slides = Array.from(source.children).map((card) => {
+      const img = $('img', card);
+      const webp = $('source[type="image/webp"]', card);
+      return {
+        technique: card.dataset.technique || '',
+        webp: webp ? webp.getAttribute('srcset') : '',
+        src: img ? img.getAttribute('src') : '',
+        alt: img ? img.getAttribute('alt') : '',
+        name: ($('.card__title', card) || {}).textContent || '',
+        text: ($('.card__text', card) || {}).textContent || '',
+      };
+    });
+
+    let current = [];
+    let index = 0;
+    let lastTrigger = null;
+
+    function render() {
+      const slide = current[index];
+      if (!slide) return;
+      if (els.webp) els.webp.setAttribute('srcset', slide.webp);
+      els.img.src = slide.src;
+      els.img.alt = slide.alt;
+      els.name.textContent = slide.name;
+      els.text.textContent = slide.text;
+      els.step.textContent = `Position ${index + 1} of ${current.length}`;
+      els.prev.disabled = index === 0;
+      els.next.disabled = index === current.length - 1;
+      $$('.gallery__dot', els.dots).forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+    }
+
+    function go(next) {
+      index = Math.min(Math.max(next, 0), current.length - 1);
+      render();
+    }
+
+    function open(trigger) {
+      const technique = trigger.dataset.techniqueGallery;
+      current = slides.filter((slide) => slide.technique === technique);
+      if (!current.length) return false;
+
+      lastTrigger = trigger;
+      index = 0;
+      const label = ($('.tech-mini__name', trigger) || {}).textContent || technique;
+      const desc = $(`#system [data-technique-desc="${technique}"]`);
+      els.title.textContent = `${label} · ${current.length} positions`;
+      els.sub.textContent = desc ? desc.textContent.trim() : '';
+
+      els.dots.replaceChildren();
+      current.forEach((slide, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'gallery__dot';
+        dot.setAttribute('aria-label', `${slide.name} (position ${i + 1})`);
+        dot.addEventListener('click', () => go(i));
+        els.dots.appendChild(dot);
+      });
+
+      render();
+      modal.hidden = false;
+      // Same scroll lock as the video modal: iOS Safari rubber-bands the page
+      // behind a fixed overlay unless the body is pinned to its offset.
+      document.body.dataset.scrollLockY = String(window.scrollY);
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.classList.add('is-locked');
+      // Pauses the hero loop while the gallery is open.
+      document.dispatchEvent(new CustomEvent('comfynap:modalopen'));
+      els.close.focus({ preventScroll: true });
+      Analytics.track('technique_gallery_open', { technique });
+      return true;
+    }
+
+    function close() {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      document.body.classList.remove('is-locked');
+      document.body.style.top = '';
+      window.scrollTo({ top: parseInt(document.body.dataset.scrollLockY || '0', 10), behavior: 'instant' });
+      delete document.body.dataset.scrollLockY;
+      if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+      document.dispatchEvent(new CustomEvent('comfynap:modalclose'));
+    }
+
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-technique-gallery]');
+      if (trigger) {
+        // Only take over the link once the gallery can actually show it
+        if (open(trigger)) e.preventDefault();
+        return;
+      }
+      if (e.target.closest('[data-gallery-close]')) close();
+      if (e.target.closest('[data-gallery-prev]')) go(index - 1);
+      if (e.target.closest('[data-gallery-next]')) go(index + 1);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+    });
+
+    // Swipe between positions on a phone
+    let startX = null;
+    modal.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+    modal.addEventListener('pointerup', (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) < 40) return;
+      go(index + (dx < 0 ? 1 : -1));
     });
   }
 
@@ -1308,6 +1470,7 @@
     if (!buy) return;
 
     const priceDisplays = $$('[data-price-display]');
+    const addon = $('[data-addon]');
     const compareDisplays = $$('[data-compare-display]');
     const saveDisplays = $$('[data-save-display]');
     const tiers = $$('[data-tier]', buy);
@@ -1319,7 +1482,10 @@
     function recalc() {
       const tier = selectedTier();
       if (!tier) return;
-      const total = parseFloat(tier.dataset.tierPrice || '0');
+      // The eye mask add-on is an extra mask on top of the free one that
+      // ships with every order, so its price simply adds to the tier's.
+      const addonPrice = addon && addon.checked ? parseFloat(addon.dataset.addonPrice || '0') : 0;
+      const total = parseFloat(tier.dataset.tierPrice || '0') + addonPrice;
 
       PRODUCT.price = total;
       buy.dataset.price = total.toFixed(2);
@@ -1348,6 +1514,13 @@
       });
     });
 
+    if (addon) {
+      addon.addEventListener('change', () => {
+        recalc();
+        Analytics.track('addon_toggle', { addon: 'eye_mask', selected: addon.checked });
+      });
+    }
+
     recalc();
   }
 
@@ -1363,6 +1536,7 @@
   initReviews();
   initFaq();
   initVideoModal();
+  initTechniqueGallery();
   initAmbientVideos();
   initStickyCta();
   initHeroDock();

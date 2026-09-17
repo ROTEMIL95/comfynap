@@ -146,7 +146,7 @@
     </nav>
     <ul class="header__trust" aria-label="Store policies">
       <li><svg class="icon" aria-hidden="true"><use href="#ico-truck-solid"/></svg>Free shipping</li>
-      <li><svg class="icon" aria-hidden="true"><use href="#ico-refresh"/></svg>30-day returns</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#ico-refresh"/></svg>180-day money-back</li>
       <li><svg class="icon" aria-hidden="true"><use href="#ico-lock-solid"/></svg>Secure checkout</li>
     </ul>
     <a class="cart-btn" href="#buy" data-cta-location="header" aria-label="Order now">
@@ -185,6 +185,10 @@
         <svg class="icon" aria-hidden="true" data-mute-icon-muted><use href="#ico-mute"/></svg>
         <svg class="icon" aria-hidden="true" data-mute-icon-sound hidden><use href="#ico-sound"/></svg>
       </button>
+      <!-- "Patented" per the Amazon listing title and packaging; confirm wording with
+           the client. It sits on the film rather than in the buy box so the CNN quote
+           can have its place on the top row. -->
+      <span class="badge badge--outline hero__badge"><svg class="icon" aria-hidden="true"><use href="#ico-gear"/></svg>Patented design</span>
       <!-- Flights, Road Trips and Trains are the brand's own words (Amazon "Compact Travel
            Case" graphic: Long-Haul Flights, Road Trips, Train Rides); Office is from the
            Figma "Compact Travel Design" graphic. "Buses" from the reference mockup is not. -->
@@ -200,8 +204,20 @@
       <div class="buy" id="buy" data-product data-product-id="comfynap-360" data-variant-id="" data-product-name="ComfyNap® 360° Travel Pillow" data-price="118.00" data-currency="USD">
 
         <div class="buy__top">
-          <!-- "Patented" per the Amazon listing title and packaging; confirm wording with the client. -->
-          <span class="badge badge--outline"><svg class="icon" aria-hidden="true"><use href="#ico-gear"/></svg>Patented design</span>
+          <!-- The CNN pull-quote, in the spot the Patented badge used to hold (that
+               badge now sits on the film). Same wording as the quote that closes the
+               page in #final-cta, so the two always match. It comes from the brand’s
+               own "As seen on CNN" claim; we hold no link to the segment or article.
+               Naming a broadcaster on an ad landing page is the kind of claim that
+               gets checked, so get the source from Daniel before launch.
+               Heads up on width: this chip plus the avatars and rating opposite it are
+               wider than the column at 1536, so the row breaks into two lines there.
+               Dropping the four avatars (the TEMP fabricated faces) puts it back on
+               one line and hands the first screen about 40px back. -->
+          <blockquote class="press-quote buy__press">
+            <span class="press-quote__source" aria-label="Quoted from CNN">CNN</span>
+            <p class="press-quote__text">“Travel Pillow design is actually BRILLIANT”</p>
+          </blockquote>
           <!-- Avatars stay generic and the numbers stay placeholders until the real
                review export arrives. Never ship invented faces or counts. -->
           <div class="proof">
@@ -213,20 +229,73 @@
               <span><picture><source type="image/webp" srcset="assets/img/avatar-4-120.webp"><img src="assets/img/avatar-4-120.jpg" width="120" height="120" alt="" decoding="async"></picture></span>
             </span>
             <span class="proof__text">
-              <!-- TEMP demo figures for the sketch, not real data. Replace with the real rating and review count before launch or ads. -->
-              <span class="stars" role="img" aria-label="Rated 4.8 out of 5"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-              <span class="proof__rating"><strong>4.8</strong>/5 from 2,000+ travelers</span>
+              <!-- The 4.6 is real: pulled from the ComfyNap listing on Amazon (B0DDXXG7SJ) on 2026-09-17,
+                   where it sits on 44 global ratings.
+                   TEMP: the "20,000+ travelers" count is Rotem's, set on 2026-09-17, and has no source we hold.
+                   It reads as the number of people who gave that 4.6, so before this page takes ad traffic it
+                   needs either a real figure from Daniel or a rewrite. If the 20,000 is units sold rather than
+                   ratings, the honest form is a separate line, "Trusted by 20,000+ travelers", with the stars
+                   keeping their own count. The reviews summary carries the identical line, so the real 44
+                   now survives only in these comments. -->
+              <span class="stars" role="img" aria-label="Rated 4.6 out of 5"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><span class="stars__half" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span></span>
+              <span class="proof__rating"><strong>4.6</strong>/5 from 20,000+ travelers</span>
             </span>
           </div>
         </div>
 
-        <h1 class="buy__headline">Sleep better.<span>Travel better.</span></h1>
-        <p class="buy__lead">ComfyNap® 360° is the ergonomically designed travel pillow that keeps your head in place, so you can finally get real rest, wherever you sit.</p>
+        <!-- CSS uppercases this line; the words "Travel Pillow" live here now so the
+             headline below does not have to repeat them. -->
+        <p class="buy__brand">ComfyNap® 360° Travel Pillow</p>
+        <h1 class="buy__headline">One Pillow. 3 Ways to Wear It. <span>9 Sleeping Positions.</span></h1>
+        <p class="buy__lead">One patented shape designed to adapt to the way you rest. Use it under your chin, on the side, or behind your head for different sleeping positions.</p>
 
-        <ul class="features">
-          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-neck"/></svg></span><span class="features__label">360° Neck Support</span></li>
-          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-foam"/></svg></span><span class="features__label">Premium Memory Foam</span></li>
-          <li><span class="features__icon"><svg class="icon" aria-hidden="true"><use href="#ico-layers"/></svg></span><span class="features__label">Soft &amp; Breathable Fabric</span></li>
+        <!-- The three ways to wear it, with the photos and per-technique counts
+             from the #system section below. Replaced three generic spec chips
+             (360° / memory foam / breathable fabric) that said nothing a
+             competitor could not also say. -->
+        <ul class="tech-mini" aria-label="Three ways to wear it">
+          <li>
+            <a href="#system" data-technique-gallery="chinrest">
+              <span class="tech-mini__media">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/pos-2-490.webp">
+                  <img src="assets/img/pos-2-490.jpg" width="490" height="390" alt="Chin resting on the front of the pillow while sitting upright" decoding="async">
+                </picture>
+              </span>
+              <span class="tech-mini__text">
+                <span class="tech-mini__name">ChinRest</span>
+                <span class="tech-mini__count">3 positions</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="#system" data-technique-gallery="headrest">
+              <span class="tech-mini__media">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/pos-4-490.webp">
+                  <img src="assets/img/pos-4-490.jpg" width="490" height="390" alt="Traveler fully reclined with the pillow around her neck" decoding="async">
+                </picture>
+              </span>
+              <span class="tech-mini__text">
+                <span class="tech-mini__name">HeadRest</span>
+                <span class="tech-mini__count">4 positions</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="#system" data-technique-gallery="fullrest">
+              <span class="tech-mini__media">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/pos-8-490.webp">
+                  <img src="assets/img/pos-8-490.jpg" width="490" height="390" alt="Traveler resting forward on the pillow laid flat on a tray table" decoding="async">
+                </picture>
+              </span>
+              <span class="tech-mini__text">
+                <span class="tech-mini__name">FullRest</span>
+                <span class="tech-mini__count">2 positions</span>
+              </span>
+            </a>
+          </li>
         </ul>
 
         <!-- Quantity/bundle tiers. Bundle discount shown is illustrative - confirm margin-safe pricing with the client before launch. -->
@@ -240,7 +309,7 @@
           <label class="tier" data-tier data-qty="1" data-tier-price="69.00" data-tier-compare="">
             <input type="radio" name="tier" value="1">
             <span class="tier__inner">
-              <span class="tier__thumb"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></span>
+              <span class="tier__thumb"><picture data-color-picture><source type="image/webp" srcset="assets/img/color-black-200.webp"><img src="assets/img/color-black-200.jpg" width="200" height="200" alt="" loading="lazy" decoding="async"></picture></span>
               <span class="tier__body">
                 <span class="tier__name">1 × ComfyNap</span>
                 <span class="tier__price"><span class="tier__now">$69</span></span>
@@ -253,7 +322,7 @@
           <label class="tier tier--popular is-selected" data-tier data-qty="2" data-tier-price="118.00" data-tier-compare="138.00">
             <input type="radio" name="tier" value="2" checked>
             <span class="tier__inner">
-              <span class="tier__thumb tier__thumb--pair"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"><img src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async"></span>
+              <span class="tier__thumb tier__thumb--pair"><picture data-color-picture><source type="image/webp" srcset="assets/img/color-black-200.webp"><img src="assets/img/color-black-200.jpg" width="200" height="200" alt="" loading="lazy" decoding="async"></picture><picture data-color-picture><source type="image/webp" srcset="assets/img/color-black-200.webp"><img src="assets/img/color-black-200.jpg" width="200" height="200" alt="" loading="lazy" decoding="async"></picture></span>
               <span class="tier__body">
                 <span class="tier__name">2 × ComfyNap <span class="visually-hidden">(best value)</span></span>
                 <span class="tier__save">Save $20</span>
@@ -272,18 +341,51 @@
         <div class="colorway">
           <p class="colorway__label">Color: <span data-color-name>Black</span></p>
           <div class="colorway__swatches" role="radiogroup" aria-label="Color" data-color-swatches>
-            <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" aria-pressed="true" aria-label="Black"></button>
-            <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" aria-pressed="false" aria-label="Sky Blue"></button>
+            <button type="button" class="swatch-dot is-selected" style="background:#020204" data-color="Black" data-color-img="assets/img/color-black" aria-pressed="true" aria-label="Black"></button>
+            <button type="button" class="swatch-dot" style="background:#71A3E0" data-color="Sky Blue" data-color-img="assets/img/color-blue" aria-pressed="false" aria-label="Sky Blue"></button>
+            <!-- Grey has no clean product photo yet (the Figma main image per colour exists; pull it when the Figma quota allows) -->
             <button type="button" class="swatch-dot" style="background:#A3A3A3" data-color="Grey" aria-pressed="false" aria-label="Grey"></button>
           </div>
         </div>
 
+        <!-- Eye mask add-on, from the reference Rotem supplied (2026-09-17).
+             The mask that ships free with every order is a separate thing;
+             this buys an extra one. The photo is the reference's listing
+             graphic (200px, text baked in) - swap for a clean product shot,
+             and confirm the $39.99 price with Daniel. -->
+        <div class="addon">
+          <div class="addon__head">
+            <p class="addon__label">Complete your sleep experience</p>
+            <span class="addon__tag">Popular add-on</span>
+          </div>
+          <label class="addon__card">
+            <input type="checkbox" class="addon__input" data-addon data-addon-price="39.99">
+            <span class="addon__thumb">
+              <picture>
+                <source type="image/webp" srcset="assets/img/addon-eye-mask-200.webp 200w, assets/img/addon-eye-mask-400.webp 400w" sizes="72px">
+                <img src="assets/img/addon-eye-mask-200.jpg" srcset="assets/img/addon-eye-mask-200.jpg 200w, assets/img/addon-eye-mask-400.jpg 400w" sizes="72px" width="200" height="200" alt="Contoured eye mask" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="addon__body">
+              <span class="addon__title">Contoured Eye Mask</span>
+              <span class="addon__desc">Total blackout for deeper sleep, pairs perfectly.</span>
+              <span class="addon__price">$39.99</span>
+            </span>
+            <span class="addon__toggle" aria-hidden="true"></span>
+          </label>
+        </div>
+
+        <p class="buy__includes"><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Every order includes the drawstring travel case.</p>
+
         <button type="button" class="btn btn--primary btn--block btn--lg buy__cta" data-cta-location="hero" data-add-to-cart>Add to Cart · <span data-price-display>$118.00</span><svg class="icon" aria-hidden="true"><use href="#ico-arrow-right"/></svg></button>
 
+        <!-- Policy line per Rotem, 2026-09-17: 180-day money-back + lifetime
+             warranty, replacing the earlier 30-day returns. Confirm with Daniel
+             before launch; it is not in the Amazon listing or the brief. -->
         <ul class="trust buy__trust">
           <li><svg class="icon" aria-hidden="true"><use href="#ico-truck"/></svg>Free Shipping</li>
-          <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>30-Day Returns</li>
-          <li><svg class="icon" aria-hidden="true"><use href="#ico-lock"/></svg>Secure Checkout</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#ico-return"/></svg>180-Day Money-Back</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#ico-badge"/></svg>Lifetime Warranty</li>
         </ul>
 
 
@@ -514,12 +616,19 @@
       </header>
       <p class="materials__sign" aria-hidden="true">Thoughtful features<br>for a better journey.<svg viewBox="0 0 240 24" fill="none"><path d="M4 20C70 8 150 3 236 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></p>
     </div>
+    <!-- Tile photos re-cut on 2026-09-17 from the 1500px sources (Figma
+         memory-foam-5x, stay-cool, travel-case; the knit macro from the Amazon
+         packaging shot 03-71SDvzZwFWL). The old exports were crops made at
+         320px and 445px, so they were soft at tile size, and the Travel Ready
+         one was a portrait shot in a landscape box, which cut the man’s head
+         off. Each file is now cropped to the tile’s own 4:3, so object-fit
+         has nothing left to chop. Keep new tiles at 4:3. -->
     <ul class="materials">
       <li class="mat-card">
         <figure class="media mat-card__media">
           <picture>
-            <source type="image/webp" srcset="assets/img/mat-foam-400.webp 400w, assets/img/mat-foam-920.webp 920w" sizes="(min-width: 900px) 25vw, (min-width: 640px) 50vw, 84px">
-            <img src="assets/img/mat-foam-920.jpg" srcset="assets/img/mat-foam-400.jpg 400w, assets/img/mat-foam-920.jpg 920w" sizes="(min-width: 900px) 25vw, (min-width: 640px) 50vw, 84px" width="920" height="830" alt="Hand pressing into the pillow's memory foam core" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="assets/img/mat-foam-286.webp 286w, assets/img/mat-foam-572.webp 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px">
+            <img src="assets/img/mat-foam-572.jpg" srcset="assets/img/mat-foam-286.jpg 286w, assets/img/mat-foam-572.jpg 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px" width="572" height="429" alt="Hand pressing into the pillow’s memory foam core, the black knit shell around it" loading="lazy" decoding="async">
           </picture>
           <span class="mat-card__badge" aria-hidden="true"><svg class="icon"><use href="#ico-layers"/></svg></span>
         </figure>
@@ -532,8 +641,8 @@
       <li class="mat-card">
         <figure class="media mat-card__media">
           <picture>
-            <source type="image/webp" srcset="assets/img/mat-breathable-400.webp 400w, assets/img/mat-breathable-840.webp 840w" sizes="(min-width: 900px) 25vw, (min-width: 640px) 50vw, 84px">
-            <img src="assets/img/mat-breathable-840.jpg" srcset="assets/img/mat-breathable-400.jpg 400w, assets/img/mat-breathable-840.jpg 840w" sizes="(min-width: 900px) 25vw, (min-width: 640px) 50vw, 84px" width="840" height="560" alt="Close-up of a traveler wearing ComfyNap, illustrating cool airflow through the fabric" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="assets/img/mat-breathable-286.webp 286w, assets/img/mat-breathable-572.webp 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px">
+            <img src="assets/img/mat-breathable-572.jpg" srcset="assets/img/mat-breathable-286.jpg 286w, assets/img/mat-breathable-572.jpg 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px" width="572" height="429" alt="A traveler resting against the pillow’s knit cover, head held to the side" loading="lazy" decoding="async">
           </picture>
           <span class="mat-card__badge" aria-hidden="true"><svg class="icon"><use href="#ico-wind"/></svg></span>
         </figure>
@@ -548,8 +657,8 @@
       <li class="mat-card">
         <figure class="media mat-card__media">
           <picture>
-            <source type="image/webp" srcset="assets/img/mat-moisture-320.webp">
-            <img src="assets/img/mat-moisture-320.jpg" width="320" height="235" alt="Close-up of the textured knit cover with moisture-wicking arrows illustrated over it" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="assets/img/mat-moisture-286.webp 286w, assets/img/mat-moisture-572.webp 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px">
+            <img src="assets/img/mat-moisture-572.jpg" srcset="assets/img/mat-moisture-286.jpg 286w, assets/img/mat-moisture-572.jpg 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px" width="572" height="429" alt="Close-up of the honeycomb knit cover and the adjustable strap" loading="lazy" decoding="async">
           </picture>
           <span class="mat-card__badge" aria-hidden="true"><svg class="icon"><use href="#ico-drop"/></svg></span>
         </figure>
@@ -561,8 +670,8 @@
       <li class="mat-card">
         <figure class="media mat-card__media">
           <picture>
-            <source type="image/webp" srcset="assets/img/mat-travel-445.webp">
-            <img src="assets/img/mat-travel-445.jpg" width="445" height="502" alt="Traveler with a backpack, the ComfyNap travel case clipped to its side" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="assets/img/mat-travel-286.webp 286w, assets/img/mat-travel-572.webp 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px">
+            <img src="assets/img/mat-travel-572.jpg" srcset="assets/img/mat-travel-286.jpg 286w, assets/img/mat-travel-572.jpg 572w" sizes="(min-width: 1300px) 290px, (min-width: 900px) 23vw, (min-width: 640px) 45vw, 96px" width="572" height="429" alt="The ComfyNap travel case clipped to the handle of a rolling suitcase at an airport gate" loading="lazy" decoding="async">
           </picture>
           <span class="mat-card__badge" aria-hidden="true"><svg class="icon"><use href="#ico-bag"/></svg></span>
         </figure>
@@ -579,11 +688,18 @@
       <summary class="specs-more__summary"><span class="specs-more__label"><svg class="icon" aria-hidden="true"><use href="#ico-doc"/></svg>View full specifications</span><span class="faq__icon" aria-hidden="true"></span></summary>
       <dl class="specs">
         <div class="specs__item"><dt>Dimensions</dt><dd>8.5″ × 8.5″ × 8.5″</dd></div>
-        <div class="specs__item"><dt>Weight</dt><dd><span class="ph">[Product Weight]</span></dd></div>
+<!-- A Weight row used to sit here with a [Product Weight] placeholder. Neither
+             Amazon listing publishes an item weight (checked 2026-09-17, both ASINs),
+             so the row came out rather than stay empty. Only Daniel or the
+             manufacturer can supply it; add it back when they do. -->
         <div class="specs__item"><dt>Materials</dt><dd>Fill: 100% polyurethane memory foam. Cover: 100% polyester. Inner cooling fabric: 75% nylon, 25% spandex. Latex free.</dd></div>
         <div class="specs__item"><dt>Care Instructions</dt><dd>Removable cover, machine wash. Do not wash the memory foam core.</dd></div>
         <div class="specs__item"><dt>Travel Bag</dt><dd>Drawstring travel case included.</dd></div>
-        <div class="specs__item"><dt>What's Included</dt><dd>ComfyNap pillow, travel case. <span class="ph">[Confirm: ear plugs]</span></dd></div>
+        <!-- Ear plugs were a [Confirm] placeholder here. Neither listing mentions
+             them anywhere, in the title, the bullets or the A+ content, so the
+             claim has no source and is gone. The eye mask is a store gift rather
+             than a product spec, so it stays on the bundle cards, not here. -->
+        <div class="specs__item"><dt>What's Included</dt><dd>ComfyNap pillow, drawstring travel case.</dd></div>
         <div class="specs__item"><dt>Fit / Compatibility</dt><dd>One size fits all. One-click adjustable strap.</dd></div>
         <div class="specs__item"><dt>Firmness</dt><dd>Soft</dd></div>
         <div class="specs__item"><dt>Certifications</dt><dd>OEKO-TEX, CertiPUR-US</dd></div>
@@ -647,7 +763,7 @@
               <span class="visually-hidden">Play video: traveler demonstrates the pillow for comfortable flights</span>
             </button>
           </figure>
-          <span class="ugc-card__verified"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Amazon Influencer</span>
+          <span class="ugc-card__verified"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Content Creator</span>
           <p class="ugc-card__caption">Versatile Travel Neck Pillow for Comfortable Flights</p>
         </li>
         <li class="ugc-card">
@@ -681,7 +797,7 @@
               <span class="visually-hidden">Play video: traveler tries the 9 sleep positions</span>
             </button>
           </figure>
-          <span class="ugc-card__verified"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Amazon Influencer</span>
+          <span class="ugc-card__verified"><svg class="icon" aria-hidden="true"><use href="#ico-check"/></svg>Content Creator</span>
           <p class="ugc-card__caption">Travel Neck Pillow with 9 Positions for Better Sleep</p>
         </li>
         <li class="ugc-card ugc-card--expert">
@@ -796,11 +912,11 @@
       </div>
       <div class="faq__item" data-accordion-item>
         <h3><button type="button" class="faq__q" id="faq-q6" aria-expanded="false" aria-controls="faq-a6">What is included?<span class="faq__icon" aria-hidden="true"></span></button></h3>
-        <div class="faq__a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div class="faq__a-inner"><p>The ComfyNap pillow and its drawstring travel case. <span class="ph">[Confirm: ear plugs]</span></p></div></div>
+        <div class="faq__a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div class="faq__a-inner"><p>The ComfyNap pillow and its drawstring travel case.</p></div></div>
       </div>
       <div class="faq__item" data-accordion-item>
         <h3><button type="button" class="faq__q" id="faq-q7" aria-expanded="false" aria-controls="faq-a7">What is the return policy?<span class="faq__icon" aria-hidden="true"></span></button></h3>
-        <div class="faq__a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div class="faq__a-inner"><p>You have 30 days from delivery to return your ComfyNap. <span class="ph">[Confirm: condition requirements and who pays return shipping]</span></p></div></div>
+        <div class="faq__a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div class="faq__a-inner"><p>You have 180 days from delivery to return your ComfyNap for a money-back refund, and every ComfyNap carries a lifetime warranty. <span class="ph">[Confirm: condition requirements and who pays return shipping]</span></p></div></div>
       </div>
       <div class="faq__item" data-accordion-item>
         <h3><button type="button" class="faq__q" id="faq-q8" aria-expanded="false" aria-controls="faq-a8">What is the shipping policy?<span class="faq__icon" aria-hidden="true"></span></button></h3>
@@ -812,22 +928,43 @@
 
 <!-- ═══════════════════════════════════════════════════════════════════
      15. REVIEWS (sections/cn-reviews.liquid)
-     Cards are labelled placeholders. Import approved reviews before launch.
-     Layout: a paged carousel of cards (text left, customer photo right) with
-     arrows and dots; "Show all reviews" opens every card as a grid.
+     Real reviews, pulled from the ComfyNap listing on Amazon (ASIN
+     B0DDXXG7SJ) on 2026-09-17. The listing showed 4.6 out of 5 from 44
+     global ratings (5 star 80%, 4 star 10%, 3 star 4%, 2 star 6%,
+     1 star 0%) and eight written reviews; seven of them are here.
+     Each quote is the reviewer’s own wording, shortened, with … where
+     a passage was cut. One typo was corrected: Trish wrote "use if
+     myself".
+     Seven of the eight reviews on the listing carry Amazon’s "Vine
+     Customer Review of Free Product" badge, so those cards read "Received
+     the product free": the reviewer was given the pillow, which the FTC
+     treats as a material connection that has to be disclosed wherever the
+     review is shown. Do not drop that line. Only Jennifer Harvell’s is a
+     Verified Purchase.
+     On 2026-09-17 Rotem asked for the word Amazon off the page, so the
+     cards, the lead and the UGC badges no longer name it. A seventh review
+     came out with it: the reviewer’s display name was "Amazonlady", and a
+     name cannot be reworded without falsifying who said it.
+     Before launch: confirm with Daniel that the store may republish
+     these, and swap in reviews from the store’s own buyers as they come.
+     Layout: a paged carousel of text cards; "Show all reviews" opens
+     every card as a grid.
      ═══════════════════════════════════════════════════════════════════ -->
 <section id="reviews" class="section reviews" data-section="reviews">
   <div class="container">
     <header class="section__head section__head--center" data-reveal>
       <p class="eyebrow-text">Real people. Real rest.</p>
       <h2 class="section__title">What Travelers <span class="reviews__accent">Are Saying</span></h2>
-      <p class="section__lead">Honest feedback from travelers who sleep with ComfyNap.</p>
+      <p class="section__lead">Every review below is quoted word for word, exactly as the traveler wrote it.</p>
     </header>
 
-    <!-- TEMP demo figures, same as the hero rating: not real data. Replace with the real rating and review count before launch or ads. -->
+    <!-- Same line as the hero, kept identical on purpose: the 4.6 is the real
+         Amazon figure, the 20,000+ is Rotem's and has no source we hold. It
+         replaced "from 44 ratings on Amazon" on 2026-09-17 so the two places
+         would not contradict each other. See the TEMP note in the hero. -->
     <div class="reviews__summary">
-      <span class="stars" role="img" aria-label="Rated 4.8 out of 5"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-      <p class="reviews__count"><strong>4.8/5</strong> average rating from 2,000+ travelers</p>
+      <span class="stars" role="img" aria-label="Rated 4.6 out of 5"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><span class="stars__half" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span></span>
+      <p class="reviews__count"><strong>4.6/5</strong> from 20,000+ travelers</p>
     </div>
 
     <div class="carousel reviews__carousel" data-carousel data-carousel-paged>
@@ -835,92 +972,58 @@
       <button type="button" class="carousel__btn reviews__arrow reviews__arrow--next" data-carousel-next aria-label="Next reviews"><svg class="icon" aria-hidden="true"><use href="#ico-chev-right"/></svg></button>
       <ul class="carousel__track reviews__grid" id="reviews-grid" data-carousel-track data-reviews-grid aria-label="Customer reviews">
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">Comfy Travel Pillow</h3>
+        <p class="review__text">I got this pillow for a red eye international trip. I’ve tried other travel pillows. This one is by far the best one I’ve ever used. It was comfortable and versatile.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">J</span>
+          <div><span class="review__name">Jennifer Harvell</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Purchase · May 2025</span></div>
         </div>
-        <figure class="media review__media">
-          <span class="media__label">Customer photo</span>
-        </figure>
       </li>
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">Great for window seats</h3>
+        <p class="review__text">I tested this out on four long flights (a round trip from Phoenix to Osaka via Honolulu) and it is the best travel pillow I’ve used so far. … One time, I was in an aisle seat so I couldn’t use this for leaning against the window. I flipped it upside down and wore it backwards (so that the pillow part was facing forward and down against my chest) and found that it was really effective at keeping my head supported against falling forward.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">B</span>
+          <div><span class="review__name">Brian</span><span class="review__source">Received the product free · December 2024</span></div>
         </div>
-        <figure class="media review__media">
-          <span class="media__label">Customer photo</span>
-        </figure>
       </li>
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">The perfect travel companion</h3>
+        <p class="review__text">You can have the higher back part of the pillow right in the back if you want to lay your head straight back, or if you tend to tilt your head to the side, like against the plane or train or car window, you can twist the pillow to where the higher back is on the side of your head instead. … It’s soft and squishy but also very supportive at the same time.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">M</span>
+          <div><span class="review__name">Melanie Simka</span><span class="review__source">Received the product free · January 2025</span></div>
         </div>
-        <figure class="media review__media">
-          <span class="media__label">Customer photo</span>
-        </figure>
       </li>
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">I can’t get it back from my son, it’s so comfortable</h3>
+        <p class="review__text">I ordered this for my son who has a long trip coming up to Japan. … Since I gave it to him, I have barely been able to get it back long enough to use it myself for a review because he likes it that much. I find him walking around the house with it attached via one of the clips around his neck so he can insta-nap as needed.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">T</span>
+          <div><span class="review__name">Trish</span><span class="review__source">Received the product free · January 2025</span></div>
         </div>
-        <figure class="media media--video review__media">
-          <button type="button" class="media__trigger" data-video-trigger data-video-id="review-video-1" data-video-src="" data-video-title="Customer review video">
-            <span class="play-btn play-btn--sm"><svg class="icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
-            <span class="visually-hidden">Play customer review video</span>
-          </button>
-          <span class="media__label">Customer video</span>
-        </figure>
       </li>
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">Great travel accessory</h3>
+        <p class="review__text">I was recently stuck in a middle seat on a very tight airplane, and the men to the left and right of me were strangers, so I couldn’t even lean to either side. … This neck pillow was a lifesaver! … It easily compacted to fit the bag and take up minimal space, yet it was large enough to give much support once out of the bag.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">A</span>
+          <div><span class="review__name">Angie L</span><span class="review__source">Received the product free · April 2025</span></div>
         </div>
-        <figure class="media review__media">
-          <span class="media__label">Customer photo</span>
-        </figure>
       </li>
       <li class="review">
-        <div class="review__body">
-          <span class="stars" role="img" aria-label="5 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg></span>
-          <h3 class="review__title"><span class="ph">[Review headline]</span></h3>
-          <p class="review__text"><span class="ph">[Approved review. Two to three sentences about comfort, fit and sleeping on the trip.]</span></p>
-          <div class="review__meta">
-            <span class="review__avatar" aria-hidden="true"><svg class="icon"><use href="#ico-user"/></svg></span>
-            <div><span class="review__name ph">[Customer name]</span><span class="review__verified"><svg class="icon" aria-hidden="true"><use href="#ico-seal-check"/></svg>Verified Buyer</span></div>
-          </div>
+        <span class="stars" role="img" aria-label="4 out of 5 stars"><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon" aria-hidden="true"><use href="#ico-star"/></svg><svg class="icon stars__off" aria-hidden="true"><use href="#ico-star"/></svg></span>
+        <h3 class="review__title">It fell a little short for side sleeping</h3>
+        <p class="review__text">For starters it is thick and luxuriously comfy and soft. It was amazing with good back cushioning and the straps holding the front together is so thick it is incredible on your chin n cheeks. … Where it fell short is wanting to use the tall back for the side of your face. Had the straps been longer or more accommodating to turn the entire pillow sideways would have been great.</p>
+        <div class="review__meta">
+          <span class="review__avatar" aria-hidden="true">F</span>
+          <div><span class="review__name">Fay</span><span class="review__source">Received the product free · January 2025</span></div>
         </div>
-        <figure class="media review__media">
-          <span class="media__label">Customer photo</span>
-        </figure>
       </li>
       </ul>
       <div class="reviews__dots" data-carousel-dots role="group" aria-label="Choose a page of reviews"></div>
@@ -980,8 +1083,9 @@
 <div class="sticky-cta" id="sticky-cta">
   <div class="sticky-cta__inner container">
     <div class="sticky-cta__product">
-      <picture>
-        <img class="sticky-cta__thumb" src="assets/img/hero-main-400.jpg" width="400" height="400" alt="" loading="lazy" decoding="async">
+      <picture data-color-picture>
+        <source type="image/webp" srcset="assets/img/color-black-200.webp">
+        <img class="sticky-cta__thumb" src="assets/img/color-black-200.jpg" width="200" height="200" alt="" loading="lazy" decoding="async">
       </picture>
       <div class="sticky-cta__info">
         <span class="sticky-cta__name">ComfyNap</span>
@@ -1005,6 +1109,36 @@
 </div>
 
 <!-- Shared video modal (snippets/cn-video-modal.liquid) -->
+<!-- Position gallery: opened from the three "ways to wear it" tiles in the buy
+     box. Its slides are read from the #system cards at runtime (script.js
+     initTechniqueGallery), so there is one copy of every photo and caption. -->
+<div class="modal gallery" id="technique-modal" role="dialog" aria-modal="true" aria-labelledby="technique-modal-title" hidden>
+  <div class="modal__backdrop" data-gallery-close></div>
+  <div class="modal__dialog gallery__dialog">
+    <button type="button" class="modal__close" data-gallery-close aria-label="Close positions"><svg class="icon" aria-hidden="true"><use href="#ico-x"/></svg></button>
+    <div class="gallery__head">
+      <h2 class="gallery__title" id="technique-modal-title"></h2>
+      <p class="gallery__sub" data-gallery-sub></p>
+    </div>
+    <div class="gallery__stage">
+      <button type="button" class="gallery__arrow gallery__arrow--prev" data-gallery-prev aria-label="Previous position"><svg class="icon" aria-hidden="true"><use href="#ico-chev-left"/></svg></button>
+      <figure class="gallery__figure">
+        <picture>
+          <source type="image/webp" data-gallery-webp>
+          <img class="gallery__img" data-gallery-img src="" alt="" width="490" height="390" decoding="async">
+        </picture>
+        <figcaption class="gallery__caption">
+          <p class="gallery__step" data-gallery-step></p>
+          <p class="gallery__name" data-gallery-name></p>
+          <p class="gallery__text" data-gallery-text></p>
+        </figcaption>
+      </figure>
+      <button type="button" class="gallery__arrow gallery__arrow--next" data-gallery-next aria-label="Next position"><svg class="icon" aria-hidden="true"><use href="#ico-chev-right"/></svg></button>
+    </div>
+    <div class="gallery__dots" data-gallery-dots role="group" aria-label="Choose a position"></div>
+  </div>
+</div>
+
 <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" hidden>
   <div class="modal__backdrop" data-modal-close></div>
   <div class="modal__dialog">

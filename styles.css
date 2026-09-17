@@ -323,6 +323,11 @@ h1, h2, h3, h4 {
 /* Stars & rating */
 .stars { display: inline-flex; gap: 2px; color: var(--c-amber); }
 .stars .icon { width: 1rem; height: 1rem; }
+/* A star that is off, and a star filled part of the way: the rating on the
+   Amazon listing is 4.6, so the fifth star is drawn 60% full. */
+.stars__off { color: rgba(16, 24, 40, 0.16); }
+.stars__half { position: relative; display: inline-flex; color: rgba(16, 24, 40, 0.16); }
+.stars__half .icon:last-child { position: absolute; left: 0; top: 0; color: var(--c-amber); clip-path: inset(0 40% 0 0); }
 .rating { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; font-size: 0.9375rem; }
 .rating__value { font-weight: 700; color: var(--heading); }
 .rating__count { color: var(--muted); text-decoration: none; }
@@ -685,6 +690,63 @@ h1, h2, h3, h4 {
   place-items: center;
   cursor: pointer;
 }
+/* Position gallery (opened from the buy box tiles): same shell as the video
+   modal, but a light dialog because the photos are bright and captioned. */
+.gallery__dialog { width: min(100%, 560px); background: var(--bg); }
+.gallery .modal__close { background: rgba(255, 255, 255, 0.92); box-shadow: 0 4px 14px rgba(16, 24, 40, 0.18); }
+.gallery__head { padding: 1.25rem 1.5rem 0.75rem; }
+.gallery__title { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.01em; }
+.gallery__sub { margin-top: 0.35rem; font-size: 0.9375rem; line-height: 1.45; color: var(--c-slate-600); }
+.gallery__stage { position: relative; }
+.gallery__figure { margin: 0; }
+.gallery__figure picture { display: block; }
+.gallery__img { display: block; width: 100%; height: auto; background: var(--c-blue-50); }
+.gallery__caption { padding: 1rem 1.5rem 0.25rem; }
+.gallery__step { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-blue-600); }
+.gallery__name { margin-top: 0.15rem; font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--heading); }
+.gallery__text { margin-top: 0.25rem; font-size: 0.9375rem; line-height: 1.45; color: var(--c-slate-600); }
+.gallery__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--heading);
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.18);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.gallery__arrow:hover { background: #fff; }
+.gallery__arrow:disabled { opacity: 0.35; cursor: default; }
+.gallery__arrow .icon { width: 20px; height: 20px; }
+.gallery__arrow--prev { left: 0.75rem; }
+.gallery__arrow--next { right: 0.75rem; }
+.gallery__dots { display: flex; justify-content: center; gap: 0.4rem; padding: 0.75rem 1.5rem 1.25rem; }
+.gallery__dot {
+  width: 28px;
+  height: 28px;
+  padding: 11px 6px;
+  border: 0;
+  background: rgba(79, 111, 234, 0.25);
+  background-clip: content-box;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+.gallery__dot.is-active { background: var(--c-blue-600); background-clip: content-box; }
+.gallery__dot:focus-visible { outline: 2px solid var(--c-blue-600); outline-offset: 2px; }
+@media (max-width: 479px) {
+  .gallery__head { padding: 1rem 1.1rem 0.6rem; }
+  .gallery__title { font-size: 1.1875rem; }
+  .gallery__caption { padding: 0.85rem 1.1rem 0.25rem; }
+  .gallery__arrow { width: 38px; height: 38px; }
+}
+
 .modal__placeholder {
   padding: 2rem;
   max-width: 48ch;
@@ -900,6 +962,27 @@ h1, h2, h3, h4 {
 }
 .uses .icon { width: 1.3rem; height: 1.3rem; color: #0F1B3D; }
 
+/* The Patented badge rides on the film, top left, wearing the same glass as
+   the uses strip at the other end of the panel so the two read as one
+   treatment. pointer-events stay off so a click still plays the video. */
+.hero__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  max-width: calc(100% - 2rem);
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  color: #0F1B3D;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+@media (max-width: 599px) {
+  .hero__badge { top: 0.75rem; left: 0.75rem; max-width: calc(100% - 1.5rem); }
+}
+
 /* Buy box */
 .buy { display: flex; flex-direction: column; gap: 1rem; }
 .buy__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.25rem; }
@@ -934,11 +1017,20 @@ h1, h2, h3, h4 {
 .proof__rating strong { font-weight: 700; color: var(--heading); }
 .proof .stars .icon { width: 1.1rem; height: 1.1rem; }
 
+/* Product name above the headline, so the category is named even before the
+   headline is read */
+.buy__brand {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-slate-600);
+}
 .buy__headline {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.6rem, 1.4rem + 3vw, 3.9rem);
-  line-height: 0.96;
+  font-size: clamp(1.75rem, 1.1rem + 1.9vw, 2.4rem);
+  line-height: 1.04;
   letter-spacing: -0.03em;
   color: var(--heading);
 }
@@ -960,31 +1052,49 @@ h1, h2, h3, h4 {
   color: #4B5565;
 }
 
-.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
-.features li {
+/* The three ways to wear it: a photo each, the name, and how many of the nine
+   positions it covers. The whole tile jumps to the full set in #system. */
+.tech-mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+.tech-mini a {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.55rem;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s var(--ease);
+}
+.tech-mini a:hover { transform: translateY(-2px); }
+.tech-mini a:hover .tech-mini__media { box-shadow: 0 10px 24px rgba(16, 24, 40, 0.14); }
+.tech-mini a:focus-visible { outline: 2px solid var(--c-blue-600); outline-offset: 4px; border-radius: 14px; }
+.tech-mini__media {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: var(--c-blue-50);
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.08);
+  transition: box-shadow 0.2s var(--ease);
+}
+.tech-mini__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tech-mini__text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.tech-mini__name { font-size: 0.9375rem; font-weight: 700; line-height: 1.2; color: var(--heading); }
+.tech-mini__count { font-size: 0.8125rem; color: var(--c-slate-600); }
+@media (prefers-reduced-motion: reduce) {
+  .tech-mini a { transition: none; }
+  .tech-mini a:hover { transform: none; }
+}
+
+/* What is in the box, in one line above the button */
+.buy__includes {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: -0.15rem;
   font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--heading);
+  color: var(--c-slate-600);
 }
-.features__label { max-width: 8.5em; }
-.features__icon {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid #E3E8F2;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
-  color: var(--c-navy-700);
-}
-.features__icon .icon { width: 24px; height: 24px; }
+.buy__includes .icon { width: 1.05rem; height: 1.05rem; flex: none; color: var(--c-blue-600); }
+
 
 .bundle { display: flex; flex-direction: column; gap: 0.8rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
 .bundle__head { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
@@ -1058,12 +1168,13 @@ h1, h2, h3, h4 {
 .tier input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .tier__inner { display: flex; flex-direction: column; gap: 0.6rem; }
 .tier__thumb { position: relative; display: flex; align-self: center; width: 60px; height: 60px; flex: none; }
-.tier__thumb img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; object-position: 50% 62%; background: #fff; }
+.tier__thumb picture, .tier__thumb img { display: block; width: 60px; height: 60px; }
+.tier__thumb img { border-radius: 10px; object-fit: cover; object-position: 50% 62%; background: #fff; }
 .tier__thumb--pair { width: 80px; }
-.tier__thumb--pair img:first-child { transform: scale(0.88); transform-origin: left center; opacity: 0.9; }
-.tier__thumb--pair img { position: absolute; top: 0; box-shadow: 0 0 0 2px #fff, 0 4px 10px rgba(16, 24, 40, 0.12); }
-.tier__thumb--pair img:first-child { left: 0; }
-.tier__thumb--pair img:last-child { right: 0; }
+.tier__thumb--pair picture { position: absolute; top: 0; }
+.tier__thumb--pair picture:first-child { left: 0; transform: scale(0.88); transform-origin: left center; opacity: 0.9; }
+.tier__thumb--pair picture:last-child { right: 0; }
+.tier__thumb--pair img { box-shadow: 0 0 0 2px #fff, 0 4px 10px rgba(16, 24, 40, 0.12); }
 .tier__body { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; min-width: 0; }
 .tier__name { font-size: 0.8125rem; font-weight: 600; color: var(--heading); }
 .tier__price { display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.45rem; font-family: var(--font-display); font-weight: 700; }
@@ -1102,6 +1213,69 @@ h1, h2, h3, h4 {
   pointer-events: none;
 }
 .colorway .swatch-dot.is-selected { outline: 2px solid var(--c-navy-700); outline-offset: 3px; }
+
+/* Eye mask add-on: a label row, then one card with a real checkbox styled as
+   a switch. Ticking it adds its price to the total (script.js initBuyBox). */
+.addon { display: flex; flex-direction: column; gap: 0.5rem; }
+.addon__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.addon__label { font-size: 1rem; font-weight: 600; color: var(--heading); }
+.addon__tag {
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--c-blue-100);
+  color: var(--c-blue-700);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.addon__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.addon__card:hover { border-color: var(--c-blue-300); }
+.addon__input { position: absolute; opacity: 0; width: 0; height: 0; }
+.addon__input:checked ~ .addon__toggle { background: var(--c-blue-600); }
+.addon__input:checked ~ .addon__toggle::after { transform: translateX(18px); }
+.addon__input:focus-visible ~ .addon__toggle { outline: 2px solid var(--c-blue-600); outline-offset: 3px; }
+.addon__card:has(.addon__input:checked) { border-color: var(--c-blue-600); background: var(--c-blue-50); }
+.addon__thumb { flex: none; width: 56px; height: 56px; overflow: hidden; border-radius: 10px; background: var(--c-blue-50); }
+.addon__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.addon__body { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.addon__title { font-size: 0.9375rem; font-weight: 700; color: var(--heading); }
+.addon__desc { font-size: 0.8125rem; line-height: 1.35; color: var(--c-slate-600); }
+.addon__price { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--heading); }
+.addon__toggle {
+  position: relative;
+  flex: none;
+  margin-left: auto;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: #D7DEEC;
+  transition: background-color 0.2s var(--ease);
+}
+.addon__toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(16, 24, 40, 0.25);
+  transition: transform 0.2s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .addon__card, .addon__toggle, .addon__toggle::after { transition: none; }
+}
 
 /* Black glass: a translucent dark fill over a blurred backdrop, a glossy
    top sheen, a hairline light edge and a deep soft shadow. A diagonal
@@ -1198,8 +1372,12 @@ h1, h2, h3, h4 {
 .buy__trust .icon { width: 1.3rem; height: 1.3rem; }
 
 @media (max-width: 479px) {
-  .features li { font-size: 0.8125rem; }
-  .features__icon { width: 40px; height: 40px; }
+  .buy__headline { font-size: clamp(1.5rem, 1rem + 2.2vw, 2rem); }
+  .tech-mini { gap: 0.45rem; }
+  .tech-mini__name { font-size: 0.8125rem; }
+  .tech-mini__count { font-size: 0.75rem; }
+  .buy__brand { font-size: 0.875rem; }
+  .buy__includes { font-size: 0.8125rem; margin-top: calc(var(--buy-gap) * -0.6); }
   .uses { max-width: calc(100% - 1.25rem); gap: 0; padding-inline: 0.6rem; }
   .uses li { padding-inline: 0.32rem; font-size: 0.6875rem; gap: 0.3rem; }
   .uses li span { white-space: nowrap; }
@@ -1264,11 +1442,10 @@ h1, h2, h3, h4 {
   .proof__avatars span { width: 40px; height: 40px; }
   .proof__text { font-size: 0.875rem; }
   .buy__lead { max-width: 38rem; font-size: clamp(1.125rem, 0.85rem + 0.55vw, 1.375rem); }
-  .features li { font-size: clamp(0.875rem, 0.7rem + 0.3vw, 1rem); }
   .bundle__label { font-size: 1.125rem; }
   .bundle__best { font-size: 1.75rem; }
   .tier { padding: 0.8rem 0.95rem; }
-  .tier__thumb, .tier__thumb img { width: 66px; height: 66px; }
+  .tier__thumb, .tier__thumb picture, .tier__thumb img { width: 66px; height: 66px; }
   .tier__thumb--pair { width: 88px; }
   .tier__name { font-size: 0.9375rem; }
   .tier__now { font-size: 1.375rem; }
@@ -1282,10 +1459,16 @@ h1, h2, h3, h4 {
   /* Desktop cards: name, price + saving, gift. The generic per-tier line
      ("Great for solo travelers") gives way to the gift, which is the offer. */
   .tier__note { display: none; }
-  .buy__headline { font-size: min(clamp(2.8rem, 1.4rem + 4.2vw, 5.75rem), 8.1vh); }
-  .features li { flex-direction: row; align-items: center; gap: 0.85rem; }
-  .features__icon { width: 58px; height: 58px; }
-  .features__icon .icon { width: 28px; height: 28px; }
+  .buy__headline { font-size: min(clamp(1.9rem, 1.1rem + 2.1vw, 2.9rem), 5.2vh); }
+  .buy__brand { font-size: 0.9375rem; margin-bottom: calc(var(--buy-gap) * -0.55); }
+  /* The three sit as one group rather than spread across the column */
+  .tech-mini { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+  .tech-mini li { flex: 0 0 auto; }
+  .tech-mini a { flex-direction: row; align-items: center; gap: 0.7rem; }
+  .tech-mini__media { width: 64px; height: 56px; flex: none; aspect-ratio: auto; }
+  .tech-mini__name { font-size: 1rem; }
+  .tech-mini__count { font-size: 0.8125rem; }
+  .buy__includes { font-size: 0.9375rem; margin-top: calc(var(--buy-gap) * -0.35); }
   .colorway { flex-direction: row; align-items: center; gap: 0.6rem 1.1rem; }
   .colorway .swatch-dot { width: 38px; height: 38px; }
 }
@@ -1299,17 +1482,38 @@ h1, h2, h3, h4 {
   .buy__top { gap: 0.5rem 1rem; }
   .badge--outline { padding: 0.4rem 0.85rem; font-size: 0.72rem; }
   .proof__avatars span { width: 34px; height: 34px; }
-  .buy__headline { font-size: min(clamp(2.6rem, 1.4rem + 4.2vw, 5.75rem), 7.9vh); }
-  .buy__lead { max-width: 42rem; font-size: clamp(1rem, 0.8rem + 0.4vw, 1.125rem); }
-  .features__icon { width: 40px; height: 40px; }
-  .features__icon .icon { width: 20px; height: 20px; }
-  .features li { gap: 0.6rem; font-size: 0.875rem; }
-  .bundle { padding-top: 0.7rem; gap: 0.5rem; }
+  .buy__headline { font-size: min(clamp(1.6rem, 0.95rem + 1.9vw, 2.3rem), 4.15vh); }
+  .buy__brand { font-size: 0.8125rem; margin-bottom: calc(var(--buy-gap) * -0.8); }
+  .tech-mini a { gap: 0.55rem; }
+  .tech-mini__media { width: 48px; height: 40px; }
+  .tech-mini__name { font-size: 0.875rem; }
+  .tech-mini__count { font-size: 0.75rem; }
+  .buy__includes { font-size: 0.8125rem; }
+  .buy__lead { max-width: 42rem; font-size: clamp(0.9375rem, 0.82rem + 0.25vw, 1rem); line-height: 1.45; }
+  .bundle { padding-top: 0.55rem; gap: 0.5rem; }
+  .addon { gap: 0.35rem; }
+  .addon__label { font-size: 0.875rem; }
+  .addon__tag { padding: 0.2rem 0.5rem; font-size: 0.6875rem; }
+  .addon__card { gap: 0.65rem; padding: 0.5rem 0.7rem; }
+  .addon__thumb { width: 44px; height: 44px; }
+  .addon__title { font-size: 0.875rem; }
+  .addon__desc { font-size: 0.75rem; }
+  .addon__price { font-size: 0.9375rem; }
+  /* Price moves up beside the title so the card is one line shorter */
+  .addon__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 0.75rem; }
+  .addon__title { grid-column: 1; grid-row: 1; }
+  .addon__price { grid-column: 2; grid-row: 1; }
+  .addon__desc { grid-column: 1 / -1; grid-row: 2; }
+  .addon__toggle { width: 38px; height: 22px; }
+  .tier { padding: 0.45rem 0.7rem; }
+  .tech-mini__media { width: 46px; height: 36px; }
+  .addon__toggle::after { width: 16px; height: 16px; }
+  .addon__input:checked ~ .addon__toggle::after { transform: translateX(16px); }
   .bundle__label { font-size: 1rem; }
   .bundle__best { font-size: 1.55rem; bottom: calc(-0.65rem - 2px); }
   .tier { padding: 0.55rem 0.75rem; }
-  .tier__thumb, .tier__thumb img { width: 54px; height: 54px; }
-  .tier__thumb--pair { width: 72px; }
+  .tier__thumb, .tier__thumb picture, .tier__thumb img { width: 48px; height: 48px; }
+  .tier__thumb--pair { width: 64px; }
   .tier__now { font-size: 1.2rem; }
   .tier__note { display: none; }
   .colorway { flex-direction: row; align-items: center; gap: 0.5rem 1rem; }
@@ -1356,6 +1560,13 @@ h1, h2, h3, h4 {
 @media (min-width: 900px) and (max-height: 960px) {
   .hero { --dock-h: 58px; }
 }
+/* The policy labels are long ("180-Day Money-Back"), so the row steps down a
+   size before the panel gets narrow enough to wrap it onto two lines */
+@media (min-width: 900px) and (max-width: 1500px) {
+  .buy__trust { font-size: 0.8125rem; }
+  .buy__trust li { gap: 0.4rem; padding-inline: 0.3rem; }
+  .buy__trust .icon { width: 1.15rem; height: 1.15rem; }
+}
 @media (min-width: 900px) and (max-width: 1100px) {
   .buy__trust { font-size: 0.75rem; }
   .buy__trust li { gap: 0.3rem; padding-inline: 0.2rem; white-space: nowrap; }
@@ -1373,22 +1584,22 @@ h1, h2, h3, h4 {
 @media (min-width: 900px) {
   .hero__buy {
     --buy-gap: clamp(1rem, 2.3vh, 1.75rem);
-    --buy-lift: 1.6rem;
+    --buy-lift: 2.4rem;
     padding-top: calc(clamp(1.25rem, 3.6vh, 3rem) - var(--buy-lift));
     padding-bottom: 1rem;
   }
   .buy { gap: var(--buy-gap); }
   /* The headline and lead ride up by half of that lift; the space they leave
      goes under the lead, so the features row and everything below hold still. */
-  .buy__top { margin-bottom: calc(var(--buy-lift) * 0.5); }
-  .buy__lead { margin-bottom: calc(var(--buy-lift) * 0.5); }
+  .buy__top { margin-bottom: calc(var(--buy-lift) * 0.3); }
+  .buy__lead { margin-bottom: calc(var(--buy-lift) * 0.3); }
   .bundle { margin-top: calc(var(--buy-gap) * 0.6); padding-top: calc(var(--buy-gap) * 0.9); }
   .buy__trust { margin-top: calc(0.6rem - var(--buy-gap)); }
 }
 @media (min-width: 900px) and (max-height: 960px) {
   .hero__buy {
-    --buy-gap: clamp(0.55rem, 7.3vh - 2.7rem, 1.65rem);
-    --buy-lift: clamp(0rem, 23.4vh - 10.57rem, 2.3rem);
+    --buy-gap: clamp(0.5rem, 7.3vh - 2.95rem, 1.5rem);
+    --buy-lift: clamp(0rem, 28vh - 12.2rem, 3.6rem);
     padding-top: calc(clamp(0.9rem, 33.4vh - 14.2rem, 5.75rem) - var(--buy-lift));
     padding-bottom: clamp(0.5rem, 1.2vh, 1rem);
   }
@@ -1491,6 +1702,9 @@ h1, h2, h3, h4 {
 .press-quote {
   display: flex;
   align-items: center;
+  /* blockquote carries a 1em block margin from the UA sheet; it was adding 32px
+     to the hero's first screen before anyone noticed it */
+  margin: 0;
   gap: 0.85rem;
   padding: 0.85rem 1rem;
   border-radius: var(--r-md);
@@ -1519,6 +1733,21 @@ h1, h2, h3, h4 {
   border-color: rgba(255, 255, 255, 0.16);
 }
 .press-quote--dark .press-quote__source { color: #fff; border-right-color: rgba(255, 255, 255, 0.3); }
+/* In the hero the quote is a chip on the brand line, not a block: the first
+   screen is budgeted to the pixel, so it has to cost about one line of text.
+   These rules have to stay after .press-quote, same specificity, later wins. */
+.buy__press {
+  gap: 0.6rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--r-pill);
+  border-color: rgba(15, 50, 195, 0.28);
+  background: rgba(255, 255, 255, 0.6);
+}
+.buy__press .press-quote__source { font-size: 0.75rem; padding-right: 0.6rem; color: var(--c-blue-700); border-right-color: rgba(15, 50, 195, 0.28); }
+/* The chip has to stay on the brand line: below roughly 1250px the buy column is
+   too narrow for it at full size, so the quote scales down instead of wrapping
+   onto a row of its own and costing the first screen another 33px. */
+.buy__press .press-quote__text { font-size: clamp(0.6875rem, 0.2rem + 0.75vw, 0.8125rem); font-weight: 600; line-height: 1.35; }
 
 /* Demo video */
 /* How ComfyNap Works: cabin windows and clouds behind a centered tutorial.
@@ -1889,8 +2118,8 @@ h1, h2, h3, h4 {
 }
 .mat-card__media {
   flex: none;
-  width: 84px;
-  aspect-ratio: 1;
+  width: 96px;
+  aspect-ratio: 4 / 3;
   border-radius: 14px;
 }
 .mat-card__badge {
@@ -2263,21 +2492,20 @@ h1, h2, h3, h4 {
 @media (min-width: 1000px) { .reviews .carousel__track { --cols: 3; } }
 
 .review {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
-  gap: 1rem;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 1.35rem 1.4rem 1.25rem;
   border: 1px solid rgba(220, 228, 241, 0.7);
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 12px 30px rgba(47, 85, 238, 0.07), 0 1px 3px rgba(16, 24, 40, 0.04);
 }
-.review__body { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; padding: 0.35rem 0 0.25rem 0.35rem; }
 .review .stars .icon { width: 1.1rem; height: 1.1rem; }
-.review__title { font-size: clamp(1.0625rem, 0.9rem + 0.35vw, 1.3rem); font-weight: 700; line-height: 1.2; }
-.review__text { font-size: 0.875rem; line-height: 1.5; color: var(--c-slate-600); }
-.review__media { aspect-ratio: auto; min-height: 210px; height: 100%; border-radius: 14px; }
-.review__meta { display: flex; align-items: center; gap: 0.7rem; margin-top: auto; padding-top: 0.4rem; font-size: 0.875rem; }
+.review__title { font-size: clamp(1.0625rem, 0.9rem + 0.35vw, 1.25rem); font-weight: 700; line-height: 1.25; text-wrap: balance; }
+.review__text { font-size: 0.9375rem; line-height: 1.6; color: var(--c-slate-600); }
+.review__meta { display: flex; align-items: center; gap: 0.7rem; margin-top: auto; padding-top: 0.9rem; font-size: 0.875rem; }
 .review__meta > div { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
 .review__avatar {
   display: grid;
@@ -2289,9 +2517,10 @@ h1, h2, h3, h4 {
   background: var(--c-blue-100);
   color: var(--c-blue-700);
 }
+.review__avatar { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 700; }
 .review__avatar .icon { width: 20px; height: 20px; }
 .review__name { font-weight: 700; color: var(--heading); }
-.review__name.ph { color: #5F6C88; }
+.review__source { font-size: 0.8125rem; color: var(--c-slate-400); }
 .review__verified {
   display: inline-flex;
   align-items: center;
@@ -2300,7 +2529,7 @@ h1, h2, h3, h4 {
   font-weight: 500;
   color: var(--c-blue-600);
 }
-.review__verified .icon { width: 15px; height: 15px; }
+.review__verified .icon { width: 15px; height: 15px; flex: none; }
 
 .reviews__arrow {
   position: absolute;
@@ -2435,6 +2664,19 @@ h1, h2, h3, h4 {
 .footer__links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
 .footer__links a { font-weight: 600; color: var(--c-navy-700); text-decoration: none; }
 .footer__links a:hover { color: var(--c-blue-600); }
+
+@media (min-width: 900px) and (max-height: 820px) {
+  .addon__head { display: none; }
+  .buy__includes { display: none; }
+  .hero__buy { --buy-gap: clamp(0.45rem, 7.3vh - 2.95rem, 1.5rem); }
+  .tech-mini__name { font-size: 0.8125rem; }
+  .tech-mini__count { font-size: 0.6875rem; }
+  .colorway .swatch-dot { width: 26px; height: 26px; }
+  /* The chip shrinks to about the height of the brand line it shares */
+  .buy__press { padding: 0.2rem 0.75rem; }
+  .buy__press .press-quote__source { font-size: 0.6875rem; padding-right: 0.5rem; }
+  .buy__press .press-quote__text { font-size: clamp(0.625rem, 0.15rem + 0.7vw, 0.75rem); }
+}
 
 /* Compact rhythm for every section after Materials, matching the sections
    already redesigned above: tighter section padding and heading spacing,
@@ -2790,7 +3032,7 @@ h1, h2, h3, h4 {
   .materials { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .mat-card { display: block; padding: 0.75rem 0.75rem 1rem; }
   .mat-card > div { padding-inline: 0.3rem; }
-  .mat-card__media { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 0.85rem; border-radius: 14px; }
+  .mat-card__media { width: 100%; aspect-ratio: 4 / 3; margin-bottom: 0.85rem; border-radius: 14px; }
   .mat-card__badge { display: grid; top: 0.6rem; left: 0.6rem; width: 40px; height: 40px; }
   .mat-card__badge .icon { width: 19px; height: 19px; }
   .mat-card h3 { font-size: clamp(1.0625rem, 0.9rem + 0.3vw, 1.25rem); margin-bottom: 0.3rem; }
@@ -2858,8 +3100,6 @@ h1, h2, h3, h4 {
   .reviews__summary { flex-wrap: wrap; justify-content: center; gap: 0.35rem 0.6rem; padding: 0.7rem 1rem; border-radius: 16px; text-align: center; }
 
   /* Review cards: photo on top, text underneath (side by side was too narrow) */
-  .review { grid-template-columns: minmax(0, 1fr); }
-  .review__media { order: -1; min-height: 0; height: auto; aspect-ratio: 16 / 10; }
 
   /* Footer links: comfortable tap height */
   .footer__links a { display: inline-block; padding-block: 0.45rem; }
